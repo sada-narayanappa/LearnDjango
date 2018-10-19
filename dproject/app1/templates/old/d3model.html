@@ -1,0 +1,134 @@
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+
+<style>
+.link      { stroke: #ccc; stroke-width: 1px; }
+.linkOn    { stroke: #ccc; stroke-width: 3px; }
+.node text {  stroke: #000000; pointer-events: none;font: 12px sans-serif; stroke-width: .5px; }
+.node      {  stroke: firebrick; stroke-width: 0px; }
+.node.moved{ ffill: #f00; }
+     
+.chart1{
+    position: relative;
+    border-top: 1px gray #eeeeee;
+    box-shadow: 1px 1px 1px 1px #888888; 
+    overflow-y: auto;
+    display: inline-block; 
+    padding-left: 1px;
+    width:100%;
+    height: 700px;
+}
+</style>
+<div sstyle="background-color:gainsboro; border:solid black; width:100%; height:310px;padding:01px;">
+    <div style="float:left;width:35%; ddisplay:inline;">
+        <input type="button" value="Show Graph"   onclick="d3json(graph, 'id', 'group', 'r')" />
+        <br/>
+    </div>
+    <div id="chart1" class='chart1' style="">
+    </div>
+
+<script>
+var width = $("#chart1").width(), height = $("#chart1").height()
+var svg  = d3.select("#chart1").append("svg").attr("width", width).attr("height", height);
+//var force = d3.layout.force().gravity(0.15).charge(-120).size([width, height]).linkDistance(20);
+var force = d3.layout.force().gravity(0.35).charge(-100).size([width, height]).linkDistance(15);
+
+//var drag = force.drag().on("dragstart", mDragstart);
+//node.append("image").attr("xlink:href", "https://github.com/favicon.ico").attr("x", -8).attr("y", -8).attr("width", 16).attr("height", 16);
+
+fill = d3.scale.category20();
+</script>
+
+
+
+<script>
+var graph =null;
+var width = 960, height = 500, root
+
+function d3json(json, displayField, groupColor, radius, noText) {
+    graph = json;
+    
+    if (typeof(json) === "undefined" ||  json == null) {
+        return;
+    }
+    
+    //d3.select("svg").selectAll("*").remove();
+
+    force.nodes(json.nodes).links(json.links).start();
+    var link = svg.selectAll(".link").data(json.links).enter().append("line").attr("class", "link");
+    var node = svg.selectAll(".node5").data(json.nodes).enter().append("g").attr("class", "node")
+        .call(force.drag);
+
+    
+    node.append("svg:circle")
+    .attr("class", "node")
+    .attr("id", function(d) { return d.id })
+    .attr("r", function(d) { return radius? d[radius]: 8; })
+    //.on("dblclick", mNDblclick)
+    //.on('click', mNClick )
+    //.on("mouseover", mNOver )
+    //.on("mouseout",  mNOut)
+    .style("fill", function(d) { return groupColor? fill(d[groupColor]): fill(0); }
+    )
+
+    if(!noText) {
+        node.append("text").attr("dx", "0px").attr("dy", "0px").text(function(d) { return displayField? d[displayField] : '' });
+    }
+
+    force.on("tick", function() {
+    link.attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; })
+        .attr("id1", function(d) { return d.source.id; })
+        .attr("id2", function(d) { return d.target.id; })
+        //.on("dblclick", mEDblclick)
+        //.on("click", mEClick)
+        //.on("mouseover", mEOver)
+        //.on("mouseout",  mEOut)
+    ;
+
+    node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    });
+};
+       
+function mDragstart(d) {
+  d3.select(this).classed("moved", d.fixed = true);
+}       
+       
+graph = {'links': [{'source': 0, 'target': 7}, {'source': 0, 'target': 9}, {'source': 1, 'target': 3}, 
+                {'source': 2, 'target': 3}, 
+                {'source': 4, 'target': 3}, {'source': 5, 'target': 9}, {'source': 5, 'target': 24},
+                {'source': 6, 'target': 3}, 
+                {'source': 8, 'target': 3}, {'source': 10, 'target': 19}, {'source': 10, 'target': 9}, 
+                {'source': 11, 'target': 17}, 
+                {'source': 11, 'target': 9}, {'source': 12, 'target': 3}, {'source': 14, 'target': 7}, 
+                {'source': 14, 'target': 17}, 
+                {'source': 14, 'target': 18}, {'source': 14, 'target': 19}, {'source': 14, 'target': 13}, 
+                {'source': 14, 'target': 16},
+                {'source': 14, 'target': 5}, {'source': 14, 'target': 24}, {'source': 15, 'target': 3}, 
+                {'source': 20, 'target': 18}, 
+                {'source': 20, 'target': 9}, {'source': 21, 'target': 5}, {'source': 21, 'target': 9}, 
+                {'source': 22, 'target': 13}, 
+                {'source': 22, 'target': 9}, {'source': 23, 'target': 16}, {'source': 23, 'target': 9}, 
+                {'source': 24, 'target': 3}], 
+      'nodes': [{'id': 'B7', 'fixed': false, fx:50, fy:50, 'r': 8, 'group': 13}, 
+                {'id': 'C8', 'fixed': false, 'r': 8, 'group': 17}, 
+                {'id': 'C2', 'fixed': false, 'r': 8, 'group': 17}, 
+                {'id': 'J3', 'fixed': true, x: 500, y: 80, 'r': 12, 'group': 16}, 
+                {'id': 'C4', 'fixed': false, 'r': 8, 'group': 17}, {'id': 'B3', 'fixed': false, 'r': 8, 'group': 13}, 
+                {'id': 'C6', 'fixed': false, 'r': 8, 'group': 17}, {'id': 'G3', 'fixed': true, 'r': 12, 'group': 2}, 
+                {'id': 'C5', 'fixed': false, 'r': 8, 'group': 17}, {'id': 'J2', 'fixed': true, 'r': 12, 'group': 12}, 
+                {'id': 'B9', 'fixed': false, 'r': 8, 'group': 15}, {'id': 'B4', 'fixed': false, 'r': 8, 'group': 13}, 
+                {'id': 'C9', 'fixed': false, 'r': 8, 'group': 17}, {'id': 'E3', 'fixed': true, 'r': 12, 'group': 18}, 
+                {'id': 'D2', 'fixed': false, 'r': 8, 'group': 19}, {'id': 'C7', 'fixed': false, 'r': 8, 'group': 17}, 
+                {'id': 'F3', 'fixed': true, 'r': 12, 'group': 0}, {'id': 'D3', 'fixed': true, 'r': 12, 'group': 10}, 
+                {'id': 'H3', 'fixed': true, 'r': 12, 'group': 4}, {'id': 'I3', 'fixed': true, 'r': 12, 'group': 14}, 
+                {'id': 'B8', 'fixed': false, 'r': 8, 'group': 13}, {'id': 'B2', 'fixed': false, 'r': 8, 'group': 13}, 
+                {'id': 'B5', 'fixed': false, 'r': 8, 'group': 19}, {'id': 'B6', 'fixed': false, 'r': 8, 'group': 13}, 
+                {'id': 'C3', 'fixed': false, 'r': 8, 'group': 17}]}
+
+var force = d3.layout.force().gravity(0.1).charge(-30).size([width, height]).linkDistance(15);
+</script>
+

@@ -1,0 +1,315 @@
+<script src="https://code.highcharts.com/stock/highcharts.js"></script>
+<script src="https://code.highcharts.com/stock/6.1.1/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<style>
+</style>
+
+<script>  
+var chart, schart;
+    
+function showMarkerChart(data, fdiv){
+    if ( typeof fdiv === 'undefined' || !fdiv )
+        fdiv = 'container'
+    //console.log("====>", data)
+    chart =
+    Highcharts.stockChart( fdiv, {
+        colors: ['#0072BC', '#BFDAFF', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+        chart:    { type: 'spline' ,  zoomType: 'x', backgroundColor: 'rgba(250, 250, 250, 0.1)'},
+        rangeSelector: {selected: 1 },
+        credits: { enabled: false},
+        title: { text: 'Overall Anomaly Score' },
+
+        xAxis: { 
+            plotBands: [ //This is where we can show training Bands
+                { color: 'rgba(255,45,0,0.1)', from: 1400268300000, to: 1400269400000 },
+                { color: 'rgba(255,45,0,0.1)', from: 1400348100000, to: 1400349400000 }
+             ],
+            plotLines: [ //This is where we can show anomaly lines
+                { color: '#FF0000', width: 2, value: '1400348100000' },
+                { color: '#FF0000', width: 2, value: '1400268300000' }
+             ],
+        },
+      tooltip: {
+            positioner: function (labelWidth, labelHeight, point) {
+                console.log(chart.plotTop)
+                return { x: point.plotX, y: chart.plotTop - 50};
+            },
+            split: false,
+            shadow: false,
+            borderWidth: 0.5,
+            backgroundColor: 'rgba(255,255,255,0.8)',
+            valueDecimals: 2, 
+            crosshair: true,
+      },
+        rangeSelector: {
+            inputEnabled: true,
+            selected: 0,
+            buttonTheme: {
+                width: 50
+            },
+            inputBoxWidth: 150,
+            inputStyle: {
+                color: '#039',
+                fontWeight: 'normal',
+            },
+            inputDateFormat: '%Y-%m-%d %H:%M:%S',
+            inputEditDateFormat: '%Y-%m-%d %H:%M:%S',
+        },
+        series: [{
+            type: 'area',
+            fillcolor: Highcharts.getOptions().colors[2],
+            fillOpacity: 0.5,
+            fillColor1: {
+                linearGradient: {
+                    x1: 0,
+                    y1: 0,
+                    x2: 0,
+                    y2: 1
+                },
+                stops: [
+                    [0, Highcharts.getOptions().colors[0]],
+                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                ]
+            },
+            allowPointSelect: true,
+            marker: {
+                enabled: true, 
+                radius: 1, 
+                states: {
+                    hover: {
+                        fillColor: 'red',
+                        lineWidth: 1,
+                        radius: 3,
+                    },
+                    select: {
+                        color: 'firebrick',
+                        fillColor: 'firebrick',
+                        radius: 5,
+                    }
+                }
+            },
+            name: 'Score',
+            data: data,
+            shadow: true,
+            turboThreshold:5000,
+            tooltip: { valueDecimals: 2 },
+            point: { events: { click: showAnomalyScoreChartClicked } },
+        }],
+        
+    });
+    return chart;
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
+BAND_1=0;
+BAND_2=0;
+sdata = [ {
+    name: 'Installation',
+    data: [[1167609600000, 43934], [1167609700000,52503], [1167609800000,57177], [1167609900000,69658], [1167619600000,97031]]}]
+
+function showHighChart(fdiv, sdata, title, subtitle, yAxisTitle, xAxisTitle, onclickFunction){
+    schart = 
+    Highcharts.chart(fdiv, {
+        colors: ['#0072BC', '#BFDAFF', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+        navigation: { buttonOptions: { enabled: false } },
+        credits:  { enabled: false},
+        chart:    { type: 'spline' ,  zoomType: 'x', backgroundColor: 'rgba(255, 255, 128, 0.1)' },        
+        title:    { text: title },
+        subtitle: { text: subtitle },
+        xAxis: { 
+            plotBands: [ //This is where we can show training Bands
+                { color: 'rgba(255,45,0,0.1)', from: 1400268300000, to: 1400269400000 },
+                { color: 'rgba(255,45,0,0.1)', from: 1400348100000, to: 1400349400000 }
+             ],
+            plotLines: [ //This is where we can show anomaly lines
+                { color: '#FF0000', width: 2, value: '1400348100000' },
+                { color: '#FF0000', width: 2, value: '1400268300000' }
+             ],
+             dateTimeLabelFormats: { // don't display the dummy year
+                month: '%e. %b',
+                year: '%b'
+            },
+            title: { text: xAxisTitle }, 
+            type: 'datetime'
+        }, 
+        
+        yAxis:    { title: {text: yAxisTitle} },
+        legend:   { layout: 'horizontal', align: 'center', verticalAlign: 'bottom'},
+        tooltip:  { backgroundColor: 'rgba(247,247,247,0.6)',  borderWidth: '0px' },
+        
+        plotOptions: {
+            spline: { 
+                lineWidth: .7,
+                marker: {
+                    enabled: true, 
+                    radius: 1, 
+                    states: {
+                        hover: {
+                            fillColor: 'red',
+                            lineWidth: 1,
+                            radius: 3,
+                        },
+                        select: {
+                            color: 'firebrick',
+                            fillColor: 'firebrick',
+                            radius: 5,
+                        }
+                    }
+                },
+            },
+            scatter: {
+                marker: { radius: 3},
+                states: {
+                    hover: {
+                        enabled: true, lineColor: 'rgb(100,100,100)'
+                    }}},
+            line: {
+                    animation: true,
+                    dataLabels: {  enabled: false  },
+                    enableMouseTracking: true,
+                    lineWidth: .8,
+                    marker: { enabled: true, radius: 2} 
+                },
+
+            series: {
+                enabled: true,
+                allowPointSelect: true,
+                showInLegend: 1,
+                point: { events: { click: onclickFunction } },
+                states:{ hover: { enabled: true }  },
+                marker: {fillOpacity: 03, ffillColor: "rgba(255,0,0,3.0)",},
+            }
+        },      
+        series: sdata,
+    });
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
+function showHighChartTest(fdiv,responseTxt, statusTxt, xhr) {
+    if(statusTxt !== "success"){
+        $('#status').text("Error Loading File!!!")
+    } else {
+        $('#status').text(statusTxt)
+    }
+    console.log('Loaded Data ' + responseTxt)
+    console.log('Loaded Data ' + statusTxt)
+    ddata = JSON.parse(responseTxt);
+    //data = ddata[0].values.slice(0,5000)
+    data = ddata
+    c = showMarkerChart(data, fdiv )
+    c = showMarkerChart(data, "uTestcChart" )
+    c = showMarkerChart(data, "yTestcChart" )
+}
+
+function showCSV(fdiv) {
+    txt = $('#csv').val().trim()
+    console.log('showing CSV: ' + txt)
+    cb = showHighChartTest.bind(null, fdiv)
+    $.get('/api/getfile/?q=/NEC/irisui/test/data.csv', cb)
+
+}
+</script>
+
+<script type="text/javascript">
+//----------------------------------------------------------------------------------
+    
+function showTable(rdata, status, xhr, fdiv) {
+    //console.log("*** Showing Log" + rdata)
+    console.log("+", fdiv)
+    if ( typeof fdiv === 'undefined' || !fdiv )
+        fdiv = 'bInvTable'
+    console.log("-", fdiv)
+    var data = new google.visualization.DataTable();
+    
+    ddata = rdata;
+    if ( typeof(rdata) == "string")
+        ddata = JSON.parse(rdata);
+    
+    for (i=0; i < ddata[0].columns.length; i++){
+        data.addColumn(typeof(ddata[0].values[0][i]), ddata[0].columns[i]);
+        console.log("Adding: ", typeof(ddata[0].columns[i]), ":", ddata[0].columns[i])
+    }
+    vals = ddata[0].values
+    //console.log(ddata)
+    data.addRows( vals );
+    var table = new google.visualization.Table(document.getElementById('bInvTable'));
+    table.draw(data, {showRowNumber: true, alternatingRowStyle:true, width: '100%', height: '100%', page: 'enable'});
+
+    google.visualization.events.addListener(table, 'select', function() {
+      var row = table.getSelection()[0].row;
+      alert('You selected ' + data.getValue(row, 0));
+    });
+}
+
+function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Name');
+        data.addColumn('number', 'Salary');
+        data.addColumn('boolean', 'Full Time Employee');
+        data.addRows([
+          ['Mike',  {v: 10000, f: '$10,000'}, true],
+          ['Jim',   {v:8000,   f: '$8,000'},  false],
+          ['Alice', {v: 12500, f: '$12,500'}, true],
+          ['Bob',   {v: 7000,  f: '$7,000'},  true]
+        ]);
+
+        var table = new google.visualization.Table(document.getElementById('bInvTable'));
+        table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+}
+
+var brokenInvariantsTable
+var brokenInvariantsTableData
+
+function showBrokenSensorsTable(rdata, fdiv) {
+    var data = new google.visualization.DataTable();
+    
+    data.addColumn('string', 'uName');
+    data.addColumn('string', 'yName');
+    data.addColumn('number',  'Residual');
+    data.addColumn('number',  'Fitness');
+    data.addColumn('number',  'Threshhold');
+    data.addColumn('number', 'Significance');
+    
+    //vals = ddata[0].values
+    //console.log(ddata)
+    data.addRows( rdata );
+    brokenInvariantsTableData = data
+    var table = new google.visualization.Table(document.getElementById(fdiv));
+    brokenInvariantsTable = table
+    table.draw(data, {showRowNumber: true, alternatingRowStyle:true, width: '100%', height: '100%', page: 'enable'});
+
+    google.visualization.events.addListener(table, 'select', function() {
+        var row = table.getSelection()[0].row;
+        console.log('You selected ' + data.getValue(row, 0) + " row:" + row);
+        showSensorPlot(data.getValue(row, 0), showUPlot)
+        showSensorPlot(data.getValue(row, 1), showYPlot)        
+    });
+}
+    
+var brokenRankTable
+var brokenRankTableData
+function showBrokenRankTable(rdata, fdiv) {
+    var data = new google.visualization.DataTable();
+    
+    data.addColumn('string', 'Sensor Name');
+    data.addColumn('number',  'Ranking');
+    
+    data.addRows( rdata );
+    brokenRankTableData = data;
+    var table = new google.visualization.Table(document.getElementById(fdiv));
+    brokenRankTable = table
+    table.draw(data, {showRowNumber: true, alternatingRowStyle:true, width: '100%', height: '100%', page: 'enable'});
+
+    google.visualization.events.addListener(table, 'select', function() {
+        var row = table.getSelection()[0].row;
+        console.log('You selected ' + data.getValue(row, 0) + " row:" + row);
+        showSensorPlot(data.getValue(row, 0), showUPlot)
+    });
+}
+    
+function drawGoogleTableFromQuery(){
+    $.get('/api/iq/?q=select * from test LIMIT 100', showTable)
+}
+</script>
+

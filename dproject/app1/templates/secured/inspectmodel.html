@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<style>
+.wrapper { display: flex; align-items: stretch; }
+#sidebar { min-width: 250px; max-width: 250px; background: #EEE; color: #fff; transition: all 0.3s;}
+#sidebar.active { margin-left: -250px; }
+#content { padding: 20px; min-height: 100vh; transition: all 0.3s;}
+@media (max-width: 768px) {
+    #sidebar        { margin-left: -250px; }
+    #sidebar.active { margin-left: 0;      }
+    #sidebarCollapse span { display: none; }
+}
+</style>
+
+<script>
+function collapseSidebar(i){
+    $('#sidebar').toggleClass('active')
+    if (i==0){
+        $('#collapse-sidebar').css('display', '');
+    }else{
+        $('#collapse-sidebar').css('display', 'none');
+    }
+}
+function turnDiv(num, total){
+    for (i=0; i<= total; i++) {
+        console.log(i)
+        if( i != num )
+            $('#tabdiv'+i).css('display','none');
+    }
+    $('#tabdiv'+num).css('display','');
+}
+</script>
+
+<div class="wrapper">
+<nav id="sidebar">
+<button type="button" style="background:#aaa;width:100%" onclick ="collapseSidebar(0)">&laquo;&nbspI N S P E C T  .  M O D E L</button>
+        
+<div id=modellist>
+<!--
+<ul class="nav" id="menu">
+ <li><a href="#" onclick="turnDiv(0,3)"><i class="fa fa-list-alt" ></i> Link1</a></li>
+ <li><a href="#" onclick="turnDiv(1,3)"><i class="fa fa-list" ></i> Storeies</a></li>
+ <li><a href="#" onclick="turnDiv(2,3)"><i class="fa fa-paperclip" ></i> Clip </a></li>
+ <li><a href="#" onclick="turnDiv(3,3)"><i class="fa fa-refresh" ></i> Refresh</a></li>
+<li><a href=# onclick=showModel('s1.inv.xml','/NEC/app/a.inv.xml')> <i class='fa fa-list-alt' ></i> s1.inv.xml </a></li>
+</ul>
+-->
+    
+</div>
+<style>
+.navv1>li>a {
+    position: relative; display: block; padding: 3px 10px; ;
+}
+</style>
+<ul class="nav" id="menu">
+    <div class=navv1 id=modellist1> </div>
+</ul>
+</nav>
+<button type="button" id="collapse-sidebar"
+        style="height:30px; width:24px; position:fixed bottom; gray; display: none;" 
+        onclick ="collapseSidebar()">&raquo;</button>
+
+<!-- ***** CONTENTS BELOW -->
+<div id=details style="width:100%;">
+<div id="chart1" class='chart1'> </div>
+</div>
+{% include 'd3modelshow.html' %} 
+<div id="content"></div>
+
+<span style="position: fixed; bottom: 0px; width: 100%; border: 0px solid #8AC007;" id='status'>Status:</span>
+
+<script>
+function status(t) {
+    $('#status').text(":" + t )
+}
+var ddata
+
+
+function showD3Graph(responseTxt, statusTxt, xhr) {
+    graph = JSON.parse(responseTxt);
+    console.log("Showing ... ", responseTxt.slice(0,100))
+    d3json(graph, 'id', 'group', 'r')
+}
+
+function showModel(i, model, file) {
+    console.log("Showing ... ", i, model, file)
+
+    if ( i == 0 ){
+        $.get("/api/invgraph/?modelfile="+file, showD3Graph)        
+    }else{
+        d3json(sampleGraph, 'id', 'group', 'r')
+    }
+}
+
+function showModelsList(responseTxt, statusTxt, xhr) {
+    if(statusTxt !== "success"){
+        $('#status').text("Error Loading File!!!")
+    } else {
+        $('#status').text(statusTxt)
+    }
+    console.log('Loaded Data ' + responseTxt.slice(0,100) )
+    console.log('Loaded Data ' + statusTxt)
+    try{
+        ddata = JSON.parse(responseTxt);
+    } catch{
+        console.log(' Error Loaoding Data', ddata)
+        return;
+    }
+    html = ''
+    d=ddata.data
+    for (i= 0; i < d.length; i++ ){
+        pr = "" + i + ", '" + d[i][3] + "','" + d[i][4] + "'"
+        p1= "<li><a href=# onclick=\"showModel("+ pr +")\" > "
+        p1 += `<i class='fa fa-list-alt' ></i> ${d[i][3]} </a></li>\n`
+        console.log(p1);
+        html += p1 
+    }
+    $('#modellist1').html( html )
+}
+
+function getModelList() {
+   u = '{{user.get_username}}'
+   status(u)
+   console.log("Logged in User Name", u)
+   $.get("/api/lsmodel/?user='{{user.get_username}}'", showModelsList)
+   //$.get("http://localhost:8000/api/cq/?user={{user.get_username}}&q=data/inv_models.csv", showModelsList)
+}
+getModelList()
+    
+var urlParams = new URLSearchParams(window.location.search);
+var parms = {}
+for(urlParams of urlParams.entries() ) { 
+    console.log(urlParams[0], urlParams[1]); 
+    parms[urlParams[0]] = urlParams[1];
+}
+if (parms['model'] && parms['file'] ) {
+    showModel(0, parms['model'], parms['file']) 
+}
+    
+</script>
+
+{% endblock %}
