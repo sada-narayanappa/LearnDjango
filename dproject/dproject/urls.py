@@ -21,12 +21,12 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = [
+    url(r'^app1/', include('app1.urls')),
     url(r'^$', lambda r: HttpResponseRedirect('/static/index.html')),
     path('admin/', admin.site.urls),
     url(r'^accounts/', include('django_registration.backends.activation.urls')),
     url(r'^accounts/', include('django.contrib.auth.urls')),
 
     url('^api1/', include('api1.urls')),
-    url(r'^app1/', include('app1.urls')),
 ]
 

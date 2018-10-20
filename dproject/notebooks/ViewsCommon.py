@@ -40,14 +40,14 @@ def Debug(request, APPNAME=''):
     return HttpResponse(ret);
 #--------------------------------------------------------------------------------
 def CommonPython(request):
-    rpath = request.path[len(APPNAME)+2:-1]
-    pyMethod = rpath;
+    rpaths = [c for c in request.path.split("/") if (c) ];
+
+    pyMethod = rpaths[-1];
  
     if (not pyMethod.startswith("modules") ):
         return HttpResponse(f"{rpath} not understood 0")
         
-    func='modules.test1.test3'
-    spl = func.split('.');
+    spl = pyMethod.split('.');
  
     if ( len(spl) < 2):
         print("Hmmm ... need module name")
@@ -68,13 +68,24 @@ def CommonPython(request):
 def CommonSecured(request, apage):
     return render(request, apage)
 #--------------------------------------------------------------------------------
-def Common(appName, request):
-    rpath = request.path[len(APPNAME)+2:-1]
-    template = appName + "/templates/" + rpath;
+def Common(request):
+    rpaths = [c for c in request.path.split("/") if (c)];
+    template = "/".join(rpaths[:-1]) + "/templates/" + rpaths[-1];
+    rpath = rpaths[-1];
     
-    if ( os.path.exists(template) and template.find("/secured/") < 0) : 
+    stemplate=''
+    if (request.path.find("/secured/")):
+        stemplate= request.path.replace("/secured/", "/templates/secured/")[1:-1];
+        spath = "secured/"+rpaths[-1];
+
+    print(rpaths, "==>", stemplate, request.path.find("/secured/"), request.path);
+    
+    if ( os.path.exists(stemplate) and request.path.find("/secured/") > 0) : 
+        print("Secured ==> " , rpaths, "==>", stemplate);
+        return CommonSecured(request, spath)
+    elif ( os.path.exists(template) ):
         return render(request, rpath)
-    if ( os.path.exists(template) ):
-        return CommonSecured(request, rpath)
+    elif rpaths[-1].startswith("modules"):
+        return CommonPython(request)
     else:
         return HttpResponse(f"{rpath} not understood");
