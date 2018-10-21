@@ -41,19 +41,20 @@ def Debug(request, APPNAME=''):
 #--------------------------------------------------------------------------------
 def CommonPython(request):
     rpaths = [c for c in request.path.split("/") if (c) ];
-
     pyMethod = rpaths[-1];
  
     if (not pyMethod.startswith("modules") ):
-        return HttpResponse(f"{rpath} not understood 0")
+        return HttpResponse(f"{pyMethod} not understood 0")
         
     spl = pyMethod.split('.');
  
     if ( len(spl) < 2):
         print("Hmmm ... need module name")
-        return HttpResponse(f"{rpath} not understood 2");
+        return HttpResponse(f"{pyMethod} not understood 2");
     
     modName = ".".join(spl[:-1])
+    __import__(modName, fromlist="dummy")
+    
     funName = spl[-1]
     for v in sys.modules:
         if (v.startswith(modName)):
@@ -61,7 +62,7 @@ def CommonPython(request):
             print(v, type(v), funName, method, type(method), callable(method))
             return method(request)
         
-    return HttpResponse(f"{rpath} not understood3 ");
+    return HttpResponse(f"{pyMethod} not understood3 ");
     
 #--------------------------------------------------------------------------------
 @login_required(login_url='/accounts/login/')
@@ -85,7 +86,7 @@ def Common(request):
         return CommonSecured(request, spath)
     elif ( os.path.exists(template) ):
         return render(request, rpath)
-    elif rpaths[-1].startswith("modules"):
+    elif rpath.startswith("modules"): #Must be a python module call
         return CommonPython(request)
     else:
         return HttpResponse(f"{rpath} not understood");
