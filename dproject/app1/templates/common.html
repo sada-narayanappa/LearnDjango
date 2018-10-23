@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="/static/js/jquery.js"></script>
+<link rel="icon" type="image/png" href="/static/imgs/fav.png" />
+<meta charset="utf-8">
+<title>Jadoo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="" />
+<meta name="author" content="http://webthemez.com" />
+<!-- css -->
+<link href="/static/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="/static/simple-line-icons/css/simple-line-icons.css">
+<link href="/static/css/fancybox/jquery.fancybox.css" rel="stylesheet"> 
+<link href="/static/css/flexslider.css" rel="stylesheet" />
+<link href="/static/css/style.css" rel="stylesheet" /> 
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+<div id="wrapper" class="home-page" >
+<!-- start header -->
+<header>
+<div class="navbar navbar-default navbar-static-top" >
+    <div class="container1">
+    <div class="navbar-header" >
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+        </button>
+       <a class="navbar-brand1" href="/"><img src="/static/imgs/logo.png" height=32 alt="logo"/></a>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+       <input id="main_search" size=64 title="Search Text" style="border: 1px solid #ddd" placeholder='search sada' >
+
+            </div>
+            <div class="navbar-collapse collapse ">
+                <ul class="nav navbar-nav">
+                <li><a href="/app1/">Home</a></li> 
+                <li class="dropdown">
+         <a href="#" data-toggle="dropdown" class="dropdown-toggle">Services <b class="caret"></b></a>
+                <ul class="dropdown-menu" style="width: 650px">
+                    <li><a href="#">Deep Neural Networks</a></li>
+                    <li style="display:inline"><a href="/app1/secured/TSIAT.html">Time Series SIAT</a></li>
+                    <li style="display:inline"><a href="#">Time Series DAGMM</a></li>
+                   <li><a style="display:inline;" !important" href="#">NLP</a></li>
+                    <li><a href="#">Image Analysis</a> </li>
+                    <li><a href="#">Investors</a></li>
+               </ul>
+               <li><a href="/app1/about.html">About US</a></li>
+
+{% if user.is_authenticated %}
+  <li>{{user.username}} <a style="display:inline" href="{% url 'logout' %}">logout</a></li>
+{% else %}
+  <li> <a href="{% url 'login' %}">login</a> </li>
+{% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div style="width:100%; border: 0px;height: 1px; background: #fff; padding:0px; margins:0px
+</div>
+    </header>
+    <!-- end header -->
+    </div>
+
+<!-- javascript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/static/js/jquery.easing.1.3.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/jquery.fancybox.pack.js"></script>
+<script src="/static/js/jquery.fancybox-media.js"></script> 
+<script src="/static/js/portfolio/jquery.quicksand.js"></script>
+<script src="/static/js/portfolio/setting.js"></script>
+<script src="/static/js/jquery.flexslider.js"></script>
+<script src="/static/js/animate.js"></script>
+<script src="/static/js/custom.js"></script>
+    
+    {% block content %}{% endblock %}    
+
+</body>
+</html>
