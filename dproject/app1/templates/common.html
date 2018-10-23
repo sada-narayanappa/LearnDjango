@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <script src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <link rel="icon" type="image/png" href="/static/imgs/fav.png" />
 <meta charset="utf-8">
 <title>Jadoo</title>
@@ -35,7 +38,7 @@
         </button>
        <a class="navbar-brand1" href="/"><img src="/static/imgs/logo.png" height=32 alt="logo"/></a>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-       <input id="main_search" size=64 title="Search Text" style="border: 1px solid #ddd" placeholder='search sada' >
+       <input id="main_search" size=64 title="Search Text" class="search1" placeholder='search terms' >
 
             </div>
             <div class="navbar-collapse collapse ">
@@ -82,6 +85,31 @@
 <script src="/static/js/custom.js"></script>
     
     {% block content %}{% endblock %}    
+
+<script src="/static/js/searchterms.js"></script>
+<script>
+var countries = [
+    { value: 'Andorra', data: 'AD' },
+    { value: 'Zimbabwe', data: 'ZZ' }
+];
+$('#main_search').autocomplete({
+    autoFocus: true,
+    source: searchTerms,  // Local Searches
+    source: function(request, response) {  //Customized Local search
+        console.log(request.term, response)
+        response(countries);
+    },
+    source: function(request, response) {  //REST call
+        console.log(request.term, response)
+        $.get('/api1/modules.test.searchTerm/?q='+request.term,
+               function(d){response(JSON.parse(d) ) } )
+        //response(countries);
+    },
+    select: function (event, item) {
+      console.log("==> Searched for: ",item.item.value)
+    }
+  });
+</script>
 
 </body>
 </html>

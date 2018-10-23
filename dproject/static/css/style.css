@@ -1882,3 +1882,10 @@ padding-top: 1px;
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
     background-color: bisque;
 } 
+
+.search1{
+    border: 1px solid #ccc;
+    -webkit-box-shadow: 0 8px 6px -6px black;
+    -moz-box-shadow: 0 8px 6px -6px black;
+    box-shadow: 0 8px 6px -6px black;
+}
