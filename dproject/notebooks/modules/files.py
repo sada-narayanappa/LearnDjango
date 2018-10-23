@@ -12,7 +12,7 @@ import re
 
 '''<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 It gets a file content for multipart files 
-saves them ina  base directory - for now I have chosen /tmp - it can be changed"
+saves them in a  base directory - for now I have chosen /tmp - it can be changed"
 '''
 def getFile(request):
     BASEDIR = "/tmp"
@@ -35,3 +35,15 @@ def getFile(request):
         f.write(content)
     
     return( HttpResponse(ret) )
+
+#--------------------------------------------------------------------------------
+def readFile(request):
+    ALLOWED=''
+    f = request.GET.get( 'f', "")
+
+    if ( f.startswith(ALLOWED) and os.path.exists(f) ):
+        with open(f) as fi:
+            ret = fi.read();
+        return HttpResponse(ret);
+
+    return HttpResponse( f'file: "{f}" not found or not valid!' )
