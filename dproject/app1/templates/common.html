@@ -92,6 +92,8 @@ var countries = [
     { value: 'Andorra', data: 'AD' },
     { value: 'Zimbabwe', data: 'ZZ' }
 ];
+var gsl
+var gslj
 $('#main_search').autocomplete({
     autoFocus: true,
     source: searchTerms,  // Local Searches
@@ -101,8 +103,14 @@ $('#main_search').autocomplete({
     },
     source: function(request, response) {  //REST call
         console.log(request.term, response)
-        $.get('/api1/modules.test.searchTerm/?q='+request.term,
-               function(d){response(JSON.parse(d) ) } )
+        $.get('/api1/modules.files.readFile/?f=/EXTDATA/app1/searchitems.json',
+               function(d){
+                    gsl = d.replace(/^\s+|\s+$/g, '');
+                    gsl = gsl.replace(/(\r\n\t|\n|\r\t)/gm,"");
+                    gslj = JSON.parse(gsl)
+                    console.log(d);
+                    response(gslj ) 
+                })
         //response(countries);
     },
     select: function (event, item) {
