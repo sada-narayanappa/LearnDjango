@@ -47,19 +47,19 @@
                 <li class="dropdown">
          <a href="#" data-toggle="dropdown" class="dropdown-toggle">Services <b class="caret"></b></a>
                 <ul class="dropdown-menu" style="width: 650px">
+                    <li style="display:inline"><a href="/app1/secured/TSIAT.html">Time Series</a></li>
                     <li><a href="#">Deep Neural Networks</a></li>
-                    <li style="display:inline"><a href="/app1/secured/TSIAT.html">Time Series SIAT</a></li>
                     <li style="display:inline"><a href="#">Time Series DAGMM</a></li>
                    <li><a style="display:inline;" !important" href="#">NLP</a></li>
                     <li><a href="#">Image Analysis</a> </li>
                     <li><a href="#">Investors</a></li>
                </ul>
-               <li><a href="/app1/about.html">About US</a></li>
+               <li><a href="/app1/about.html">About us</a></li>
 
 {% if user.is_authenticated %}
-  <li>{{user.username}} <a style="display:inline" href="{% url 'logout' %}">logout</a></li>
+  <li>{{user.username}} <a style="display:inline" href="{% url 'logout' %}">Logout</a></li>
 {% else %}
-  <li> <a href="{% url 'login' %}">login</a> </li>
+  <li> <a href="{% url 'login' %}">Login</a> </li>
 {% endif %}
                 </ul>
             </div>

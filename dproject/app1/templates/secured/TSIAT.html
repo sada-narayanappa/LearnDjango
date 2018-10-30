@@ -28,7 +28,7 @@ Sample Text
 {% csrf_token %}
 <input id="user_id" type="hidden" name="user_id" value="{{user.get_username}}" style="display:none;">
 <input id="user_id" type="hidden" name="user_id" value="{{user.get_username}}">
-    <input id="file_id" type="file" name="file" accept="csv/*" required>
+    <input id="file_id" type="file" name="file" onchange="handleFileSelect(this.files)" accept="csv/*" required>
     Save AS: <input id="save_as" type="input" name="save_as" title="save_as" size=20/>
     <button type="submit" id="submit_id" >Upload</button>
 </form>    
@@ -82,18 +82,28 @@ function handleDragOver(evt) {
     evt.dataTransfer.dropEffect = 'copy'
     evt.target.className = (evt.type == "dragover" ? "drag_hover" : "");
 }
-var FILE_CONTENTS;
-    
+function clearFileRelatedDataWidgets(msg){
+    $('#table_div').html('')
+    $("#texta").val('');
+    $('#results').html(msg)
+    //document.getElementById("file_id").value = ''
+}
+
 function readFile(files){
+    clearFileRelatedDataWidgets('');
     for (var i=0; i<files.length; i++) {
         var file = files[i];
         fstr = "File: " + file.name + ", type: " + file.type + ", size: " + file.size 
         //+ ", lastModified: " + file.lastModifiedDate
-        maxsize= 10 * 1024* 1024
+        maxsize= 4 * 1024* 1024
         maxmb = maxsize / 1024 / 1024;
         if(file.size >  maxsize) { // 10MB
             alert(`File should not be > ${maxmb}MB`);
-            return '';
+            return 0;
+        }
+        if (file.type.indexOf("text") < 0 ){
+           alert("Currently supports only text files~");
+            return 0;
         }
         $("#results").html(fstr);        
         fileName = file.name;
@@ -109,8 +119,11 @@ function readFile(files){
                 $("#results").html(fstr + ":<br />");
                 $("#texta").val(glt);
             }
-            FILE_CONTENTS = glt1
-            drawTableCSV(FILE_CONTENTS)
+            ret = drawTableCSV(glt)
+            if ( !ret ) {
+                clearFileRelatedDataWidgets('Error while reading file')
+                document.getElementById("file_id").value = ''
+            }
             return  
             
             if (file.type.indexOf("image") >= 0 ){
@@ -142,26 +155,40 @@ function readFile(files){
         
         break;
     }
-    return rf
+    return 1
 }
-var evt1
+var files1
 function handleFileDrop(evt) {
     evt.stopPropagation()
     evt.preventDefault()
     evt.target.className = ("");
-    evt1=evt
-    var files = evt.dataTransfer.files  // FileList object.
-    if (files.length > 1) {
+    var files1 = evt.dataTransfer.files  // FileList object.
+    if (files1.length > 1) {
         alert("SELECT ONE FILE Now!!! Do not support multiple file uploads")
         return;
     }
-    if (files.length > 0) {
-        console.log(files)
-        readFile(files)
-        document.getElementById("file_id").files = files;
+    if (files1.length == 0) {
+        console.log("No files found ... strange!");
+        return
+    }
+    ret = readFile(files1)
+    if(ret) {
+        document.getElementById("file_id").files = files1;
+        console.log("Good....")
+    } else {
+        document.getElementById("file_id").value = '';
     }
     return
 }
+function handleFileSelect(files) {
+    ret = readFile(files)
+    if(ret) {
+         document.getElementById("file_id").files = files;
+    } else {
+         document.getElementById("file_id").value = '';
+    }
+}
+
 function handlePaste(e){
     for (var i = 0 ; i < e.clipboardData.items.length ; i++) {
         var item = e.clipboardData.items[i];

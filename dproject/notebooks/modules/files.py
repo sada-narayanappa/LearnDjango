@@ -15,7 +15,7 @@ It gets a file content for multipart files
 saves them in a  base directory - for now I have chosen /tmp - it can be changed"
 '''
 def getFile(request):
-    BASEDIR = "/tmp"
+    BASEDIR = "/EXTDATA/app1/"
     parameters = dict(request.POST)
 
     file = request.FILES.get('file')

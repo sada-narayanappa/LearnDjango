@@ -33,9 +33,10 @@ h1,h2, h3, h4, h5, h6 {
 	color:#002a54;
 	margin-bottom: 20px;
 }
- h2{
+h2{
     font-size: 26px;
     font-weight: 700;
+    font: 300 24px/32px Roboto,sans-serif;
 }
 .container {
 	padding:0 20px 0 20px;
@@ -105,7 +106,7 @@ header .navbar {
 .navbar-brand {
     height: 32px;
     color: #222;
-	text-transform: uppercase;
+	 ttext-transform: uppercase;
     font-size: 24px;
     font-weight: 700;
     line-height: 1em;
@@ -269,14 +270,14 @@ header ul.nav li a {
 	font-size:12px;
 	border:none;
 	font-weight:700;
-	text-transform:uppercase;
+	ttext-transform:uppercase;
 }
 
 header ul.nav li ul li a {	
 	font-size:12px;
 	border:none;
 	font-weight:300;
-	text-transform:uppercase;
+	ttext-transform:uppercase;
 }
 
 
@@ -547,6 +548,8 @@ section.jumbobox {
 	position:relative;
 	/* background:#fff; */
 	padding: 30px 5px 10px 10px;
+   font: 400 16px/24px Roboto,sans-serif;
+   text-size-adjust: 100%;
 }
 
 #content img {
