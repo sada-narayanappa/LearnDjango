@@ -68,7 +68,7 @@ function dragDIV(o, e){
     var y = e.offsetY
 
     //console.log(y, o.id)
-    if( y < 10 ) {
+    if( e.altKey ) {
        $('#'+o.id).draggable('enable').resizable()
     }
     else{

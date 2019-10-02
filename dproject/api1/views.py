@@ -6,7 +6,6 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.conf import settings
 import os
-import json
 import pandas as pd
 import sys
 import re
