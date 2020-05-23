@@ -1,0 +1,292 @@
+{% extends "common.html" %}
+{% block content %}
+<script src="/static/js/jquery.form.js"></script> 
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<style>
+.drag_hover { border: 4px dashed firebrick; }
+.drag_reg { background-color:gainsboro; border:solid black; width:600px; padding:10px;
+ }
+.success{ background-color: lawngreen }
+.failed { background-color: LightCoral  }
+</style>
+<section id="content">
+<br/>
+<br/>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<div id="file_drop" style="width:50%;background-color:gainsboro; border:solid black; padding:10px;float: left;z-index:-2;" onmousemove="dragDIV(this, event)" >
+Text to Analyze:
+    
+<textarea id='texta' style="width:100%; height: 150px;">
+Sample Text
+</textarea>
+<static id='status' style="width:100%;"></static>
+<static id='results' style="width:100%; height: 50px;"></static>
+    
+<form id="file_form" class="margin" method="post" action="/api1/modules.files.getFile/" enctype="multipart/form-data">
+{% csrf_token %}
+<input id="user_id" type="hidden" name="user_id" value="{{user.get_username}}" style="display:none;">
+<input id="user_id" type="hidden" name="user_id" value="{{user.get_username}}">
+    <input id="file_id" type="file" name="file" onchange="handleFileSelect(this.files)" accept="csv/*" required>
+    Save AS: <input id="save_as" type="input" name="save_as" title="save_as" size=20/>
+    <button type="submit" id="submit_id" >Upload</button>
+</form>    
+<div id='table_div'></div>
+</div>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+{% include 'vis.html' %}
+<div id='vis' style="width:50%; height: 260px; float: right;padding-right:10px;border: 2px solid black" onmousemove="dragDIV(this, event)">
+<img class='fleft' src="/static/imgs/fullscreen.png" onclick="$('#mynetwork1').toggleClass('fullscreen');"/>
+<button class='fleft' onclick="$.get('/api1/modules.files.readFile/?f=/tmp/test/inv1.json', showGraph)">Graph</button>
+<style>
+#mynetwork1 {
+    width: 100%;
+    height: 90%;
+}
+.fleft {
+  float: left;
+  width: 16px;
+  height: 16px;
+}    
+</style>
+<div id="mynetwork1">
+</div>
+</div>
+
+<!--1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<script>
+$('#vis').resizable().draggable()
+    
+var oo
+var evt
+function dragDIV(o, e){
+    oo = o
+    evt = e;
+    var x = e.offsetX
+    var y = e.offsetY
+
+    //console.log(y, o.id)
+    if( y < 10 ) {
+       $('#'+o.id).draggable('enable').resizable()
+    }
+    else{
+       $('#'+o.id).draggable('disable').resizable()
+    }
+}
+<!-- ~~~~~~~~~~~~~~~~ Dag and Drop Functionality ~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+function handleDragOver(evt) {
+    evt.stopPropagation()
+    evt.preventDefault()
+    evt.dataTransfer.dropEffect = 'copy'
+    evt.target.className = (evt.type == "dragover" ? "drag_hover" : "");
+}
+function clearFileRelatedDataWidgets(msg){
+    $('#table_div').html('')
+    $("#texta").val('');
+    $('#results').html(msg)
+    //document.getElementById("file_id").value = ''
+}
+
+function readFile(files){
+    clearFileRelatedDataWidgets('');
+    for (var i=0; i<files.length; i++) {
+        var file = files[i];
+        fstr = "File: " + file.name + ", type: " + file.type + ", size: " + file.size 
+        //+ ", lastModified: " + file.lastModifiedDate
+        maxsize= 4 * 1024* 1024
+        maxmb = maxsize / 1024 / 1024;
+        if(file.size >  maxsize) { // 10MB
+            alert(`File should not be > ${maxmb}MB`);
+            return 0;
+        }
+        if (file.type.indexOf("text") < 0 ){
+           alert("Currently supports only text files~");
+            return 0;
+        }
+        $("#results").html(fstr);        
+        fileName = file.name;
+        
+        var reader = new FileReader();
+        
+        //WE ACCEPT ONLY CSV FILES HERE
+        reader.onload = function(e) {
+            glt = e.target.result
+            glt1=glt;
+            
+            if (file.type.indexOf("text") >= 0 ){
+                $("#results").html(fstr + ":<br />");
+                $("#texta").val(glt);
+            }
+            ret = drawTableCSV(glt)
+            if ( !ret ) {
+                clearFileRelatedDataWidgets('Error while reading file')
+                document.getElementById("file_id").value = ''
+            }
+            return  
+            
+            if (file.type.indexOf("image") >= 0 ){
+                $("#results").html(fstr+"<br/>"+'<img width=128 src="'+ glt +'"/></p>');
+            }
+            else if (file.type.indexOf("pdf") >= 0 ){
+                $("#results").html(fstr + ":<br />");
+                glt1= btoa(glt);
+                $("#results").html((fstr + ":<br />"));
+            }
+            else if (file.type.indexOf(".sheet") > 0 ){
+                glt1= btoa(glt);
+                $("#results").html((fstr + ":<br />"));
+            } else {
+                $("#results").html(fstr + ":<br />");
+                glt1= btoa(glt);
+                $("#results").html((fstr + ":<br />"))
+            }
+        };
+
+        if (file.type.indexOf("image") >= 0 )
+            rf = reader.readAsDataURL(file); 
+        else if (file.type.indexOf("text") >= 0 )
+            rf = reader.readAsBinaryString(file); 
+        else if (file.type.indexOf(".sheet") > 0 )
+            rf = reader.readAsBinaryString(file); 
+        else
+            rf = reader.readAsBinaryString(file); 
+        
+        break;
+    }
+    return 1
+}
+var files1
+function handleFileDrop(evt) {
+    evt.stopPropagation()
+    evt.preventDefault()
+    evt.target.className = ("");
+    var files1 = evt.dataTransfer.files  // FileList object.
+    if (files1.length > 1) {
+        alert("SELECT ONE FILE Now!!! Do not support multiple file uploads")
+        return;
+    }
+    if (files1.length == 0) {
+        console.log("No files found ... strange!");
+        return
+    }
+    ret = readFile(files1)
+    if(ret) {
+        document.getElementById("file_id").files = files1;
+        console.log("Good....")
+    } else {
+        document.getElementById("file_id").value = '';
+    }
+    return
+}
+function handleFileSelect(files) {
+    ret = readFile(files)
+    if(ret) {
+         document.getElementById("file_id").files = files;
+    } else {
+         document.getElementById("file_id").value = '';
+    }
+}
+
+function handlePaste(e){
+    for (var i = 0 ; i < e.clipboardData.items.length ; i++) {
+        var item = e.clipboardData.items[i];
+        if (item.type.indexOf("image") > -1) {
+            files = [item.getAsFile()]
+            readFile(files)
+        }
+        console.log("Item: ", item.type, files);
+        document.getElementById("file_id").files = e.clipboardData.files;
+    }
+}
+<!-- ~~~~~~~~~~~~~~~~ -->
+var file_drop = document.getElementById('file_drop');
+$('#file_drop').draggable().resizable();
+file_drop.addEventListener('dragover', handleDragOver, false )
+file_drop.addEventListener("dragleave", handleDragOver, false);
+file_drop.addEventListener("drop", handleFileDrop, false);
+file_drop.addEventListener("paste", handlePaste);
+    
+<!-- ~~~~~~~~~~~~~~~~ -->
+var data
+google.charts.load('current', {'packages':['table']});
+//google.charts.setOnLoadCallback(drawTable);
+function drawTableCSV(mdata) {
+   nLines = mdata.split('\n').slice(0,5);
+   cols = nLines[0].split(',')
+    
+   if (cols[0] != 'time' || nLines.length < 2 || cols.length < 2 ) {
+       alert("First column must be time, must have data");
+       return 0; 
+   }
+   mdata = { columns: cols.slice(0,900),
+             data: nLines.slice(1,5).map(x => x.split(',').slice(0,900)),
+            };
+            
+    var data = new google.visualization.DataTable();
+
+    for(i = 0;i < mdata.columns.length;i++){
+        if(typeof mdata.data[0][i] == 'object') {
+            type = 'string';
+        } else {
+            type = typeof mdata.data[0][i];
+        }
+        data.addColumn(type,mdata.columns[i]);
+    }
+
+    data.addRows(
+        mdata.data
+    );
+
+    var table = new google.visualization.Table(document.getElementById('table_div'));
+    table.draw(data,{ width:'100%', height:'100%', pageSize: '5'});
+    return 1;
+}    
+
+function drawTable() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Name');
+    data.addColumn('number', 'Salary');
+    data.addColumn('boolean', 'Full Time Employee');
+    data.addRows([
+      ['Mike',  {v: 10000, f: '$10,000'}, true],
+      ['Jim',   {v:8000,   f: '$8,000'},  false],
+      ['Alice', {v: 12500, f: '$12,500'}, true],
+      ['Bob',   {v: 7000,  f: '$7,000'},  true]
+    ]);
+
+    var table = new google.visualization.Table(document.getElementById('table_div'));
+
+    table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+  }
+<!-- ~~~~~~~~~~~~~~~~ -->
+function validate(form) {
+    var ret = true;
+    form = document.getElementById("file_form");
+    if(form.elements['file'].files.length != 1){
+        alert("Heck! Need a file and only one file");
+        ret = false;
+    }
+    return(ret);
+}
+
+$(document).ready(function() { 
+    $('#file_form').ajaxForm({
+        beforeSubmit: function() {
+            if (!validate($(this))){
+                return false;
+            }
+            document.getElementById("user_id").value = "{{user.get_username}}";
+            $("#status").html("Uploading files ...").addClass("success").removeClass('failed'); 
+        },
+        success: function(response) { 
+            $("#status").html("Uploaded!!").addClass("success").removeClass('failed');
+        },
+        error: function(response) {
+            $("#status").html("Error  occurred!!!").addClass("failed").removeClass('success');
+        },
+    }); 
+}); 
+</script>
+{% endblock %}
