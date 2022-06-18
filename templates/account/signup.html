@@ -1,0 +1,60 @@
+{% extends "common.html" %}
+    
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block head_links %} 
+
+<title>Signup</title>
+
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+<div style1="text-align: center; width: 600px;border:0px solid gray; z-index:1000;">
+<style>
+.fw1{
+    width: 100%;
+}
+.fc{
+    max-width: 800px;
+    background: #FaFaFa;
+    padding: 50px;
+    border-radius: 12px;
+    box-shadow: 2px 2px silver;
+}
+input{
+    width: 250px;
+    text-align: left;
+
+}
+</style>
+
+<form class="container-fluid text-center fc" id="signup_form" method="post" action="{% url 'account_signup' %}">
+  {% csrf_token %}
+    <br/><br/>
+    <h3 class="h3" id="head_banner">{% trans "Sign Up" %}</h3>
+    <p class="exist_account_info">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+    <br/><br/>
+
+    {% for field in form %}
+        <div class="fieldWrapper">
+            {{ field.errors }}
+            <label style="width:150px;text-align: right;">{{ field.label_tag }}</label> 
+            {{ field }}
+        </div>
+    {% endfor %}
+
+  {% if redirect_field_value %}
+
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  
+  {% endif %}
+  
+  <button class="btn btn-primary btn-lg" type="submit">{% trans "Sign Up" %}</button><br/>
+
+</form>
+
+</div>
+</div>
+{% endblock %}

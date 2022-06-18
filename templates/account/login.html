@@ -1,0 +1,72 @@
+{% extends "common.html" %}
+{% load i18n %}
+<title>Sign In</title>
+{% block head_title %}{% trans "Sign In" %} {% endblock %}
+
+{% block content %}
+<div class="container-fluid" style="z-index: 3000;">
+
+
+<style>
+.fw1{
+    width: 100%;
+}
+.fc{
+    max-width: 800px;
+    background: #FaFaFa;
+    padding: 50px;
+    border-radius: 12px;
+    box-shadow: 2px 2px silver;
+}
+input{
+    width: 250px;
+    text-align: left;
+
+}
+</style>
+<form class="container-fluid text-center fc" id="login_form" method="POST" action="{% url 'account_login' %}">
+    <br/><br/>
+    <h3 class="h3" id="head_banner">{% trans "Sign In" %}</h3>
+    <br/><br/>
+    
+{% csrf_token %}
+  
+    {% for field in form %}
+        <div class="fieldWrapper fw1" style="min-width: 300px;">
+            {{ field.errors }}
+            <label style="width:150px;text-align: right;">{{ field.label_tag }}</label> {{ field }}
+        </div>
+    {% endfor %}
+    
+  {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  
+  <button class="btn btn-primary" style="width:175px;" type="submit">{% trans "Sign In" %}</button>
+  <a class="btn btn-outline-dark" style="width:175px;" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}
+    </a>
+  <p>
+      If you do not have an account, you may sign up
+  </p>
+      <a class="btn btn-outline-dark"  style="width:175px;" href="{% url 'account_signup' %}">{% trans "Signup?" %}</a>
+    <br/>
+</form>
+ <!--
+<br/><br/>
+    OR login using: 
+<br/><br/>
+    {% load account socialaccount %}
+
+    {% get_providers as socialaccount_providers %}
+    <ul class="social_providers_list">
+    {% for provider in socialaccount_providers %}
+        <a title="{{provider.name}}" class="btn btn-outline-dark" 
+         href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
+            <i class="fab fa-{{provider.name|lower}}" style="width:100px;" id="social_icon"></i>{{provider.name}}</a>
+    {% endfor %}
+    </ul>
+ -->
+    
+</form>
+</div>
+{% endblock %}

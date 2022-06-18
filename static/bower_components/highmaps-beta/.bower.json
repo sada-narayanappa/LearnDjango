@@ -1,0 +1,42 @@
+{
+  "name": "highmaps-beta",
+  "main": [
+    "highmaps.js",
+    "highmaps.src.js",
+    "highcharts.js",
+    "highcharts.src.js"
+  ],
+  "version": "1.0.1",
+  "authors": [
+    "anonymous"
+  ],
+  "description": "Highmaps from Highsoft",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node",
+    "yui"
+  ],
+  "keywords": [
+    "bower_module_nonOfficial_version"
+  ],
+  "license": "Creative Commons Attribution-NonCommercial 3.0 License",
+  "homepage": "www.highcharts.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "1.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.1",
+    "commit": "e6694a179ebf33f70c0f8891a177621a422a67d3"
+  },
+  "_source": "https://github.com/royki/highmaps.git",
+  "_target": "^1.0.1",
+  "_originalSource": "highmaps",
+  "_direct": true
+}

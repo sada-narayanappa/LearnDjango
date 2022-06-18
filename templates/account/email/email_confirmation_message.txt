@@ -1,0 +1,11 @@
+{% extends "account/email/base_message.txt" %}
+{% load account %}
+{% load i18n %}
+
+{% block content %}{% autoescape off %}
+{% user_display user as user_display %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+You're receiving this e-mail because your email is used to register on https://www.geospaces.org.
+You are assigned a username of: {{ user_display }} 
+
+{% endblocktrans %}{% endautoescape %}{% endblock %}

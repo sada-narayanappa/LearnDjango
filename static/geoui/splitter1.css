@@ -1,0 +1,47 @@
+.splitter {
+    width: 100%;
+    min-height: 100px;
+    display: flex ;
+}
+
+#separator {
+    cursor: col-resize;
+    width: 2px;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    bbackground: radial-gradient(rgba(0,0,0,.1) 21%,transparent 22%) 3px 3px,radial-gradient(rgba(0,0,0,.1) 21%,transparent 22%) 0 0;
+    background: transparent;
+}
+
+.separatorH {
+    cursor: col-resize;
+    width: 2px;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    bbackground: radial-gradient(rgba(0,0,0,.1) 21%,transparent 22%) 3px 3px,radial-gradient(rgba(0,0,0,.1) 21%,transparent 22%) 0 0;
+    background: transparent;
+    text-align: center !important;
+}
+.separatorH:hover {
+//    background: #efefef;
+    background: #d7e4f2;
+}
+
+.separatorV {
+    cursor: row-resize;
+    height: 2px;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    bbackground: radial-gradient(rgba(0,0,0,.1) 21%,transparent 22%) 3px 3px,radial-gradient(rgba(0,0,0,.1) 21%,transparent 22%) 0 0;
+    background: transparent;
+    text-align: center !important;
+    vertical-align: text-top;
+}
+
+.separatorV:hover {
+//    background: #efefef;
+    background: #d7e4f2;
+}

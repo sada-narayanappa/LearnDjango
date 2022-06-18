@@ -1,0 +1,71 @@
+.w2ui-sidebar .w2ui-sidebar-div .w2ui-node {
+    background-color: #eee;
+    font-family: Roboto;
+}
+
+.w2ui-sidebar .w2ui-sidebar-div {
+    background-color: #eee;
+    font-family: Roboto;
+}
+    
+.w2ui-node {
+    background-color: #eee;
+    font-family: Roboto;
+    font-size: 13px;
+}
+    
+.w2ui-sidebar .w2ui-sidebar-div .w2ui-selected, .w2ui-sidebar .w2ui-sidebar-div .w2ui-selected:hover {
+    background-image: -moz-linear-gradient(#ddd,#ddd);
+    background-image: -ms-linear-gradient(#ddd,#ddd);
+    background-image: -o-linear-gradient(#ddd,#ddd);
+    background-image: linear-gradient(#ddd,#ddd);
+    border-top: 0px solid #ccc;
+    border-bottom: 0px solid #ccc;
+    color: #000;
+    border: 1px solid #ddd;
+    border-radius: 0px 50px 50px 0px;
+    -webkit-text-fill-color: #000;
+    font-family: Roboto;
+}
+
+.w2ui-sidebar .w2ui-sidebar-div .w2ui-selected .w2ui-node-caption, .w2ui-sidebar .w2ui-sidebar-div .w2ui-selected:hover .w2ui-node-caption, .w2ui-sidebar .w2ui-sidebar-div .w2ui-selected .w2ui-node-image, .w2ui-sidebar .w2ui-sidebar-div .w2ui-selected:hover .w2ui-node-image, .w2ui-sidebar .w2ui-sidebar-div .w2ui-selected .w2ui-node-image>span, .w2ui-sidebar .w2ui-sidebar-div .w2ui-selected:hover .w2ui-node-image>span, .w2ui-sidebar .w2ui-sidebar-div .w2ui-selected td.w2ui-node-dots, .w2ui-sidebar .w2ui-sidebar-div .w2ui-selected:hover td.w2ui-node-dots {
+    color: #fff!important;
+    text-shadow: 0px 0px 0px #666!important;
+}
+    
+.w2ui-sidebar .w2ui-sidebar-div .w2ui-node-caption {
+    padding: 5px 0 5px 18px;
+    font-size: 13px;
+    font-family: Roboto;
+}
+    
+.w2ui-sidebar .w2ui-sidebar-div td.w2ui-node-data .w2ui-node-image>span {
+    font-size: 14px;
+    color: #000;
+    text-shadow: 0 0 0 #fff;
+}    
+    
+.w2ui-sidebar .w2ui-sidebar-div .w2ui-selected .w2ui-node-caption, .w2ui-sidebar .w2ui-sidebar-div .w2ui-selected:hover .w2ui-node-caption, .w2ui-sidebar .w2ui-sidebar-div .w2ui-selected .w2ui-node-image, .w2ui-sidebar .w2ui-sidebar-div .w2ui-selected:hover .w2ui-node-image, .w2ui-sidebar .w2ui-sidebar-div .w2ui-selected .w2ui-node-image>span, .w2ui-sidebar .w2ui-sidebar-div .w2ui-selected:hover .w2ui-node-image>span, .w2ui-sidebar .w2ui-sidebar-div .w2ui-selected td.w2ui-node-dots, .w2ui-sidebar .w2ui-sidebar-div .w2ui-selected:hover td.w2ui-node-dots {
+    color: #fff!important;
+    text-shadow: 0px;
+}
+    
+fa{
+    font-size: 4px;
+}
+
+.fa-rotate-45 {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}    
+.fa-rotate-135 {
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
+    -ms-transform: rotate(135deg);
+    -o-transform: rotate(135deg);
+    transform: rotate(135deg);
+}    
+   

@@ -1,0 +1,7 @@
+*.log
+*.tgz
+*.zip
+.npmrc
+coverage
+dist
+node_modules
