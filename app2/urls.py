@@ -5,7 +5,7 @@ import sys
 import mainapp
 from . import views
 
-app_name = 'app1'
+app_name = 'app2'
 
 urlpatterns = [
     path(r'', mainapp.views.index, name='index'),
