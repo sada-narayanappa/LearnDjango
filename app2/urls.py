@@ -8,6 +8,7 @@ from . import views
 app_name = 'app2'
 
 urlpatterns = [
-    path(r'', mainapp.views.index, name='index'),
-    path(r'page1/', views.page1, name='index'),
+    path(r''          , mainapp.views.index , name='index'),
+    path(r'getmenu/'  , views.getmenu,        name='menu'),
 ]
+

@@ -18,7 +18,7 @@ def max_workers():
 
 
 bind = '0.0.0.0:' + environ.get('PORT', str(PORT) )
-max_requests = 10
+max_requests = 20
 worker_class = 'gevent'
 workers = max_workers()
 
