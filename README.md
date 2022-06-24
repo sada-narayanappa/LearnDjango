@@ -1,7 +1,6 @@
 # How to Inastall and Run 
 
-## Intallation
-
+## Intallation - add packages
 pip install -r requirements.txt
 
 ## Run
