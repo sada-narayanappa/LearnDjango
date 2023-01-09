@@ -1,7 +1,9 @@
 {% load i18n %}{% autoescape off %}
 
 {% blocktrans with site_name=current_site.name %}<pre>
-Hello from geospaces.org!{% endblocktrans %}
+
+Hello from {{ site_name }}!  {% endblocktrans %}
+
 {% block content %}{% endblock %}
 
 {% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
@@ -9,7 +11,7 @@ Hello from geospaces.org!{% endblocktrans %}
 Thank you for registering.
 
 Sincerely,
-Geospaces.org
+{{ site_name }}
 
 </pre>
 {% endblocktrans %}

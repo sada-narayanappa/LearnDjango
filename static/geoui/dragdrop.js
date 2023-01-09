@@ -60,7 +60,7 @@ var DD_MAX_FILE_SIZE = 50*1024*1024;
 
 */
 var DD_MAX_FILES     = 3;
-var DD_MAX_FILE_SIZE = 50*1024*1024;
+var DD_MAX_FILE_SIZE = 250*1024*1024;
 
 function handleDragOver(evt) {
     evt.stopPropagation();

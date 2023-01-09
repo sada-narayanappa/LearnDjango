@@ -143,20 +143,24 @@ function setupFilter(textBox, table) {
         FilterFunctionCB = setTimeout(`filterFunc("${table}", "${fv}")`, 500)
     });
 }
-function filterFunc(tab, filterVal) {
+function filterFunc(tab, filterVal, column=null) {
     tab += " tr";
     var $rows = $(tab).not(':first');
     var val = $.trim(filterVal).replace(/ +/g, ' ').toLowerCase();
-    if ( $rows.length <= 10 || ($rows.length > 4000 && val.length <=2) ) {
-        console.log("Ignoring Filter==>", $rows.length , val.length);
+    if ( $rows.length <= 6 || ($rows.length > 4000 && val.length <=2) ) {
+        console.log("Ignoring Filter==> #rows:", $rows.length , val.length);
         return;
     }
+    //console.log(tab, $rows.length , val, column);
 
     $("body").css("cursor", "progress");
 
     $rows.show().filter(function() {
-        var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+        var text = (column) ? $(this).find("td")[column-1].textContent : $(this).find("td").text()
+        
+        text = text.replace(/\s+/g, ' ').toLowerCase();
         return !~text.indexOf(val);
+        
     }).hide();
 
     $("body").css("cursor", "default");
@@ -193,6 +197,25 @@ function saveTable(tableID = '#tabledd', name = "/tmp/__test__.csv", skipCols=0,
     });
     return out;
 }
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function getOffset(el) {
+    const rect = el.getBoundingClientRect();
+    return {
+        left: rect.left + window.scrollX,
+        top: rect.top + window.scrollY
+    };
+}
+            
+function FillRemainingHeight(n = '#tabledd1'){
+    if ( !n.startsWith('#') )
+        n = '#' +n
+    
+    var h = window.innerHeight
+    var i = getOffset($(n).get(0)) // {top: 920, left: 0}
+    var ht = h - i.top - 15;
+    $(n).height( ht )
+    console.log(i, ht)
+}  
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /*
 var WTEMP = `

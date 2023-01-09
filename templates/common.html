@@ -1,3 +1,4 @@
+{% load custom_tags %}
 <html lang="en">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,6 +14,14 @@
 <script src="/static/bc/jquery-ui/jquery-ui.js"></script>
 <script src="/static/bc/jquery-form/src/jquery.form.js"></script>
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-34483841-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-34483841-1');
+</script>
 
 <link href="/static/bc/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -26,9 +35,14 @@
 <script src="/static/js/jquery.rateyo.min.js"></script>
 
 <style>
+input{
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
 .center{
         text-align: center;
-    }
+}
 .grid-stack {
     background: rgb(240,240,240);
 }
@@ -72,6 +86,7 @@ body p {
 
 td {
    font-family: Roboto, 'Open Sans', Arial, sans-serif;
+   font-size: small;
    font-weight:300;
    line-height:1.6em;
    color:#656565;
@@ -117,7 +132,7 @@ td {
 
 .dropdown:hover .dropdown-menu {
     display: block;
-    margin-top: 0; // remove the gap so it doesn't close
+    margin-top: 0;  /* remove the gap so it doesn't close */
  }
 
 blockquote {
@@ -141,64 +156,196 @@ code::after, code::before {
 </style>
 
 <script>
+function GET_POSTDATA(params){
+    data = {
+            csrfmiddlewaretoken: '{{csrf_token }}',
+            auth: '{{request.session.session_key}}',
+            user:'{{user.username}}'
+    }
+    for(var k in params) {
+        data[k] = params[k]
+    }
+    return data
+}
+function POST(url,  data, callback){
+    data1 = GET_POSTDATA(data)
+    $.post(url, data1, callback).fail(callback);
+}
+
+
+/*
+ALL THE BELOW MUST BE OBSOLETED USE AONLY ABOVE NEW APIS
+*/
+/*
+AUTH= GET_POSTDATA([]);
+var APIBASE=`http://localhost:9000`;
+if (window.location.hostname.indexOf("geospaces.org") >=0 )
+    APIBASE= `http://www.geospaces.org/api`
+
+var value=""
+for(var k in AUTH) {
+    value += `${k}=${AUTH[k]}&`;
+}
+const AUTH_STR  = value
+
+const URL1 = `http://localhost:9000`;
+function API_POSTDATA(params){
+    data = {
+            csrfmiddlewaretoken: '{{csrf_token }}',
+            'X-CSRFToken' : '{{ csrf_token  }}',
+            //url: URL1,
+            auth: '{{request.session.session_key}}',
+            user:'{{user.username}}'
+    }
+    for(var k in params) {
+        data[k] = params[k]
+    }
+    return data
+}
+
+const API_POST_URL1  = `${window.location.origin}/proxy/`
+function MYPOST(url, data, callback){
+    dfr = $.Deferred();
+    data1 = API_POSTDATA(data)
+    data1.url  = url
+    return $.post(API_POST_URL1, data1, callback);
+}
+
+const API_GET_URL1  = `${window.location.origin}/proxy/?auth=${AUTH_STR}&url=`
+function MYGET(url,  callback){
+    //data1 = API_POSTDATA(data)
+    url1  = API_GET_URL1 + url
+    $.get(url1, callback);
+}
+
+function GET(url,  callback){
+    data1 = API_POSTDATA(data)
+    url1  = `${window.location.origin}${url}`
+    $.get(url1, data, callback);
+}
+
+function POST(url,  data, callback){
+    data1 = API_POSTDATA(data)
+    url1  = `${window.location.origin}${url}`
+    $.post(url1, data1, callback);
+}
+*/
+/* **** USAGE *** Use it like this:
+   url = `${API_URL1}/essearch&q=${st}&d1=${d[0].trim()}&d2=${d[1].trim()}`
+   $.post(ur, callbackFucntion)
+OR
+   url  = `${API_URL1}/essearch
+   data =  API_POSTDATA( {q: st } )
+   $.post(ur, data, cb);
+
+ */
 </script>
 </head>
 <body>
 <header>
 <!----------------------------------------BEGIN MENU end header -->
-<nav id=mainnavbar class="navbar navbar-expand-lg navbar-light bg-light"
+<nav id=mainnavbar class="navbar navbar-expand-sm navbar-light bg-light"
 style="border-bottom: 1px solid #eee; height: 48px; background-color: aliceblue;display: -webkit-box1">
   <a class="navbar-brand" href="/">
         <img src="/static/imgs/logo5.png" height=28 alt="logo"/></a>
-   <span class="our_menu" style="color: #003478 !important;font-weight: 500;"> Your Name </span>
+   <span class="our_menu" style="color: #003478 !important;font-weight: 500;"> AI Navigator </span>
 
    <span id="common_status" class="" style="width: 10px; overflow: hidden; white-space: nowrap;"></span>
 
 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/"><i class="fas fa-home"></i>
-        <span class="our_menu">Home</span></a></li>
     
-    
-    <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link" href="/mainapp/test.html"><i class="fas fa-network-wired"></i> 
-            <span class="our_menu">Solutions</span></a></li>
-    
-    
+<li class="nav-item mr-4 mb-2 mb-lg-0">
+        <a class="nav-link" href="/geoapp/services.html"> 
+        <i class="fas fa-network-wired"></i> <span class="our_menu">Services</span></a>
+</li>
 
+
+<!--- APPLICATION MENU STARTS HRE ..... -->
+    
+<ul class="navbar-nav  mr-auto">
+<li class="nav-item dropdown">
+  <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >
+  <i class="fas fa-blog"></i> <span class="our_menu">Apps</span></a>
+  <div  class="changetag dropdown-menu dropdown-menu-right"
+         style="z-index:2;width:300px; border-radius: 5px; padding: 0px; ">
+      
+  <div class="row" style="padding: 1; margin: 0;">
+  <div class="col-md-2" style="background-color: #fafafa" style="padding: 0; "></div>
+  <div class="col-md-8"  style="padding: 0; ">
+
+      {% include "appmenu.html" %}    
+
+  </div>
+  </div>
+  </div>
+</li>
+</ul>
+<!--- APPLICATION MENU ENDS HRE ..... -->
+
+      
+      
+<!-- 
+    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/"><i class="fas fa-home"></i>
+       <span class="our_menu">Home</span></a></li> 
+
+    
+    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/stocks/stocks/stocks_index.html/">
+        <i class="fa fa-chart-area"></i> <span class="our_menu">Stocks</span></a></li>
+    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/capstone/capstone/capstone_index.html"><i class="fas fa-graduation-cap"></i> <span class="our_menu">Capstones</span></a></li>
+    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/shop/shop.html"><i class="fas fa-tasks"></i> <span class="our_menu">Shop</span></a></li>
+    -->
+    <!--
     <ul class="navbar-nav  mr-auto">
             <li class="nav-item dropdown">
               <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >
-                  <i class="fas fa-blog"></i>Application</a>
+                  <i class="fas fa-blog"></i> <span class="our_menu">Articles</span></a>
             <div class="dropdown-menu dropdown-menu-right"
                  style="z-index:2;width:300px; border-radius: 5px; padding: 0px; ">
                 <div class="row" style="padding: 1; margin: 0;">
                     <div class="col-md-2" style="background-color: #fafafa" style="padding: 0; "></div>
-                    <div class="col-md-8"  style="background-color:;padding: 0; ">
-                        
-                        <a class="dropdown-item" href="/app1/app1/page1.html/"       > App1: Page1 </a>
-                        <a class="dropdown-item" href="/app1/app1/secured/page2.html"> App1: Page2 </a>
+                    <div class="col-md-8"  style="padding: 0; ">
+                        <a class="dropdown-item" href="/blogs/blogs.html"                    >Search Articles</a>
+                        <a class="dropdown-item" href="/blogs/secured/create_article1.html"  >Create an Article</a>
                         <div class="dropdown-divider"></div>
-                        
-                        <a class="dropdown-item" href="/app2/app2/page1.html/"       > App2: Page1 </a>
-                        <a class="dropdown-item" href="/app2/app2/secured/page2.html"> App2: Page2 </a>
-                        <div class="dropdown-divider"></div>
+{% if request.user|has_group:"tseries" %}
+                        <a class="dropdown-item" href="/capstone/capstone/capstone_index.html">Create a Capstone Project</a>
+                        <a class="dropdown-item" href="/blogs/view_book.html"                 >Read Book</a>
+                        <a class="dropdown-item" href="/blogs/secured/create_article.html"    >Create an Article</a>
+                        <a class="dropdown-item" href="/blogs/secured/create_book.html"       >Create a Book</a>
+{% endif %}
+                        { % include "installedapps.html" %}
                     </div>
                 </div>
             </div>
             </li>
     </ul>
+    -->
+    
     {% if not user.is_authenticated %}
         <li><a class="nav-link" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i><span class="our_menu"> Sign in</span></a></li>
     {% endif %}
+    
     {% if user.is_authenticated %}
             <ul class="navbar-nav  mr-auto">
             <li class="nav-item dropdown">
-              <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >Me</a>
+              <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >
+                  <span class="our_menu">Me</span></a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions" style="z-index:2;">
-            <a class="dropdown-item" href="/">{{user.username}}</a>
+            <a class="dropdown-item" href="#">{{ user.email }}</a>
             <div class="dropdown-divider"></div>
+            <!--
             <a class="dropdown-item" href="#">Edit Profile</a>
             <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/shop/shop.html/">Shop</a>
+
+{% if request.user|has_group:"tseries" %}
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/users/secured/users_index.html/" >List Users</a>
+{% endif %}
+
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Security &amp; Settings</a>
+            -->
             <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i>Sign Out</a>
             </div>
             </li>
@@ -258,7 +405,7 @@ function salert(txt, cls, delay){
 
     $('#1').css('z-index', 4);
 
-    $('#1').data('delay', delay || 3000);
+    $('#1').data('delay', delay || 4000);
     $('.toast').toast('show');
     cls = cls || "btn-success"
     $('#toastid').html(txt).attr('class', cls)
@@ -267,10 +414,10 @@ function salert(txt, cls, delay){
 
 var spin = "<i class='fa fa-spinner fa-spin' style='font-size: 32px;color:red;'></i>"
 
-function JS_error(responseTxt, statusTxt, xhr, showAlert, errorCB){
+function JS_error_OLD(responseTxt, statusTxt, xhr, showAlert=1, errorCB=null){
     showAlert = showAlert | true;
     if(statusTxt && responseTxt && (statusTxt !== "success" ||
-        responseTxt.toLowerCase().startsWith("error:") || responseTxt === "null" ) ){
+        responseTxt.toLowerCase().startsWith("error") || responseTxt === "null" ) ){
 
         salert("<i class='fas fa-skull-crossbones'></i>" + statusTxt + " : " + responseTxt, 'btn-danger');
         if(errorCB){
@@ -299,6 +446,31 @@ function JS_error(responseTxt, statusTxt, xhr, showAlert, errorCB){
     }
     return 0;
 }
+
+function JS_error(responseTxt, statusTxt, xhr, showAlert=1, errorCB=null){
+
+    robject = null
+    if (typeof(responseTxt) == "object" ) {
+        robject = responseTxt
+        responseTxt = responseTxt.statusText || responseTxt.toString()
+        responseTxt = responseTxt.responseText || responseTxt.toString()
+    }
+
+    if(statusTxt && responseTxt && (statusTxt !== "success" ||
+        responseTxt.toLowerCase().startsWith("error") || responseTxt === "null" ) ){
+
+        salert("<i class='fas fa-skull-crossbones'></i>" + statusTxt + " : " + responseTxt, 'btn-danger');
+        var rs = responseTxt || "";
+        console.log(statusTxt, rs.substring(0,64))
+
+        return statusTxt
+    } else if( responseTxt.startsWith("WARN") ) {
+        salert("<i class='fas fas fa-exclamation'></i> : " + responseTxt, 'btn-warning');
+    }
+
+    return 0;
+}
+
 var spin = "<i class='fa fa-spinner fa-spin' style='font-size: 32px;color:red;'></i>"
 function busy(msg)  { $('#common_status').html(spin + msg); }
 function nbusy(msg) { $('#common_status').html(''); }
