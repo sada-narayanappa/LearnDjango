@@ -1,0 +1,256 @@
+<style>
+.chart {
+    min-width: 320px;
+    max-width: 1600px;
+    height: 200;
+    margin: 0 auto;
+    overflow: visible !important;
+}
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+</style>
+
+<script>
+/**
+ * In order to synchronize tooltips and crosshairs, override the
+ * built-in events with handlers defined on the parent element.
+ */
+function sync(e){
+    var chart, point, i, event;
+    for (i in mcharts) {
+        chart = mcharts[i];
+        event = chart.pointer.normalize(e); // Find coordinates within the chart
+        point = chart.series[0].searchPoint(event, true); // Get the hovered point
+
+        if (point) { point.highlight(e); }
+    }
+}
+function Addsync(id){
+    ['mousemove', 'touchmove', 'touchstart'].forEach(function (eventType) {
+        document.getElementById(id).addEventListener( eventType,
+            function (e) {
+                var chart, point, i, event;
+                    if ( mcharts.length <= 1)
+                        return
+                    sync(e)
+            }
+        );
+    });
+}
+/**
+ * Override the reset function, we don't need to hide the tooltips and
+ * crosshairs.
+ */
+Highcharts.Pointer.prototype.reset = function () {
+    return undefined;
+};
+
+/**
+ * Highlight a point by showing tooltip, setting hover state and draw crosshair
+ */
+Highcharts.Point.prototype.highlight = function (event) {
+    event = this.series.chart.pointer.normalize(event);
+    this.onMouseOver(); // Show the hover marker
+    this.series.chart.tooltip.refresh(this); // Show the tooltip
+    this.series.chart.xAxis[0].drawCrosshair(event, this); // Show the crosshair
+};
+
+/**
+ * Synchronize zooming through the setExtremes event handler.
+ */
+function syncExtremes(e) {
+    var thisChart = this.chart;
+
+    if (e.trigger !== 'syncExtremes') { // Prevent feedback loop
+        Highcharts.each(Highcharts.charts, function (chart) {
+            if (chart !== thisChart) {
+                oneOfMyCharts = 0;
+                for (i=0;i < mcharts.length; i++) {
+                    if (chart == mcharts[i]) {
+                        oneOfMyCharts = 1;
+                        break;
+                    }
+                }
+                if (!oneOfMyCharts)
+                    return
+                if (chart.xAxis[0].setExtremes) { // It is null while updating
+                    chart.xAxis[0].setExtremes(
+                        e.min,
+                        e.max,
+                        undefined,
+                        false,
+                        { trigger: 'syncExtremes' }
+                    );
+                }
+            }
+        });
+    }
+}
+
+var mcharts   = []
+var activity1= null
+
+//
+// addSeries(mchart, id++, dataset.name, dataset.data
+function addSeries(schart, id, name, data,color=null ){
+    schart.addAxis({
+          id: id
+        }, false)
+    sdsv = { name: name, data: data, yAxis: id, color: color}
+    schart.addSeries(sdsv)
+
+    schart.update({legend: {enabled: 1}})
+}
+//function showScoreClicked1(){ }
+
+let SEL_OPTS = {
+    allowPointSelect: true,
+    marker: {
+        enabled: true,
+        radius: 1,
+        states: {
+            hover1: {
+                color: 'firebrick',
+                fillColor: 'green',
+                lineWidth: 2,
+                radius: 8,
+            },
+            select: {
+                color: 'rgba(254,128,255,0.9)',
+                fillColor: 'rgba(0,255,255,0.5)',
+                lineWidth: 3,
+                radius: 5,
+            }
+        }
+    },
+}
+
+// dataset.name
+function getHighChart(tit, sdata, i=0, funcToCall=null){
+
+    valueDecimals = 6
+
+    seriesdata= $.extend ({
+            data             : null,         name: '', id: '',         type: 'spline',
+            color            : Highcharts.getOptions().colors[i],
+            lineWidth        : 0.8,
+            fillOpacity      : 0.0,
+            tooltip          : { },
+            allowPointSelect : false,
+            marker: {
+                        radius: 1,
+                        states: {
+                            select: {
+                                color: 'rgba(254,128,255,0.9)',
+                                fillColor: 'rgba(0,255,255,0.5)',
+                                lineWidth: 3,
+                                radius: 5,
+                            }
+                        }
+                    },
+                }, sdata );
+
+    bc = ['rgba(255, 255, 255, 0.1)', 'rgba(0, 128, 128, 0.1)', 'rgba(255, 255, 128,.1)', 'rgba(25, 25, 25, 0.1)']
+    var hopts={
+        chart:   {  marginLeft: 40, zoomType: 'x', backgroundColor: bc[i%4], spacingTop: 20, spacingBottom: 20 },
+        title:   { text: tit, align: 'left',  margin: 0,  x: 30, style:{fontSize:'14px'}},
+        credits: {  enabled: false },
+        legend:  {  enabled: false },
+        exporting: { enabled: false },
+        xAxis: {
+            crosshair: true,
+            events: {  setExtremes: syncExtremes   },
+            labels: {
+              formatter: function() {
+                    return Highcharts.dateFormat('%m/%d <br/>%H:%M', this.value);
+              }
+            },
+            dateTimeLabelFormats1: { // don't display the dummy year
+                month: '%e. %b',
+                year: '%b'
+            },
+            type: 'datetime',
+            plotLines: [{
+                color: '#49910D', width: 1, value: 1,
+                dashStyle: 'Dash',
+                label: { text: '' },
+                id: 'select'
+          }]
+        },
+        yAxis: { title: { text: null } },
+          min: null,
+          tooltip: {
+                positioner: function (labelWidth, labelHeight, point) {
+                    //console.log(chart.plotTop)
+                    return { x: point.plotX > 100? point.plotX-labelWidth:point.plotX, y: 0};
+                },
+                useHTML: true,
+                split: false,
+                shadow: false,
+                borderWidth: 0.5,
+                backgroundColor: 'rgba(255,255,255,0.8)',
+                valueDecimals: valueDecimals,
+                crosshair: true,
+                style: {
+                    zIndex: 20,
+                }
+          },
+        tooltip1: {
+            positioner: function () {
+                return {
+                    // right aligned
+                    x: this.chart.chartWidth - this.label.width,
+                    y: 10 // align to title
+                };
+            },
+            borderWidth: 0,
+            backgroundColor: 'none',
+            pointFormat: '{point.y}',
+            headerFormat: '',
+            shadow: false,
+            style: {
+                fontSize: '10px'
+            },
+            valueDecimals: valueDecimals
+        },
+        series: [  seriesdata ],
+
+        plotOptions: { series: { point: { events: { click: funcToCall } }}}
+    };
+    return hopts;
+}
+
+
+
+function PlotBands(v1, v2, rgb = 'rgba(0,255,0,0.1)') {
+    v1 = v1 || '#trnstart'
+    v2 = v2 || '#trnend'
+
+    var d1 = new Date( $(v1).val().replace('T', ' ') + " GMT" )
+    var d2 = new Date( $(v2).val().replace('T', ' ') + " GMT"  )
+
+    for ( var i in mcharts) {
+        var c = mcharts[i]
+        if (!c) continue
+        c.xAxis[0].addPlotBand({ from: d1, to: d2, color: rgb, id: 'plotband1'});
+    }
+}
+function PlotLine(v1, rgb= 'rgb(255, 0, 0, 0.5)') {
+    v1 = v1 || '#line1'
+    fdate = new Date( $(v1).val().replace('T', ' ') + " GMT" )
+
+    for ( var i in mcharts) {
+        var c = mcharts[i]
+        if (!c) continue
+        c.xAxis[0].addPlotLine({ value: fdate, color: rgb ,  width: 2, id: 'plotline1' });
+    }
+}
+
+function RemoveBands() {
+    for ( var i in mcharts) {
+        var c = mcharts[i]
+        if (!c) continue
+        c.xAxis[0].removePlotBand('plotband1');
+    }
+}
+</script>

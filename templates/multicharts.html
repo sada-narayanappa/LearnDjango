@@ -1,0 +1,234 @@
+<style>
+.chart{
+    min-width: 320px;
+    max-width: 1600px;
+    height: 200px;
+    margin: 0;
+}
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+</style>
+
+<script>  
+/**
+ * In order to synchronize tooltips and crosshairs, override the
+ * built-in events with handlers defined on the parent element.
+ */
+['mousemove', 'touchmove', 'touchstart'].forEach(function (eventType) {
+    document.getElementById('chartcontainer').addEventListener(
+        eventType,
+        function (e) {
+            var chart, point, i, event;
+            if ( mcharts.length <= 1)
+                return
+            mcharts1 = Highcharts.charts;
+            mcharts1 = mcharts;
+            for (i = 0; i < mcharts1.length; i = i + 1) {
+                chart = mcharts1[i];
+                if ( chart.series.length <= 0 )
+                    continue;
+                // Find coordinates within the chart
+                event = chart.pointer.normalize(e);
+                // Get the hovered point
+                point = chart.series[0].searchPoint(event, true);
+
+                if (point) {
+                    point.highlight(e);
+                }
+            }
+        }
+    );
+});
+
+/**
+ * Override the reset function, we don't need to hide the tooltips and
+ * crosshairs.
+ */
+Highcharts.Pointer.prototype.reset = function () {
+    return undefined;
+};
+
+/**
+ * Highlight a point by showing tooltip, setting hover state and draw crosshair
+ */
+Highcharts.Point.prototype.highlight = function (event) {
+    event = this.series.chart.pointer.normalize(event);
+    this.onMouseOver(); // Show the hover marker
+    this.series.chart.tooltip.refresh(this); // Show the tooltip
+    this.series.chart.xAxis[0].drawCrosshair(event, this); // Show the crosshair
+};
+
+/**
+ * Synchronize zooming through the setExtremes event handler.
+ */
+function syncExtremes(e) {
+    var thisChart = this.chart;
+
+    if (e.trigger !== 'syncExtremes') { // Prevent feedback loop
+        Highcharts.each(Highcharts.charts, function (chart) {
+            if (chart !== thisChart) {
+                if (chart.xAxis[0].setExtremes) { // It is null while updating
+                    chart.xAxis[0].setExtremes(
+                        e.min,
+                        e.max,
+                        undefined,
+                        false,
+                        { trigger: 'syncExtremes' }
+                    );
+                }
+            }
+        });
+    }
+}
+
+var mcharts   = []
+var activity1= null
+
+//
+// addSeries(mchart, id++, dataset.name, dataset.data
+function addSeries(schart, id, name, data){
+    schart.addAxis({
+          id: id
+        }, false)
+    sdsv = { name: name, data: data, yAxis: id}
+    schart.addSeries(sdsv)
+    
+    schart.update({legend: {enabled: 1}})
+}
+var lastClickedTime = 0;
+// Unfortunateluy dbl click is more compliocated
+var doubleClicked, E, singleClickEventTimeout = null;
+function chartDblClickedCB(e) {
+    doubleClicked = true
+    //console.log("Double Clicked event ...")
+    E = e
+    fval = e.point.index
+    c = mcharts[0]
+
+    var v = new Date(e.point.name).toISOString().slice(0,-1)
+    if( e.altKey ) {
+        if ( !$('#band1').val() && !$('#band2').val()  ) {
+            $('#band1').val(v)
+        } else if ( $('#band1').val() && $('#band2').val()  ) {
+            $('#band1').val(v)
+            $('#band2').val("");
+        } else if ( $('#band1').val() ) {
+            $('#band2').val(v)
+        }
+        else {
+            $('#band2').val(v)
+        }
+    } else {
+        $('#line1').val(v)
+        c.xAxis[0].addPlotLine({ value: fval, color: 'rgb(0, 0, 255)', width: 3, id: 'plotline1' });
+
+        var i = findApproxIndex(c, $('#line1').val())
+        c.xAxis[0].addPlotLine({ value: i, color: 'rgb(0, 255, 0)', width: 3, id: 'plotline1' });
+    }
+
+    lastClickedTime = 0
+    doubleClicked   = false;
+}
+function chartClickedCB(e) {
+    if (lastClickedTime <= 0){
+        lastClickedTime= Date.now();
+        doubleClicked = false;
+        var e1 = e;
+        singleClickEventTimeout = setTimeout(function() {
+            if (doubleClicked) {
+                doubleClicked = false
+                return
+            }
+            //console.log("Single click event ...", e1)
+            lastClickedTime = 0
+            }, 500)
+    } else {
+        var millis = Date.now() - lastClickedTime;
+        lastClickedTime= Date.now();
+        if ( millis < 400){
+            clearTimeout(singleClickEventTimeout)
+            doubleClicked = true;
+            chartDblClickedCB(e)
+        }
+    }
+}
+// --------------------------------------------------------------------------------------
+function showSynchedChart(activity, height=160, onechart=0, container="chartcontainer",
+                          clk=null, dclk=null) {
+    activity1 = typeof(activity) == "string" ? JSON.parse(activity): activity;
+    id = -1;
+    chart = null;
+    mcharts = []
+    activity1.datasets.forEach(function (dataset, i) {
+        id++
+        // Add X values
+        dataset.data = Highcharts.map(dataset.data, function (val, j) {
+            return [activity.xData[j], val];
+        });
+
+        var chartDiv = document.createElement(`div`);
+        chartDiv.className = 'chart';
+        chartDiv.setAttribute("id", "ccid_"+id);
+        if ( height)
+            chartDiv.setAttribute("style", `height:${height};`);
+        if ( onechart) {
+            chartDiv.setAttribute("style", `height: 100%;`);
+        }
+        document.getElementById(container).appendChild(chartDiv);
+
+        bc = ['rgba(255, 255, 128, 0.1)', 'rgba(0, 255, 128, 0.1)', 'rgba(0, 0, 0,.9)', 'rgba(255, 255, 255, 0.1)']
+        
+        var hopts={
+                chart: {marginLeft: 40, zoomType: 'x', backgroundColor: bc[i%4], spacingTop: 20, spacingBottom: 20 },
+                title:   { text: dataset.name, align: 'left',  margin: 0,  x: 30, style:{fontSize:'14px'}},
+                credits: {  enabled: false },   legend:  {  enabled: false }, exporting: { enabled: false },
+                xAxis: {
+                    crosshair: true,
+                    events: {  setExtremes: syncExtremes   },
+                    dateTimeLabelFormats: { // don't display the dummy year
+                        month: '%e. %b',
+                        year: '%b'
+                    },
+                    type: 'datetime'
+                },
+                yAxis: { title: { text: null } },
+                  min: null,
+                  tooltip: {
+                        split: false,
+                        shadow: false,
+                        borderWidth: 0.5,
+                        backgroundColor: 'rgba(255,255,255,0.8)',
+                        valueDecimals: 4,
+                        crosshair: true,
+                  },
+                series: [{
+                    data: dataset.data,
+                    name: dataset.name,
+                    type: dataset.type,
+                    color: Highcharts.getOptions().colors[i],
+                    turboThreshold: 50000,
+                    lineWidth: 0.8,
+                    fillOpacity: 0.0,
+                    tooltip: {valueSuffix: ' ' + dataset.unit},
+                    allowPointSelect: false,
+                    point: { events: {
+                        click: chartClickedCB, click1: clk, dblclick1: dclk,
+                        mouseOut: function() {
+                            this.series.chart.tooltip.hide();
+                        }
+                        }
+                    }
+                }],
+
+            };
+
+        if ( mcharts.length == 0 || !onechart) {
+            chart = Highcharts.chart(chartDiv, hopts);
+            mcharts[mcharts.length] = chart
+        } else{
+            chart = mcharts[mcharts.length-1]
+            addSeries(chart, id, dataset.name, dataset.data)
+        }
+    });
+}
+</script>
