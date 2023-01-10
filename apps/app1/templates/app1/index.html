@@ -178,6 +178,9 @@ function handleUploadClick(url) {
 }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Not sure why this function wont work
+// May be someday someone will igure it out - please let me know
+//    
 function handleUploadClick1(url) {
     url = url || '/app1/processfile/';
     var file_id = document.getElementById("file_id");
@@ -186,9 +189,9 @@ function handleUploadClick1(url) {
         return;
     }
     var formData = new FormData($('form#fileupload')[0]);
-    var data1 = GET_POSTDATA(formData)
+    //var data1 = GET_POSTDATA(formData)
     
-    $.post(url, data1, handleUploadClickCB)
+    $.post(url, formData)
 }
     
 </script>
