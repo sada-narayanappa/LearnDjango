@@ -15,6 +15,8 @@ It has many security holes.
 
 *> git clone https://github.com/sada-narayanappa/LearnDjango.git
 
+*> cd LearnDjango
+
 *> pip install -r requirements.txt
 
 *> ./run.sh 
