@@ -14,7 +14,10 @@
 <script src="/static/bc/jquery-ui/jquery-ui.js"></script>
 <script src="/static/bc/jquery-form/src/jquery.form.js"></script>
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- 
+    Global site tag (gtag.js) - Google Analytics 
+    CHANGE HERE to get your own google analytics account
+-->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-34483841-1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -173,72 +176,7 @@ function POST(url,  data, callback){
 }
 
 
-/*
-ALL THE BELOW MUST BE OBSOLETED USE AONLY ABOVE NEW APIS
-*/
-/*
-AUTH= GET_POSTDATA([]);
-var APIBASE=`http://localhost:9000`;
-if (window.location.hostname.indexOf("geospaces.org") >=0 )
-    APIBASE= `http://www.geospaces.org/api`
 
-var value=""
-for(var k in AUTH) {
-    value += `${k}=${AUTH[k]}&`;
-}
-const AUTH_STR  = value
-
-const URL1 = `http://localhost:9000`;
-function API_POSTDATA(params){
-    data = {
-            csrfmiddlewaretoken: '{{csrf_token }}',
-            'X-CSRFToken' : '{{ csrf_token  }}',
-            //url: URL1,
-            auth: '{{request.session.session_key}}',
-            user:'{{user.username}}'
-    }
-    for(var k in params) {
-        data[k] = params[k]
-    }
-    return data
-}
-
-const API_POST_URL1  = `${window.location.origin}/proxy/`
-function MYPOST(url, data, callback){
-    dfr = $.Deferred();
-    data1 = API_POSTDATA(data)
-    data1.url  = url
-    return $.post(API_POST_URL1, data1, callback);
-}
-
-const API_GET_URL1  = `${window.location.origin}/proxy/?auth=${AUTH_STR}&url=`
-function MYGET(url,  callback){
-    //data1 = API_POSTDATA(data)
-    url1  = API_GET_URL1 + url
-    $.get(url1, callback);
-}
-
-function GET(url,  callback){
-    data1 = API_POSTDATA(data)
-    url1  = `${window.location.origin}${url}`
-    $.get(url1, data, callback);
-}
-
-function POST(url,  data, callback){
-    data1 = API_POSTDATA(data)
-    url1  = `${window.location.origin}${url}`
-    $.post(url1, data1, callback);
-}
-*/
-/* **** USAGE *** Use it like this:
-   url = `${API_URL1}/essearch&q=${st}&d1=${d[0].trim()}&d2=${d[1].trim()}`
-   $.post(ur, callbackFucntion)
-OR
-   url  = `${API_URL1}/essearch
-   data =  API_POSTDATA( {q: st } )
-   $.post(ur, data, cb);
-
- */
 </script>
 </head>
 <body>
@@ -247,8 +185,8 @@ OR
 <nav id=mainnavbar class="navbar navbar-expand-sm navbar-light bg-light"
 style="border-bottom: 1px solid #eee; height: 48px; background-color: aliceblue;display: -webkit-box1">
   <a class="navbar-brand" href="/">
-        <img src="/static/imgs/logo5.png" height=28 alt="logo"/></a>
-   <span class="our_menu" style="color: #003478 !important;font-weight: 500;"> AI Navigator </span>
+        <img src="/static/imgs/logo.png" height=28 alt="logo"/></a>
+   <span class="our_menu" style="color: #003478 !important;font-weight: 500;"> My Application </span>
 
    <span id="common_status" class="" style="width: 10px; overflow: hidden; white-space: nowrap;"></span>
 
@@ -282,45 +220,7 @@ style="border-bottom: 1px solid #eee; height: 48px; background-color: aliceblue;
 </ul>
 <!--- APPLICATION MENU ENDS HRE ..... -->
 
-      
-      
-<!-- 
-    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/"><i class="fas fa-home"></i>
-       <span class="our_menu">Home</span></a></li> 
 
-    
-    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/stocks/stocks/stocks_index.html/">
-        <i class="fa fa-chart-area"></i> <span class="our_menu">Stocks</span></a></li>
-    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/capstone/capstone/capstone_index.html"><i class="fas fa-graduation-cap"></i> <span class="our_menu">Capstones</span></a></li>
-    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/shop/shop.html"><i class="fas fa-tasks"></i> <span class="our_menu">Shop</span></a></li>
-    -->
-    <!--
-    <ul class="navbar-nav  mr-auto">
-            <li class="nav-item dropdown">
-              <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >
-                  <i class="fas fa-blog"></i> <span class="our_menu">Articles</span></a>
-            <div class="dropdown-menu dropdown-menu-right"
-                 style="z-index:2;width:300px; border-radius: 5px; padding: 0px; ">
-                <div class="row" style="padding: 1; margin: 0;">
-                    <div class="col-md-2" style="background-color: #fafafa" style="padding: 0; "></div>
-                    <div class="col-md-8"  style="padding: 0; ">
-                        <a class="dropdown-item" href="/blogs/blogs.html"                    >Search Articles</a>
-                        <a class="dropdown-item" href="/blogs/secured/create_article1.html"  >Create an Article</a>
-                        <div class="dropdown-divider"></div>
-{% if request.user|has_group:"tseries" %}
-                        <a class="dropdown-item" href="/capstone/capstone/capstone_index.html">Create a Capstone Project</a>
-                        <a class="dropdown-item" href="/blogs/view_book.html"                 >Read Book</a>
-                        <a class="dropdown-item" href="/blogs/secured/create_article.html"    >Create an Article</a>
-                        <a class="dropdown-item" href="/blogs/secured/create_book.html"       >Create a Book</a>
-{% endif %}
-                        { % include "installedapps.html" %}
-                    </div>
-                </div>
-            </div>
-            </li>
-    </ul>
-    -->
-    
     {% if not user.is_authenticated %}
         <li><a class="nav-link" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i><span class="our_menu"> Sign in</span></a></li>
     {% endif %}
@@ -333,19 +233,7 @@ style="border-bottom: 1px solid #eee; height: 48px; background-color: aliceblue;
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions" style="z-index:2;">
             <a class="dropdown-item" href="#">{{ user.email }}</a>
             <div class="dropdown-divider"></div>
-            <!--
-            <a class="dropdown-item" href="#">Edit Profile</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/shop/shop.html/">Shop</a>
 
-{% if request.user|has_group:"tseries" %}
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/users/secured/users_index.html/" >List Users</a>
-{% endif %}
-
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Security &amp; Settings</a>
-            -->
             <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i>Sign Out</a>
             </div>
             </li>
