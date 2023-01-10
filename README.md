@@ -13,13 +13,13 @@ It has many security holes.
 
 ## Intallation
 
-*> git clone https://github.com/sada-narayanappa/LearnDjango.git
+* git clone https://github.com/sada-narayanappa/LearnDjango.git
 
-*> cd LearnDjango
+* cd LearnDjango
 
-*> pip install -r requirements.txt
+* pip install -r requirements.txt
 
-*> ./run.sh 
+* ./run.sh 
 
 After this go to the browser on http://localhost:8013
 
