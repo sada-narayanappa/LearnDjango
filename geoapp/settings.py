@@ -61,18 +61,28 @@ DETECT_INSTALLED_APPS = True
 DETECTED_APPS = []
 DETECTED_URLS = []
 
+import glob, os
 def detectInstalledApps():
+    global DETECTED_APPS
+    
+    print ("++ Searching for installed APPS ...", len(DETECTED_APPS), " PID:", os.getpid())
+    
     if ( not DETECT_INSTALLED_APPS or len(DETECTED_APPS) > 0 ):
         return DETECTED_APPS
     
-    import glob, os
     
     appmenu = ""
-    print ("++ Searching for installed APPS ...")
     for file in glob.glob("apps/**/apps.py"):
         app = os.path.basename(os.path.dirname(file))
         print("FOUND **", file, app)
         DETECTED_APPS.append(app) 
+        
+        if ( not os.path.exists(app) ):
+            print("PATH does not exists, creating a link")
+            os.symlink(os.path.dirname(file), app)
+        else:
+            print("PATH exists")
+        
         
         appmenu += f'''
         <a class="dropdown-item" href="/{app}/{app}/index.html" > {app} </a>\n '''
