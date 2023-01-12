@@ -13,5 +13,5 @@ then
     python manage.py runserver 0:${PORT} ${OPT}
 else
     echo "RUNNING GUNICORN server at ${PORT}"
-    gunicorn -c gunicorn.config.py geoapp.wsgi
+    gunicorn -c gunicorn.config.py project.wsgi
 fi
