@@ -1,0 +1,175 @@
+{% extends "common.html" %}
+{% block content %}
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<!-- BRYTHON EXAMPLES -------------------------------------------------------------------------------->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.9.5/brython.min.js"> </script>
+<script>
+$(document).ready(function() {
+    brython();
+})
+</script>
+<script type="text/python">
+from browser import document
+def myfunc(v):
+    document <= v
+
+</script>
+
+
+<!-- BRYTHON EXAMPLES -------------------------------------------------------------------------------->
+
+<style>
+#draggable {
+    min-width: 8rem;
+    min-height: 40px;
+    padding: 0;
+    position: absolute;
+    ttransform: translate3d(0, 0, 0);
+    left:     0px;
+    top: 0px;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #333;
+    margin: 0px auto;
+    border-width: 1px;
+    border-color: silver; border-radius: 7px;
+    display: inline-grid;
+    ffloat: left;
+    z-index: 1000;
+    display: none;
+}
+#btip {
+    #draggable {
+    transform-origin: 8px 8px;
+
+}
+</style>
+
+<div id="draggable" class="ui-widget-content " style="">
+<div style="border-bottom: 1px solid #efefe9; max-height:30px; bbackground-color: #f7f7f7; padding-left: 10px; padding-right: 10px;padding-top:3px;">
+    <span style="font-weight: normal;"> Heading </span>   <i style="float: right;" class="fa fa-times"> </i>
+</div>
+<div style="fflex: 1 1 auto; background: #ffffff; padding: 6px;vertical-align: top;">
+    This is a message I want to display <br>
+    This is all I want to display <br/><br/>
+    <a class="" href="#" onclick="repositionme()" >reposition</a> |
+    <a class="" href="#" onclick="closeme()" >Close</a>
+</div>
+<svg id="popdiv" width="16" height="16"; style="position: relative; left: -15px; top: -8px;">
+  <!-- circle cx="50" cy="50" r="14" stroke="gray" stroke-width="2" fill="white" /
+    <polygon points="0,0 25, 50 50, 50" style="fill:white;stroke:black;stroke-width:1" />
+    <polyline id="btip" points="16 0, 0 8, 16 16 " style="fill:white;stroke:#ddd;stroke-width:1"></polyline>
+  -->
+    <polyline id="btip" points="16 0, 8 8, 16 16 " style="fill:white;stroke:#ddd;stroke-width:1"></polyline>
+
+</svg>
+</div>
+<script>
+function getposOffset(what, offsettype) {
+    var totaloffset = (offsettype == "left") ? what.offsetLeft : what.offsetTop;
+    var parentEl = what.offsetParent;
+    while (parentEl != null) {
+        totaloffset = (offsettype == "left") ? totaloffset + parentEl.offsetLeft : totaloffset + parentEl.offsetTop;
+        parentEl = parentEl.offsetParent;
+    }
+    return totaloffset;
+}
+
+$( "#popdiv" ).draggable();
+$( "#popdiv" ).resizable();
+$( "#draggable" ).draggable();
+$( "#draggable" ).resizable();
+var E, D, W, Ed, Dd, L, T
+var E = $('#ELE');
+var D = $('#draggable');
+var W = (document.compatMode && document.compatMode != "BackCompat") ? document.documentElement : document.body
+function repositionme(a){
+    if ( $(D).css("display") !== "none"){
+        closeme();
+        return;
+    }
+    E = a || $('#ELE');
+    D = $('#draggable');
+    W = (document.compatMode && document.compatMode != "BackCompat") ? document.documentElement : document.body
+
+    Dd = $(D)[0]
+    Ed = $(E)[0]
+    $(D).css("display", "unset")
+
+    L = (window.pageXOffset || W.scrollLeft) - (W.clientLeft || 0);
+    T = (window.pageYOffset || W.scrollTop)  - (W.clientTop || 0);
+
+    Dd.style.top  = Math.max(0, getposOffset(Ed)  - Dd.offsetHeight );
+    Dd.style.left = getposOffset(Ed, "left") +  Ed.offsetWidth + 4;
+
+    setTimeout(function() {W.scrollTop = T; W.scrollLeft= L}, 0);
+}
+function closeme(a) {
+    D = $('#draggable');
+    A = a || D
+    L = (window.pageXOffset || W.scrollLeft) - (W.clientLeft || 0);
+    T = (window.pageYOffset || W.scrollTop)  - (W.clientTop || 0);
+    A.css("display", "none")
+    setTimeout(function() {W.scrollTop = T; W.scrollLeft= L}, 1);
+}
+</script>
+
+<!--   --------------------------------------------------------------------------------------------- -->
+<section id="content">
+<div class="container">
+<H1> Heh </H1>
+
+<br/>
+<br/>
+<a id="e1" href="#" class="btn btn-outline-danger" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>
+<divstyle="border: 1px solid silver;">
+<a id="e2" href="#" class="btn btn-outline-dark" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>
+</div>
+
+<a id="ELE1" href="#" onclick="repositionme(this)" class="btn btn-outline-danger" >My poop</a>
+<div id="ELED" style="border: 1px solid silver;">
+<a id="ELE" href="#" onclick="repositionme(this)" class="btn btn-outline-dark" >my Poo1</a>
+</div>
+
+    <div>
+        <pre>
+            1
+            2
+            3
+            4
+            5
+        </pre>
+    </div>
+<!-- =------------------------- -->
+    
+</div>
+</section>
+
+<!-- =------------------------- -->
+<h4> OTHER PERMS TESTING </h4>
+<div>
+    
+{{user.username}} - {{user.email}}
+{{ cart.str }}
+{% load custom_tags %}
+    
+{% if request.user|has_group:"group1" %}
+    <p>>>>>IN group</p>
+{% else %} 
+    <p>Not IN group</p>
+{% endif %}
+Groups: {{ request|all_user_groups }}
+<hr/>
+
+<script>
+$(document).ready(function() {
+    if (typeof document_ready == "function"){
+        document_ready()
+    }
+    
+$( "#ELED"    ).draggable();
+$( "#ELE1"    ).draggable();
+
+})
+</script>
+{% endblock %}

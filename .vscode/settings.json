@@ -1,0 +1,9 @@
+{
+    "terminal.integrated.tabs.defaultColor": "terminal.ansiBlack",
+    "editor.fontSize": 14,
+    "debug.console.fontSize": 14,
+    "terminal.integrated.fontSize": 14,
+    "explorer.openEditors.visible": 25,
+    "scm.inputFontSize": 14,
+    "editor.codeLensFontSize": 0
+}
