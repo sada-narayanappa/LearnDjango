@@ -4,5 +4,5 @@ from . import views
 app_name = 'app_template'
 
 urlpatterns = [
-    path('LINK/',  views.index , name='Somename urls1'),
+    path('/',  views.index , name='Somename for this service'),
 ]
