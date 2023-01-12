@@ -2,4 +2,4 @@ from django.http import HttpResponse
 
 
 def index():
-    return HttpResponse("Version 1.0");
+    return HttpResponse("app_template Version 1.0");
