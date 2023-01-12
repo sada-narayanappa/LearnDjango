@@ -1,0 +1,24 @@
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.yourserver.com'
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = 'your username.com'
+EMAIL_HOST_USER = 'your username.com'
+EMAIL_HOST_PASSWORD = 'your password$'
+SECRET_KEY="[16/May/2021 19:28:23] GET /accounts/signup/ HTTP/1.1 200 7894"
+ENV='local|production'
+
+STRIPE_PUBLIC_TEST=''
+STRIPE_SECRET_TEST=''
+
+STRIPE_PUBLIC_LIVE=''
+STRIPE_SECRET_LIVE=''
+
+STRIPE_PUBLIC = STRIPE_PUBLIC_LIVE
+STRIPE_SECRET = STRIPE_SECRET_LIVE
+
+# Google captcha control
+#
+CAPTCHA_SITE   = '.'
+CAPTCHA_SECRET = '.'
+
+# -- Single Sign on below

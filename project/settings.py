@@ -46,7 +46,7 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX="LearnDjago email: "
 ACCOUNT_DEFAULT_HTTP_PROTOCOL="https"
 
 AUTHENTICATION_BACKENDS = [
-    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+    #'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
     
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',

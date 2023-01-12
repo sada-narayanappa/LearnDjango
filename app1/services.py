@@ -3,7 +3,6 @@
 #*** DO NOT EDIT - GENERATED FROM services.ipynb ****
 
 import os
-import pandas as pd
 from  mangorest.mango import webapi
 #--------------------------------------------------------------------------------------------------------    
 @webapi("/app1/test")

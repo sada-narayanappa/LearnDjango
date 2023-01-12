@@ -1,6 +1,5 @@
-import sys, os, json, glob, base64
 from django.http import HttpResponse
 
 
-def index():
-    return "";
+def index(request):
+    return HttpResponse("index called");

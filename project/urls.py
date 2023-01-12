@@ -10,6 +10,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path(r'uploadfile', views.uploadfile, name='uploadfile'),
+    path(r'version/', views.version, name='version'),
     path(r'', views.index, name='index'),
 ] + settings.DETECTED_URLS + [
 #    path('oidc/', include('mozilla_django_oidc.urls')),  # uncomment this line to include SSO

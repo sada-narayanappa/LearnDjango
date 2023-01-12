@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 import apps.settings
 
 # -----------------------------------------------------------------------
@@ -16,6 +17,10 @@ def index(request):
     template = f'{def_app}/index.html/'
     
     return render(request, template )
+
+# -----------------------------------------------------------------------
+def version(request):
+    return HttpResponse("Version 1.0");
 
 # -----------------------------------------------------------------------
 def uploadfile(request):
