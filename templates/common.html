@@ -38,6 +38,23 @@
 <script src="/static/js/jquery.rateyo.min.js"></script>
 
 <style>
+.input1{
+    width: 100%;
+    text-align: left;
+    height: 35px;
+    padding: 2px;
+    font-size: small;
+}
+.label1{
+    margin: 0;
+    font-size: smaller;
+    position: relative;
+    top: 12;
+    background: white;
+    padding: 2px;
+    left: 10;
+}
+
 input{
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
@@ -174,9 +191,6 @@ function POST(url,  data, callback){
     data1 = GET_POSTDATA(data)
     $.post(url, data1, callback).fail(callback);
 }
-
-
-
 </script>
 </head>
 <body>
@@ -219,8 +233,6 @@ style="border-bottom: 1px solid #eee; height: 48px; background-color: aliceblue;
 </li>
 </ul>
 <!--- APPLICATION MENU ENDS HRE ..... -->
-
-
     {% if not user.is_authenticated %}
         <li><a class="nav-link" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i><span class="our_menu"> Sign in</span></a></li>
     {% endif %}
@@ -302,39 +314,6 @@ function salert(txt, cls, delay){
 
 var spin = "<i class='fa fa-spinner fa-spin' style='font-size: 32px;color:red;'></i>"
 
-function JS_error_OLD(responseTxt, statusTxt, xhr, showAlert=1, errorCB=null){
-    showAlert = showAlert | true;
-    if(statusTxt && responseTxt && (statusTxt !== "success" ||
-        responseTxt.toLowerCase().startsWith("error") || responseTxt === "null" ) ){
-
-        salert("<i class='fas fa-skull-crossbones'></i>" + statusTxt + " : " + responseTxt, 'btn-danger');
-        if(errorCB){
-            errorCB(url, responseTxt, statusTxt)
-        } else{
-            var rs = responseTxt || "";
-            console.log(statusTxt, rs.substring(0,64))
-        }
-        return statusTxt
-    } else if( responseTxt.startsWith("WARN") ) {
-        salert("<i class='fas fas fa-exclamation'></i> : " + responseTxt, 'btn-warning');
-    }
-
-    if(statusTxt && responseTxt && (statusTxt !== "success" || responseTxt.startsWith("ERROR:")) ){
-
-        salert("<i class='fas fa-skull-crossbones'></i>" + statusTxt + " : " + responseTxt, 'btn-danger');
-        if(errorCB){
-            errorCB(url, responseTxt, statusTxt)
-        } else{
-            var rs = responseTxt || "";
-            console.log(statusTxt, rs.substring(0,64))
-        }
-        return statusTxt
-    } else if( responseTxt.startsWith("WARN") ) {
-        salert("<i class='fas fas fa-exclamation'></i> : " + responseTxt, 'btn-warning');
-    }
-    return 0;
-}
-
 function JS_error(responseTxt, statusTxt, xhr, showAlert=1, errorCB=null){
 
     robject = null
@@ -389,4 +368,3 @@ $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip()
 })
 </script>
-

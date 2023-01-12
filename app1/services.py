@@ -2,15 +2,9 @@
 
 #*** DO NOT EDIT - GENERATED FROM services.ipynb ****
 
-import sys, os, re,  datetime, json, io, glob
+import os
 import pandas as pd
-import numpy as np;
 from  mangorest.mango import webapi
-import colabexts, shutil
-from colabexts.jcommon import inJupyter
-from sklearn import preprocessing
-
-
 #--------------------------------------------------------------------------------------------------------    
 @webapi("/app1/test")
 def test( request,  **kwargs):
@@ -38,7 +32,6 @@ def uploadfile( request,  **kwargs):
 
     print(" Retuning ", ret )
     return ret
-    
 #--------------------------------------------------------------------------------------------------------    
 @webapi("/app1/processfile")
 def processfile( request, **kwargs):
@@ -55,4 +48,3 @@ def processfile( request, **kwargs):
         ret1 += f"{f} => Processed\n"
     
     return ret + "\n\n" + ret1;
-    
