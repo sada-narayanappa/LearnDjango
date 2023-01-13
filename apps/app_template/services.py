@@ -4,7 +4,14 @@
 
 from  mangorest.mango import webapi
 #--------------------------------------------------------------------------------------------------------    
-@webapi("/app_template/test")
-def test( request,  **kwargs):
-    return "APP 1 TEST version 1.0"
+@webapi("/app2/test")
+def test( **kwargs):
+    ret = "APP 2 TEST version 1.0 " + str(kwargs)
+    print( "+++++ ret ", ret)
+    return ret;
 #--------------------------------------------------------------------------------------------------------    
+#--------------------------------------------------------------------------------------------------------    
+@webapi("/app2/test1")
+def test1( name = "No name", **kwargs):
+    ret = "Name: " + name
+    return ret;

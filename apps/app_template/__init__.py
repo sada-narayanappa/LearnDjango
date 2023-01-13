@@ -6,6 +6,6 @@ import os
 #
 # Do some checks and finish your initializations
 # 
-if (os.path.exists("services.py")):
-     from . import services
+
+#from . import services
     
