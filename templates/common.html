@@ -117,13 +117,19 @@ td {
     line-height: 1.4;
 }
 
+.our_menu{
+    display: block !important;
+    font-size: smaller;
+    text-align: center;
+    padding:  0;
+}
 
 @media screen and (max-width: 700px) {
     .our_menu {
         display: none !important;
     }
     .small_menu {
-        display: flex !important;
+        display: block !important;
     }
 }
 @media screen and (min-width: 600px) {
@@ -173,6 +179,43 @@ code::after, code::before {
     border-top: 1px solid gray;
 }
 
+.tc {
+    text-align: center;
+}
+.dropdown-menu {
+    top: 80%;
+}
+
+.dropdown-toggle::before {
+    display: inline-block;
+    margin-left: 0.255em;
+    vertical-align: 0.155em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+}
+
+.dropdown-toggle::after {
+    all: unset;
+}
+
+.dropdown-toggle1::before {
+    display: inline-block;
+    margin-left: 0.255em;
+    vertical-align: 0.155em;
+    content: "";
+}
+
+@media (min-width: 576px) {
+    .navbar-expand-sm .navbar-nav .nav-link {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    text-align: center;
+    }
+}
+
 </style>
 
 <script>
@@ -191,6 +234,7 @@ function POST(url,  data, callback){
     data1 = GET_POSTDATA(data)
     $.post(url, data1, callback).fail(callback);
 }
+
 </script>
 </head>
 <body>
@@ -200,48 +244,41 @@ function POST(url,  data, callback){
 style="border-bottom: 1px solid #eee; height: 48px; background-color: aliceblue;display: -webkit-box1">
   <a class="navbar-brand" href="/">
         <img src="/static/imgs/logo.png" height=28 alt="logo"/></a>
-   <span class="our_menu" style="color: #003478 !important;font-weight: 500;"> My Application </span>
+   <span class="our_menu" style="color: #003478 !important;font-size: large;font-weight: 500;">  </span>
 
    <span id="common_status" class="" style="width: 10px; overflow: hidden; white-space: nowrap;"></span>
 
 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
     
-<li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link" href="services.html"> 
+<li class="nav-item mr-4 mb-2 mb-lg-0 tc">
+        <a class="nav-item dropdown-toggle1 nav-link" href="/app1/app1/services.html"> 
         <i class="fas fa-network-wired"></i> <span class="our_menu">Services</span></a>
+ </div>
 </li>
 
 
 <!--- APPLICATION MENU STARTS HRE ..... -->
     
 <ul class="navbar-nav  mr-auto">
-<li class="nav-item dropdown">
+<li class="nav-item dropdown tc">
   <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >
   <i class="fas fa-blog"></i> <span class="our_menu">Apps</span></a>
   <div  class="changetag dropdown-menu dropdown-menu-right"
-         style="z-index:2;width:300px; border-radius: 5px; padding: 0px; ">
-      
-  <div class="row" style="padding: 1; margin: 0;">
-  <div class="col-md-2" style="background-color: #fafafa" style="padding: 0; "></div>
-  <div class="col-md-8"  style="padding: 0; ">
-
-      {% include "appmenu.html" %}    
-
-  </div>
-  </div>
+         style="z-index:2;width:200px; border-radius: 5px; padding: 0px; ">
+         {% include "appmenu.html" %}    
   </div>
 </li>
 </ul>
 <!--- APPLICATION MENU ENDS HRE ..... -->
     {% if not user.is_authenticated %}
-        <li><a class="nav-link" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i><span class="our_menu"> Sign in</span></a></li>
+        <li><a class="nav-link tc" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i><span class="our_menu"> Sign in</span></a></li>
     {% endif %}
     
     {% if user.is_authenticated %}
             <ul class="navbar-nav  mr-auto">
             <li class="nav-item dropdown">
               <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >
-                  <span class="our_menu">Me</span></a>
+                <i class="fas fa-sign-out-alt"></i><span class="our_menu">Me</span></a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions" style="z-index:2;">
             <a class="dropdown-item" href="#">{{ user.email }}</a>
             <div class="dropdown-divider"></div>
