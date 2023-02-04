@@ -15,7 +15,7 @@ django-proxy==1.2.2
 idna==3.4
 jwcrypto==1.4.2
 mangorest==0.12100000000000002
-numpy==1.24.1
+numpy
 oauth2-provider==0.0
 oauthlib==3.2.2
 pycparser==2.21
