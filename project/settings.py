@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     ## => MY APPLICATIONS 
     'django_extensions',
     'project',
+    'example_app'
  ]  
 
 # -----------------------------------------------------------------------------------------

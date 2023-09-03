@@ -69,6 +69,7 @@ function handleDragOver(evt) {
     
     clName = (evt.type == "dragover" ? "drag_hover" : "drag_leave");
     document.getElementById("file_drop").className = clName;
+
 }
 
 function handleFileDrop(evt) {

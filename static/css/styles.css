@@ -1025,7 +1025,7 @@ ul.price-options li{
     color: #211f1f !important;
 }
 .navbar-brand b{
-	font-family: 'Arvo', serif; 
+	font-family: sans-serif, 'Arvo', serif; 
 	     font-size: 24px;
 }
 .navbar-bg-onscroll .navbar-brand b{

@@ -88,11 +88,8 @@ var Recorder = exports.Recorder = (function () {
                     case 'record':
                         record(e.data.buffer);
                         break;
-                    case 'shiftRecord':
-                        shiftRecord(e.data.by);
-                        break;
                     case 'exportWAV':
-                        exportWAV(e.data.type, e.data.offset, e.data.length);
+                        exportWAV(e.data.type, e.data.offset);
                         break;
                     case 'getBuffer':
                         getBuffer();
@@ -116,27 +113,11 @@ var Recorder = exports.Recorder = (function () {
                 recLength += inputBuffer[0].length;
             }
 
-            function shiftRecord(by=16000) {
-                if ( numChannels >1)
-                    return
-                    
-                //console.log("+shiftRecord", by, recLength)
-                for (var i=0; i < by && recBuffers[0].length > 0; ){
-                    var s = recBuffers[0].shift()
-                    recLength -= s.length;
-                    i +=  s.length;
-                }
-                //console.log("-shiftRecord", recLength)
-            }
-
             // offset in seconds to skip the audio
-            function exportWAV(type, offset=0, length=24*60*60) {
+            function exportWAV(type, offset=0) {
                 var buffers = [];
-                var wavLength = Math.min(recLength, length*sampleRate);
-                var start = offset*sampleRate
-
                 for (var channel = 0; channel < numChannels; channel++) {
-                    buffers.push(mergeBuffers(recBuffers[channel], start+wavLength));
+                    buffers.push(mergeBuffers(recBuffers[channel], recLength));
                 }
                 var interleaved = undefined;
                 if (numChannels === 2) {
@@ -144,8 +125,8 @@ var Recorder = exports.Recorder = (function () {
                 } else {
                     interleaved = buffers[0];
                 }
-                //console.log("Export WAV", offset, length)
-                var dataview = encodeWAV(interleaved, start);
+                var dataview = encodeWAV(interleaved, offset*sampleRate);
+                //console.log(dataview)
                 var audioBlob = new Blob([dataview], { type: type });
 
                 self.postMessage({ command: 'exportWAV', data: audioBlob });
@@ -174,11 +155,9 @@ var Recorder = exports.Recorder = (function () {
             function mergeBuffers(recBuffers, recLength) {
                 var result = new Float32Array(recLength);
                 var offset = 0;
-                var rem = recLength;
-                for (var i = 0; i < recBuffers.length && rem > 0; i++) {
-                    result.set(recBuffers[i].slice(0,rem), offset);
+                for (var i = 0; i < recBuffers.length; i++) {
+                    result.set(recBuffers[i], offset);
                     offset += recBuffers[i].length;
-                    rem -= recBuffers[i].length;
                 }
                 return result;
             }
@@ -265,13 +244,7 @@ var Recorder = exports.Recorder = (function () {
         };
     }
 
-    _createClass(Recorder, [
-    {
-        key: 'shiftRecord',
-        value: function shiftRecord(by=16000) {
-            this.worker.postMessage({ command: 'shiftRecord', by: by });
-        }
-    }, {
+    _createClass(Recorder, [{
         key: 'record',
         value: function record() {
             this.recording = true;
@@ -298,7 +271,7 @@ var Recorder = exports.Recorder = (function () {
         }
     }, {
         key: 'exportWAV',
-        value: function exportWAV(cb, mimeType, startOffset=0, length=24*60*60) {
+        value: function exportWAV(cb, mimeType, startOffset=0) {
             mimeType = mimeType || this.config.mimeType;
             cb = cb || this.config.callback;
             if (!cb) throw new Error('Callback not set');
@@ -308,8 +281,7 @@ var Recorder = exports.Recorder = (function () {
             this.worker.postMessage({
                 command: 'exportWAV',
                 type: mimeType,
-                offset: startOffset,
-                length: length // 24 hours
+                offset: startOffset
             });
         }
     }], [{

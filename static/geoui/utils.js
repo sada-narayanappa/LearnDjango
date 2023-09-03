@@ -4,6 +4,18 @@ function mysplit(str) {
     var arr = str.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
     return arr;
 }
+/* ---------------------------------------------------------------------------------
+ Utilities should move to common place
+--------------------------------------------------------------------------------- */
+function rec2Json(ds, i){
+    var v = ds.values[i]
+    var j = {}
+    for (var k=0; k < ds.columns.length; k++){
+        j[ds.columns[k]] = v[k]
+    }
+    return j
+}
+
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 function geoui_setupMATHJAX(div){
@@ -216,6 +228,44 @@ function FillRemainingHeight(n = '#tabledd1'){
     $(n).height( ht )
     console.log(i, ht)
 }  
+
+// ---------------------------------------------------------------------------------
+// filename returns the filename 
+// Ex: input:  /tmp/hh/Dada.csv
+//     output: Dada.csv
+//
+function filename(str) {
+    if ( !str)
+        return ''
+        
+    var base = new String(str).substring(str.lastIndexOf('/') + 1);
+   return base;
+}
+
+// ---------------------------------------------------------------------------------
+// basename returns the filename without extension
+// Ex: input:  /tmp/hh/Dada.csv
+//     output: Dada
+
+function basename(str) {
+    var base = filename(str)
+    if(base.lastIndexOf(".") != -1)
+        base = base.substring(0, base.lastIndexOf("."));
+   return base;
+}
+
+// ---------------------------------------------------------------------------------
+// dirname returns the directory name
+// Ex: input:  /tmp/hh/Dada.csv
+//     output: /tmp/hh
+function dirname(str) {
+    if ( !str)
+        return ''
+        
+    var base = new String(str).substring(0, str.lastIndexOf('/') );
+    return base;
+}
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /*
 var WTEMP = `

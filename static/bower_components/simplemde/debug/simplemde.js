@@ -14103,7 +14103,7 @@ marked.setOptions = function(opt) {
 marked.defaults = {
   gfm: true,
   tables: true,
-  breaks: false,
+  breaks: true,
   pedantic: false,
   sanitize: false,
   sanitizer: null,
