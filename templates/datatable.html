@@ -1,0 +1,803 @@
+<!--
+Need to create a good data table
+
+OPTIONS: 
+    - simple table
+    - search globally
+    - search within the column
+    paginate locally/globally
+    - ability adjust width of columns => alos saving the config
+    Excel kind of calculations
+    sort columns (by one or more)
+    Editable (with types - choice box, datetime etc.)
+    Rearranging columns 
+    Works on all browsers, iphone, ipad, android
+
+    Allows styling
+    ADD/DELETE/EDIT => show modified rows (and save the results back woth key column)
+
+    SHOW row and columns header
+ 
+show images 
+
+Allow hide and show columns
+-->
+
+<style>
+[contenteditable]:focus {
+    outline: 2px solid black;
+}
+
+.mydatatablecss{
+  td, th{
+    overflow: hidden;
+    white-space: nowrap;
+    -moz-text-overflow: ellipsis;        
+       -ms-text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+           text-overflow: ellipsis;
+  }
+}
+
+.table-resizable th {
+    position: relative;
+    
+}
+.resizer {
+    /* Displayed at the right side of column */
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    cursor: col-resize;
+    user-select: none;
+}
+  
+.resizer:hover,
+.resizing {
+    border-right: 2px #fcfcfc;
+    border-right: 12px #d11616;
+}
+
+/* Table Header */
+.thtd {
+    font-family: Roboto, 'Open Sans', Arial, sans-serif;
+    font-size: small;
+    vertical-align: middle;
+    line-height:1.6em;
+    color:#000000;
+    min-width: 25px;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Table Header */
+.tth {
+    font-family: Roboto, 'Open Sans', Arial, sans-serif;
+    font-size: small;
+    vertical-align: middle;
+    line-height:1.6em;
+    color:#000000;
+    min-width: 25px;
+    max-width: 1250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space:nowrap;
+
+    font-weight: 450;
+    background: #ececec;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+    
+.editmode {
+    white-space: break-spaces;
+}
+.thRowsticky {
+  padding: 3px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+    vertical-align: initial;
+}
+    
+.thCol1sticky {
+  position: sticky;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+    
+.thColNsticky {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+
+.dt_trSelected {
+    border-top: 2px solid rgba(0, 0, 0, 0.5);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+}
+
+.table thead th {
+    vertical-align: inherit;
+}
+</style>
+<!-- ----------------------------------------------------------------------------- ------------------
+// SCRIPT
+----------------------------------------------------------------------------- -------------------- -->
+<script>
+function datatable_rec2Json(ds, i){
+    var v = ds.values[i]
+    var j = {}
+    for (var k=0; k < ds.columns.length; k++){
+        j[ds.columns[k]] = v[k]
+    }
+    return j
+}
+
+function ProcessColumnData(table, title, data ) {
+    if (typeof addSeriesToChart != "function")
+        return;
+    console.log(`${title} `)
+    addSeriesToChart(data, title)
+}
+
+
+function HeaderDoubleClicked(firstColumnIsXaxis=1) {
+    
+    var i = parseInt( $(this).parent().index() );
+    var j = parseInt( $(this).index() );
+
+    console.log(i, j);
+    
+    if ( j < 1) return;
+
+    var opt  = $(this).parent().parent().parent().data("opt")
+    var data_src = opt.data_src
+    if ( data_src ){
+        title = $(`#${opt.id} tr`).eq(0).find('th').eq(j).text().trim();
+        title = title.substr(0, title.indexOf("\n") )
+        HeaderDoubleClickedFF(data_src, title, null)
+        return
+    }
+
+    var ttab  = $(this).parent().parent().parent();
+    var data  = []
+    var title = ''
+    var parse = 1;
+    ttab.find('tr').each(function (i, el) {
+        if ( i> 0) {
+            var eltX = firstColumnIsXaxis ? el.cells[1].innerText : i
+            var eltY = el.cells[j].innerText
+            try{
+                if ( parse )
+                    eltY = parseFloat(eltY)
+            } catch (e) {
+                parse = 0
+            }
+            data.push([eltX, eltY])
+        }
+    });
+    ProcessColumnData(this, title, data.length);
+}
+// ---------------------------------------------------------------------------------
+function HeaderDoubleClickedFFCB(responseTxt, statusTxt, xhr) {
+    if (JS_error(responseTxt, statusTxt, xhr, true)) {
+        return;
+    }
+    NaN = 0
+    var ret = JSON.parse(responseTxt);
+    var col = ret.columns[1]
+    var dat = ret.values
+    ProcessColumnData(this, col, dat);
+}
+function HeaderDoubleClickedFF(data_src, cols='', nrows=100, cb=null){
+    var data= { cols: "time," + cols, data_src: data_src, nrows: nrows || '', std:1}
+    var data1 = GET_POSTDATA(data)
+    //$.get(`/tseries/getfiledata/`, data1, cb || HeaderDoubleClickedFFCB)
+    callws('/stream/getdatacfg/',null, HeaderDoubleClickedFFCB, data1)
+}
+// ---------------------------------------------------------------------------------
+function insertRow(a1){
+    var tr = a1.parentElement.parentElement;
+
+    if ( tr.deleted > 0 ) {
+        toggleDelete(null, tr)
+        return
+    }
+    var $clone = $(tr).clone();
+    $(tr).after($clone);
+    $clone[0].new = 1;
+    $($clone).css('background', 'rgba(0, 255, 0, 0.5)')
+};
+// ---------------------------------------------------------------------------------
+function toggleDelete(a1 , tr){
+    var tr = tr || a1.parentElement.parentElement;
+
+    console.log( tr.deleted, tr.new  );
+    if ( tr.new) {
+        $(tr).remove()                  //  if new => just remove it
+    }
+    else if ( tr.deleted > 0 ) {        //  undelete
+        tr.deleted = 0;
+        $(tr).css('background', '')
+        //if (tr.new && tr.new > 0 )
+        //    $(tr).css('background', 'rgba(0, 178, 0, 0.5)' )
+        //$(tr).css('border', '2px solid rgba(178, 0, 0, 0.5)' )
+    } else {
+        tr.deleted = 1;
+        $(tr).css('background', 'rgba(178,0, 0, 0.5)')
+        //$(tr).css('border', '2px solid rgba(178, 0, 0, 0.5)' )
+    }
+}
+// ---------------------------------------------------------------------------------
+function toggleSelect(cell, type="tr"){
+    var table = $(cell.parentElement)
+    
+    if (!table ) //|| table.length <= 1)
+        return
+
+    var table = $(cell.parentElement.parentElement)
+    var opt   = $(table).data('opt');
+    var data  = $(table).data('data');
+    var tr    = cell
+    var cindx = parseInt( $(tr).index());  // clicked or selected index
+    var indx  = cindx + 1;
+
+    // TODO: Handle Multiselect
+    //console.log("toggleSelect=>", indx, );
+
+    // if single select => we must unselect a row that was selected;
+    // if this was the row that was seleted - we just unslect the current row
+
+    var curSelected = $(table).get(0).singleSelected
+
+    if ( $(table).get(0).singleSelected == indx ) {
+        indx = - 1
+        $(table).get(0).singleSelected = indx;
+        //$(tr).css('border', '')    
+        $(tr).removeClass('dt_trSelected')    
+    } else {
+        var ttr = (curSelected > 0 ) ? $(table).get(0).rows[curSelected] : null
+        if (ttr) {
+            $(ttr).removeClass('dt_trSelected')    
+            //$(ttr).css('border', '')
+        }
+        $(table).get(0).singleSelected = indx
+        //$(tr).css('border', '2px solid rgba(0, 0, 0, 0.5)')
+        $(tr).addClass('dt_trSelected')    
+    }
+    if ( opt.rowSelectCB ) {
+        var vals = datatable_rec2Json(data, cindx)
+        opt.rowSelectCB(table, tr, indx, curSelected, vals)
+    }
+}
+// ---------------------------------------------------------------------------------
+/*
+function  edit(td) {
+    $('[data-toggle=popover]').popover({
+       content: $('#myPopoverContent').html(),
+       html: true
+    }).hover(function() {
+       $(td).popover('show');
+    });
+}
+*/
+// ---------------------------------------------------------------------------------
+var TD, TR, A1
+function tdfocus(td){
+    TD = td
+    if ( !td.original) {
+        td.original = $(td).text()
+    }
+    $(td).addClass("editmode")
+    //console.log("Entered", td.original, $(td).text());
+}
+// ---------------------------------------------------------------------------------
+function tdblur(td){
+    // console.log("Exited", td.original, $(td).text());
+    if ( td.original != $(td).text() ) {
+        $(td).css("border", "2px solid firebrick")
+        var tr = td.parentElement;
+        if ( !tr.deleted || !tr.new)
+            tr.updated = 1
+    } else {
+        $(td).css("border", "")
+    }
+    $(td).removeClass("editmode")
+}
+// ---------------------------------------------------------------------------------
+// Track the current position of mouse
+var createResizableColumn = function (col, resizer, dir="x|y|both") {
+    let x = 0; let w = 0; let y=0; let h= 0;
+
+    const mouseDownHandler = function (e) {
+        x = e.clientX;   // Get the current mouse position
+        y = e.clientY;   // Get the current mouse position
+        const styles = window.getComputedStyle(col); // Calculate the current width of column
+        w = parseInt(styles.width,  10);
+        h = parseInt(styles.height, 30);
+
+        // Attach listeners for document's events
+        document.addEventListener('mousemove', mouseMoveHandler);
+        document.addEventListener('mouseup', mouseUpHandler);
+    };
+    const mouseMoveHandler = function (e) {
+        const dx = e.clientX - x;         // Determine how far the mouse has been moved
+        const dy = e.clientY - y;         // Determine how far the mouse has been moved
+
+        let nw = w+dx
+        let nh = h+dy
+
+        if ( (nh/h) > 2) { // dont allow drastic changes
+            nh = h + 1
+        }
+
+        //console.log("+++++++++++++++ ", nw, h, nh, nh/h)
+
+        if (dir.startsWith('x') || !dir ||  dir.startsWith('b'))
+            col.style.width = `${nw}px`;  // Update the width of column
+        if ( dir.startsWith('y') || dir.startsWith('b'))
+            col.style.height = `${nh}px`;  // Update the width of column
+    };
+    // When user releases the mouse, remove the existing event listeners
+    const mouseUpHandler = function () {
+        document.removeEventListener('mousemove', mouseMoveHandler);
+        document.removeEventListener('mouseup', mouseUpHandler);
+    };
+    resizer.addEventListener('mousedown', mouseDownHandler);
+};
+
+function addresizecolumn(name='tabledd') {
+    const table = document.getElementById(name);
+    if ( !table) {   return  table   }
+
+    const cols = table.querySelectorAll('th');
+    [].forEach.call(cols, function (col) {
+        $(col).resizable({handles: 'e, w, n, s'})
+    });
+
+    return table
+}
+
+function addresizecolumnOLD(name='tabledd') {
+    const table = document.getElementById(name);
+    if ( !table) {   return     }
+
+    [].forEach.call(cols, function (col) {
+        // Create a resizer element
+        const resizer = document.createElement('div');
+        resizer.classList.add('resizer');
+
+        resizer.style.height = '100%';
+        // Add a resizer element to the column
+        col.appendChild(resizer);
+
+        // Will be implemented in the next section
+        createResizableColumn(col, resizer, "x");
+    });
+    const mouseDownHandler = function(e) { resizer.classList.add('resizing');   };
+    const mouseUpHandler = function(e)   { resizer.classList.remove('resizing');};
+}
+
+// ---------------------------------------------------------------------------------
+function _getdatestr(n){
+    
+    n1 = parseInt(n)
+    n2 = ""+n;
+    
+    if (n2.length >=19)
+        d = new Date(n1/1000000)
+    else if (n2.length >=16)
+        d = new Date(n1/1000)
+    else if (n2.length >=13)
+        d = new Date(n1)
+    else if (n2.length < 13)
+        d = new Date(n1)
+    
+    try {
+        return d.toISOString()
+    }catch(e) {
+        return n
+    }
+}
+
+// ---------------------------------------------------------------------------------
+function getdatestr(n){
+    if (typeof n === "number"){
+        return _getdatestr(n)
+    }
+    else{
+        return _getdatestr(n)
+        var ntm = n.replace('T', ' ') + " GMT"
+        var d  = new Date(ntm)
+        d.toISOString()
+    }
+    
+}
+// ---------------------------------------------------------------------------------
+// Call Update to update the source
+function datatable_getdata(tr) {
+    var td = tr.querySelectorAll('td')
+    var r = ""
+    r = []
+    for (var i=0 ; i < td.length; i++){
+        //r += "'"+td[i].innerText + "',"
+        r.push (td[i].innerHTML) 
+    }
+    //return r.substring(0,r.length-1);
+    return r;
+}
+function datatable_IDs( table, tr, ids=[0]) {
+    var sql= ''
+    var th = tr.querySelectorAll('th')
+    var td = tr.querySelectorAll('td')
+
+    for (j=0; j < ids.length; j++) {
+        var iv= ids[j]
+        var id= datatable_columntitle(table, iv+1)
+        sql += (j>0?" AND ":"") + `${id} = "${td[iv].innerText}"`
+    }
+    return sql
+}
+function datatable_columntitle(table, j=0) {
+    var title=""
+    if (typeof(table) == 'string' ) {
+        title = $(`#${table} tr`).eq(0).find('th').eq(j).text().trim();
+    } else {
+        title = $(table).find('tr').eq(0).find('th').eq(j).text().trim();
+    }
+    title = title.substr(0, title.indexOf("\n") )
+    return title
+}
+
+function datatable_getAllTitle( table) {
+    var cols = ""
+    var ths = $(table).find('tr').eq(0).find('th')
+    for (var i=1; i< ths.length; i++){
+        cols += datatable_columntitle(table, i) + ","
+    }
+    return cols.substring(0, cols.length-1);;
+}
+function datatable_getUpdates(table, tr){
+    var sql= {}
+    var tds  = tr.querySelectorAll('td')
+
+    for (j=0; j < tds.length; j++) {
+        var td = tds[j]
+        if (td.original && td.original != td.innerHTML) {
+            var id= datatable_columntitle(table, j+1)
+            sql[id] = td.innerHTML.trim()
+        }
+    }
+    return sql
+}
+
+function saveDataTable(table) {
+    if (typeof(table) == "string"){
+        table = $('#'+table)
+    } else {
+        table = $(table)
+    }
+    if( !table || !table.get(0))
+        return null;
+
+    var opt  = $(table).data("opt")
+    if (!opt)
+        return null
+    var od = opt.data
+    var changes = { deletes: [], updates: [], inserts: [], columns: od.columns }
+
+    for (var i = 1; i < $(table).get(0).rows.length; i++) {
+        var tr  = $(table).get(0).rows[i]
+        var di  = $(tr).attr('data_index')
+        var tri = (di) ? parseInt(di) : -1
+        var idx = (od.index) ? od.index[tri] : -1
+
+        if (tr.deleted && tr.new) {
+        }  // nothing to do
+        else if (tr.deleted) {
+            changes.deletes.push([tri, idx, od.values[tri]])
+        }
+        else if (tr.new) {
+            var s = datatable_getAllTitle(table)
+            var v = datatable_getdata(tr)
+            changes.inserts.push([tri, idx, s, v] )
+        } else if ( tr.updated) {
+            var s= datatable_getUpdates(table, tr)
+            if (s)
+                changes.updates.push([tri, idx, s,  od.values[tri]])
+        }
+    }
+    return changes
+}
+// ---------------------------------------------------------------------------------
+// nSort = Sort as Numbers
+// table , n is the index
+function sortTable(table, n, nSort=1, asc=1) {
+    var  i, x, y, shouldSwitch, dir, switchcount = 0;
+    var switching = true;
+    var tag = (n < 0 ) ? "TH" : "td"
+
+    //Check if numberSort makes sense
+    for (var i = 1; i < (table.rows.length - 1); i++) {
+        var x  = table.rows[i].getElementsByTagName(tag)[n];
+        x = x.innerHTML
+        if(isNaN(x)) {
+            nSort = 0
+            break;
+        }
+    }
+
+    while (switching) {
+        switching = false;
+        var rows = table.rows;
+        
+        for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            var x  = rows[i].getElementsByTagName(tag)[n];
+            var y  = rows[i + 1].getElementsByTagName(tag)[n];
+            var xi = x.innerHTML
+            var yi = y.innerHTML
+
+            n1 = (nSort) ? Number(x.innerHTML) : x.innerHTML
+            n2 = (nSort) ? Number(y.innerHTML) : y.innerHTML
+            
+            if (asc) {
+                if (n1 > n2) {
+                  shouldSwitch = true;
+                  break;
+                }
+            } else {
+                if (n1 < n2) {
+                  shouldSwitch = true;
+                  break;
+                }
+            }
+        }
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+          switchcount ++;
+        } 
+    }
+}
+// ---------------------------------------------------------------------------------
+function sortUp(e, nSort=1) {
+    var n = parseInt( $(e).parent().index() ) -1;
+    console.log("Sorting", n, "th column");
+    var ttab  = $(e).parent().parent().parent().parent();
+    var table = ttab.get(0)
+
+
+    sortTable(table, n, nSort, asc=1);
+}
+function sortDown(e, nSort=1) {
+    var n = parseInt( $(e).parent().index() ) -1;
+    console.log("Sorting", n, "th column");
+    var ttab  = $(e).parent().parent().parent().parent();
+    var table = ttab.get(0)
+
+    sortTable(table, n, nSort, asc=0);
+}
+    
+var TABLE_OPTS = {
+    data:           null,
+    div:            "tabled",
+    id:             "tabledd1",
+    addDBLCLKEvent: 1,
+    maxcolumns:     1024,
+    maxitems:       null,
+    maxrows:        null,
+    allowDelete:    1, 
+    allowAdd:       1, 
+    editable:       'contenteditable',
+    firstIstime:    0,
+    timecolumns:    ['time', 'date'],     
+    showTime:       1,
+    data_src:       "",
+    fillHeight:     1,
+
+    colIndices:     null,
+    colNames:       null,
+    rowSelect:      1,
+    rowSelectCB:    null,
+    getTitle:       null,
+}
+var TABLE_OPTS1 = {
+    data:           null,
+    div:            "tabled",
+    id:             "tabledd1",
+    addDBLCLKEvent: 1,
+    maxcolumns:     1024,
+    maxrows:        null,
+    maxitems:       null,
+    allowDelete:    0, 
+    allowAdd:       0, 
+    editable:       '',
+    firstIstime:    0,     
+    timecolumns:    ['time'],     
+    showTime:       1,
+    data_src:       "",
+
+    colIndices:     null,
+    colNames:       null,
+    rowSelect:      1,
+    rowSelectCB:    null,
+    getTitle:       null
+}
+// ---------------------------------------------------------------------------------
+function showDataTable(ds, opt= {} ,def = TABLE_OPTS){
+    opt = Object.assign({}, def, opt)
+    var dsv = null
+    var NaN = null
+    if (typeof(ds) == "string"){
+        let ds1 = ds.replace(/ NaN,/g, '"",')         // Annoying thing that happens reading Excel
+        //ds   = JSON.parse(ds1);
+        eval("ds=" + ds1);
+        if (ds instanceof Array)                    // If we sent more than one, we just use first table
+            ds = ds[0]
+    }
+    dsv= ds.values
+    var dims = `${dsv.length}x${ds.columns.length}`
+
+    tid      = '#'+opt.id
+    maxitems = opt.maxitems || $('#maxitems').val()
+
+    if ( opt.allowDelete)
+        ondel = `<a style="color: transparent;" href=# 
+                    onmouseover="this.style.color='red';"
+                    onmouseout ="this.style.color='transparent';"
+                             title="Delete this row" onclick="toggleDelete(this)"> - </a>`
+    else
+        ondel = ""
+    
+    if ( opt.allowAdd)
+        onadd = `<a href=# title="Insert/Duplicate row" onclick="insertRow(this)"> + </a>`
+    else
+        onadd = ""
+
+
+    var clrSort  = "" //`<a class=ac href=# onclick="sortUp(this)"> - </a> `
+    var showSort = `<a style="color:lightgray;" href=# onclick="sortUp(this)">&#x25B2;</a> 
+                    <a style="color:lightgray;" href=# onclick="sortDown(this)">&#x25BC;</a>`
+    var showSearch = `
+            <div> 
+           <input onKeyup="setTimeout(filterFunc('${tid}', this.value, $(this).parent().parent().index()), 500)"
+                style="width:100%;border: 0px; background: transparent; height:100%;" placeholder="">  
+            </div>`
+    
+    var list=`
+   <table id="${opt.id}" class="mydatatablecss table table-striped table-bordered tresizable table-sm scroller" style="" >
+    <tbody ><thead>
+    <tr  aria-rowspan="2" ><th class="tth thCol1sticky resizable" nowrap style="width: 1px; padding: 4px;">${dims} ${clrSort} ${showSearch}</th>`;
+
+    var COLUMN_ORDER = null;
+    var i;
+    if (opt.colIndices) {
+        COLUMN_ORDER = opt.colIndices
+    } 
+    else if ( opt.colNames ) {
+        COLUMN_ORDER = []
+        var c = 0
+        for (i of opt.colNames){
+            COLUMN_ORDER.push(ds.columns.indexOf(i))
+            if( ++c >= opt.maxcolumns) 
+                break;
+        }
+    } else {
+        var nc = Math.min(ds.columns.length, opt.maxcolumns)
+        COLUMN_ORDER = Array.from(Array(nc).keys()) 
+    }
+
+    for (i in COLUMN_ORDER){
+        var col = ds.columns[ COLUMN_ORDER[i] ] 
+        
+        if (!col ) {
+            col = (opt.colNames) ? opt.colNames[i] : ""
+        } 
+
+        var wdt =  ""//"style='max-width: 750px;'"
+        var tit = col
+        if(opt.getTitle) {
+            var gt = opt.getTitle(tit, "tr", i, j, ds.columns[j])
+            if (gt) tit = gt
+        }
+        list+= `<th class="tth thRowsticky"  ${wdt} nowrap title='${tit}' >${col}
+                ${showSort} ${showSearch}</th>`
+                    
+
+    }
+    list += "</tr></thead>"
+
+    var ncells = dsv.length * ds.columns.length;
+    var items = 0;
+    var rowSelect = ""
+    //if (opt.selectRows) {
+    //    rowSelect = `onclick='toggleSelect(this )'`
+    //}
+    rowSelect = `onclick='toggleSelect(this )'`
+
+    var lookUp = ""
+    for (var i=0; i < dsv.length; i++){
+
+        var index = ds['index'] ? ds['index'][i] : i;
+
+        list += `<tr ${rowSelect}  data_index=${i} >
+            <th class="thtd tth thColNsticky"  nowrap  > 
+                ${ondel}  ${onadd} ${index}
+            </th>
+                `
+        
+        for (var j1=0; j1 < COLUMN_ORDER.length; j1++){
+            var j = COLUMN_ORDER[j1]
+            items ++;
+            if (items >= maxitems)
+                break;
+            var v = ""+ dsv[i][j]
+            var v1= (v.length > 32 && !v.trim().startsWith("<"))? v : "";
+            //v = `012345678910|012345678920|012345678930|012345678940|012345678950|012345678960|012345678970`
+            if ( (j == 0 && opt.firstIstime) || opt.timecolumns.includes(ds.columns[j]) ) {
+                var temp = getdatestr(v)
+                if (opt.showTime) {
+                    v1 = v
+                    v= temp
+                } else { 
+                    v1 = temp
+                }
+            }
+            if(opt.getTitle) {
+                var gt = opt.getTitle(v, "td", i, j, ds.columns[j])
+                if (gt) v1 = gt
+            }
+
+            var focus_blur = opt.editable + ' onfocus="tdfocus(this)" onblur="tdblur(this)"'
+            //list += `<td nowrap style="max-width:200px; overflow: hidden;" ${focus_blur}  title='${v1}'>` + v + "</td>"
+            list += `<td nowrap class=thtd ${focus_blur}  ddata-toggle="tooltip" title='${v1}'>` + v + "</td>"
+            if ( ncells > maxitems && j >= opt.maxcolumns-1) {
+                list += `<td nowrap class=thtd >Omitting ${dsv[i].length - opt.maxcolumns} columns</td>`
+                break;
+            }
+        }
+        list += "</tr>"
+        if (items >= maxitems)
+            break;
+    }
+    list += `</tbody></table>`
+
+    if ( typeof(opt.div) == "string" ){
+        var divn = (opt.div.startsWith("#")) ? opt.div : "#"+opt.div
+        $(divn).html(list)
+
+    } else {
+        $(opt.div).html(list)
+    }
+
+    if (opt.addDBLCLKEvent)
+        $(`${tid} th`).dblclick(HeaderDoubleClicked);
+
+    if ($(`${tid}`).width() > window.innerWidth)
+        $(`${tid}`).width( $(`${tid}`).width() + 200)
+    table = addresizecolumn(opt.id)
+    
+    var dsCopy = structuredClone(ds)
+    
+    $(`${tid}`).data('data', dsCopy)
+    opt.data = dsCopy
+    $(`${tid}`).data('opt',  opt)
+
+    //$('#tableddDIM').html(`<div id=tableddDIM style="z-index: 4;position: sticky; top: -1; "> ${dims} </div>`)
+    //setupFilter('#filter', '#slist')
+    
+    if (opt.fillHeight)
+        FillRemainingHeight(opt.div)
+
+    //$('[data-toggle="popover"]').popover({ html: true });
+    //$('[data-toggle="tooltip"]').tooltip()
+
+    return table;
+}
+
+</script>

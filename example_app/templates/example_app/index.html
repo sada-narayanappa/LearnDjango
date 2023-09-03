@@ -1,0 +1,137 @@
+{% extends "common.html" %}
+{% block content %}
+<!-- -----------------------------------------------------------------------------
+    STYLE
+------------------------------------------------------------------------------- -->
+<style>
+.rd{
+    border: 1px solid lightgray;
+    border-radius: 6px;
+    background-color: #fcfcfc;
+    padding: 25;
+    background-repeat: no-repeat;
+    
+    background-size: 40%;
+    background-position: top right;
+}
+.rd1{
+    border: 1px solid lightgray;
+    border-radius: 6px;
+    background-color: #fefefe;
+    padding: 25;
+    background-repeat: no-repeat;
+    text-align: center;
+    
+}
+    
+.btn{
+    font-size: small;
+}   
+    
+.drag_leave { border: 0px dashed black; }
+    
+img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}    
+
+</style>
+
+<!-- -----------------------------------------------------------------------------
+    HTML
+------------------------------------------------------------------------------- -->
+<div class="container" style ="padding: 10px; width: 1024px;" >
+
+<h1>&nbsp; My Application</h1>
+<hr/>
+    <br/><br/>
+<p>
+    This is sample application you can use to build sophisticated applications on web.
+    You can use this to develop application on your local machine and eventually deploy 
+    on a server where it is accessible to other users.
+</p>
+    <p>
+        This is an example of a webpage where you can drag and drop a file and call server to 
+        do somethings.
+        
+        This application demostrates how to create a HTML site and call backend server to get 
+        information and display it on your page. <br/><br/><br/>
+    </p>
+<hr/>
+<a href=# onclick="" class="btn btn-outline-secondary" > Helpful? </a>
+<a href=# onclick="" class="btn btn-outline-secondary" > Need more info? </a>
+
+<hr/>
+</div>
+
+<div class="container" style ="padding: 10px; width: 1024px;" >
+    <div class="row">
+        <div class="col-6" class="rd1">
+            <form id="fileupload" method="post" class="rd" enctype="multipart/form-data" >
+                {% csrf_token %}
+                    <div id="file_drop" class="drag_enter" >
+                        <input id="file_id" class="btn" name="file" type="file"  
+                        style="border: 0px; width: 100%;"
+                        onchange="myhandleFileSelect(this.id)" accept="*" single required>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <label class=label1 > Other Parameters </label> 
+                        <input class=input1 name=params id=params > 
+                        <br/>
+                        <a class="btn btn-outline-primary" style= "width: 100%;" 
+                           onclick="handleUploadClick()"> Process </a>
+                    </div>
+            </form>
+        </div>
+        <div class="col-6 rd1" id=results style="border: 1px solid #ececec; height: 250px;">
+            Preview
+        </div>
+    </div>
+    
+    
+    <div id=status> 
+    </div> 
+</div>
+<!-- -----------------------------------------------------------------------------
+    HTML
+------------------------------------------------------------------------------- -->
+<script>
+function myhandleFileSelect(id){
+    var files = document.getElementById(id).files;
+    
+    if ( files.length > 1 ){
+        return;
+    }
+    var file = files[0];
+    
+    if (file.type.indexOf("image") >= 0 ) {
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function(e) {
+            $(results).html(`<img class="img" src='${e.target.result}'/>`);
+        };
+    }        
+    else if (file.type.indexOf("text") >= 0 ) {
+        $('#results').html("Text file")
+    }
+    else {
+        $('#results').html("Binary file")
+    }
+}
+// ---------------------------------------------------------------------------------
+/*
+ * This assumes you have a service working
+ */
+function handleUploadClickCB(responseTxt, statusTxt, xhr, context, form) {
+    salert("Upload status: " +statusTxt + " : " + responseTxt)
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function handleUploadClick(url) {
+    var ctx = {something: "example_context"}
+    callws('/app1/processfile/', "fileupload", handleUploadClickCB, ctx)
+}
+</script>
+{% endblock %}

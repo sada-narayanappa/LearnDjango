@@ -1,0 +1,99 @@
+#sidebar {
+    font-family: 'Roboto';
+    ooverflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: smaller;
+    min-width: 150px;
+    max-width: 350px;
+    color: #fff;
+    transition: all 0.3s;
+    padding-left: 15px;
+}
+
+
+#sidebar i {
+    width: 40px;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+#sidebar ul p {
+}
+
+#sidebar ul li a {
+    line-height: 1.6em;
+    color: #0a0a0a;
+    padding: 7px;
+    font-size: 1.0em;
+    display: block;
+    text-decoration: none;
+}
+
+#sidebar ul li a:hover {
+    color: #7386D5;
+    background: #e3e3e3;
+    border-radius: 0 20px 20px 0px;
+}
+
+#sidebar ul li.active>a,
+a[aria-expanded="true1"] {
+    ccolor: #fff;
+    bbackground: gray;
+    background: #e3e3e3;
+}
+
+
+.noscrollbars::-webkit-scrollbar {
+display: none;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+#sidebar .dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+}
+
+#sidebar .show::after {
+    transform: rotate(-0deg)
+}
+
+.collapsed::after {
+    transform: rotate(-90deg)
+}
+
+
+#sidebar ul ul a {
+    ffont-size: 0.95em !important;
+    padding-left: 40px !important;
+}
+
+#sidebar ul ul{
+    font-size: 0.95em !important;
+    padding-left: 30px !important;
+}
+
+div.scroll {
+    overflow-y: auto;
+    text-align:justify;
+    top:50px;
+    bottom: 0;
+    position: relative;
+    box-sizing: border-box;
+    ppadding-right: 17px;
+    margin: 0 auto;
+}
+div.scroll:hover{
+    ppadding-right: 0px;
+    overflow-y: auto;
+}
+.scroll::-webkit-scrollbar {
+display: none;
+}
