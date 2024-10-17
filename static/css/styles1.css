@@ -6,7 +6,6 @@ body {
   color: #1b1e24;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -moz-font-feature-settings: "liga", "kern";
   text-rendering: optimizelegibility;
 }
 
@@ -46,3 +45,9 @@ footer h5 a:hover, footer a:hover {
     overflow: auto;
 }
 
+h1{ 
+	margin-bottom: 2rem;
+}
+h2{ 
+	margin-bottom: 1.5rem;
+}

@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "gridstack": "^8.2.1"
+    "gridstack": "^8.2.1",
+    "split.js": "^1.6.5"
   }
 }

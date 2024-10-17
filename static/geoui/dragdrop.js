@@ -67,8 +67,13 @@ function handleDragOver(evt) {
     evt.preventDefault();
     evt.dataTransfer.dropEffect = 'copy';
     
-    clName = (evt.type == "dragover" ? "drag_hover" : "drag_leave");
-    document.getElementById("file_drop").className = clName;
+    //clName = (evt.type == "dragover" ? "drag_hover" : "drag_leave");
+    //document.getElementById("file_drop").className = clName;
+
+    if (evt.type == "dragover")
+        $("#file_drop").addClass( "drag_hover");
+    else
+        $("#file_drop").removeClass( "drag_hover");
 
 }
 
@@ -76,7 +81,8 @@ function handleFileDrop(evt) {
     evt.stopPropagation();
     evt.preventDefault();
     //evt.target.className = ("drag_leave");
-    document.getElementById("file_drop").className = "drag_leave";
+    //document.getElementById("file_drop").className = "drag_leave";
+    $("#file_drop").removeClass( "drag_hover");
 
     var files1 = evt.dataTransfer.files;  // FileList object.
     if (files1.length > DD_MAX_FILES) {

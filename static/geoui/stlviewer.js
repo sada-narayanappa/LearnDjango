@@ -676,7 +676,7 @@ function STLViewerEnable(classname, firstLoad = false) {
 
 function STLViewer(elem, model, firstLoad) {
 
-    if (!WEBGL.isWebGLAvailable()) {
+    if (WEBGL && !WEBGL.isWebGLAvailable()) {
         elem.appendChild(WEBGL.getWebGLErrorMessage());
         return;
     }

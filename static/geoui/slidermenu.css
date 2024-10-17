@@ -1,16 +1,16 @@
 #sidebar {
     font-family: 'Roboto';
-    ooverflow: hidden;
+    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     font-size: smaller;
-    min-width: 150px;
-    max-width: 350px;
-    color: #fff;
+    min-width: 0px;
+    max-width: 550px;
     transition: all 0.3s;
-    padding-left: 15px;
+    padding-left: 10px;
+    height: 100%;
+    width: 250px;
 }
-
 
 #sidebar i {
     width: 40px;
@@ -20,8 +20,10 @@
     margin-left: -250px;
 }
 
-#sidebar ul p {
+#sidebar:hover {
+    ooverflow-y: scroll;
 }
+
 
 #sidebar ul li a {
     line-height: 1.6em;
@@ -41,7 +43,6 @@
 #sidebar ul li.active>a,
 a[aria-expanded="true1"] {
     ccolor: #fff;
-    bbackground: gray;
     background: #e3e3e3;
 }
 

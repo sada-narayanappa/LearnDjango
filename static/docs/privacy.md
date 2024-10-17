@@ -17,37 +17,18 @@ Personal information is information about you that identifies you as an individu
 When you subscribe to or add products and services we offer, we collect information from you including:
 
 
--   Your contact and identity information such as name, date of birth,
-    postal and e-mail addresses, phone numbers, and Social Security
-    number;
--   Information you provide to verify your identity and use features in
-    our products and services.This may include information about your
-    finances and financial accounts (including login and authentication
-    information), automobiles, insurance and identifying and biometrical
-    information about you;
--   Your credit card or other payment account information, when you
-    purchase products and services from us;
--   Your children's identity information when enrolling your children in
-    our child identity protection products such as their name, date of
-    birth, and Social Security number;
--   Information provided when you contact our customer service, fraud
-    resolution agents, provide general feedback, submit content or post
-    to any community forum on the Site.
+-   Your contact and identity information such as name, date of birth, postal and e-mail addresses, phone numbers, and Social Security number;
+-   Information you provide to verify your identity and use features in our products and services.This may include information about your    finances and financial accounts (including login and authentication    information), automobiles, insurance and identifying and biometrical    information about you;
+-   Your credit card or other payment account information, when you    purchase products and services from us;
+-   Your children's identity information when enrolling your children in    our child identity protection products such as their name, date of    birth, and Social Security number;
+-   Information provided when you contact our customer service, fraud    resolution agents, provide general feedback, submit content or post    to any community forum on the Site.
 
 Depending on the products and services that you subscribe to, we obtain
 information from others on your behalf including:
 
--   Information from other Experian companies ("affiliates") and from
-    our third-party providers including credit and other information
-    that enables us to provide you with our products and services;
--   If you provide information that enables us to access information
-    from your financial and/or other accounts, we will obtain
-    transactional information from those accounts including individual
-    payment transactions, deposits and withdrawals;
--   If you provide information on a third-party website to subscribe to
-    our products and services, that third party may provide that
-    information to us so we can provide you with our products and
-    services.Please see additional details about third-party websites in
+-   Information from other Experian companies ("affiliates") and from    our third-party providers including credit and other information    that enables us to provide you with our products and services;
+-   If you provide information that enables us to access information    from your financial and/or other accounts, we will obtain    transactional information from those accounts including individual    payment transactions, deposits and withdrawals;
+-   If you provide information on a third-party website to subscribe to    our products and services, that third party may provide that    information to us so we can provide you with our products and    services.Please see additional details about third-party websites in
     [Other Important Privacy
     Information.](#Other%20Important%20Privacy%20Information)
 
@@ -55,161 +36,50 @@ information from others on your behalf including:
 
 We use personal information:
 
--   To verify your identity and provide you with the products and
-    services you request. Depending on the information you provide and
-    your selected products and services, your personal information is
-    used to access and monitor information you've requested, provide you
-    with identity protection services and enable applications for credit
-    or loans;
--   To send credit, score, identity protection and transactional alerts
-    to the e-mail, mobile device and/or phone number you provide;
--   To send important information to you related to your account, the
-    Site, our Terms and Conditions or our policies.
--   To inform you of products, services and promotions that may be of
-    interest to you unless you have requested that we do not send you
-    marketing and promotional communications;
+-   To verify your identity and provide you with the products and    services you request. Depending on the information you provide and    your selected products and services, your personal information is    used to access and monitor information you've requested, provide you    with identity protection services and enable applications for credit    or loans;
+-   To send credit, score, identity protection and transactional alerts    to the e-mail, mobile device and/or phone number you provide;
+-   To send important information to you related to your account, the    Site, our Terms and Conditions or our policies.
+-   To inform you of products, services and promotions that may be of    interest to you unless you have requested that we do not send you    marketing and promotional communications;
 -   To process payments for the products and services you purchase;
--   If applicable, to verify your children's identity and provide
-    products and services you request on behalf of your children;
--   For our everyday business purposes including audits, security,
-    detecting and preventing fraud, analysis, product improvements,
-    research and development;
--   For other purposes when you provide your consent and/or we describe
-    the purpose to you at the time it is collected.For example, when you
-    request that we provide your information to monitor your financial
-    accounts or when you request features that we offer from companies
-    we partner with.
+-   If applicable, to verify your children's identity and provide products and services you request on behalf of your children;
+-   For our everyday business purposes including audits, security,    detecting and preventing fraud, analysis, product improvements,    research and development;
+-   For other purposes when you provide your consent and/or we describe    the purpose to you at the time it is collected.For example, when you    request that we provide your information to monitor your financial    accounts or when you request features that we offer from companies    we partner with.
 
-[Non-personal information]{.ul} is any information that does not reveal
-who you are, doesn't identify you individually and/or is about a
-collective group of Site users.This includes information described under
+[Non-personal information]{.ul} is any information that does not reveal who you are, doesn't identify you individually and/or is about acollective group of Site users.This includes information described under
 "[Cookies, Tracking Technologies and Targeted Advertising](#Cookies)"
-and other information that that doesn't identify you including general
-demographic, publicly available, derived, inferred or specifically
-expressed information from users of the Site. This information may be
-used by us and shared with third parties for any purpose.However, if we
-combine any non-personal information with your personal information so
-that it reveals who you are, it will be treated by us as personal
-information as long as it is combined.
+and other information that that doesn't identify you including general demographic, publicly available, derived, inferred or specifically expressed information from users of the Site. This information may be used by us and shared with third parties for any purpose.However, if we combine any non-personal information with your personal information so that it reveals who you are, it will be treated by us as personal information as long as it is combined.
 
 **How We Share Personal Information**
 
-[Affiliates]{.ul}:As a part of Experian, we share personal information
-with our Experian affiliates for the purposes noted in this Policy.We do
-not share personal information with our affiliates for their marketing
-purposes without your consent.
+[Affiliates]{.ul}:As a part of Experian, we share personal information with our Experian affiliates for the purposes noted in this Policy.We do not share personal information with our affiliates for their marketing purposes without your consent.
+We also share personal information with non-affiliated third parties as described:
 
-We also share personal information with non-affiliated third parties as
-described:
+[Business Partners:]{.ul} We share your personal information with companies that we have partnered with to offer products that may be of interest to you.We also share your information to provide you with products and services that you request.
 
-[Business Partners:]{.ul} We share your personal information with
-companies that we have partnered with to offer products that may be of
-interest to you.We also share your information to provide you with
-products and services that you request.
+[Service Providers:]{.ul} We share your personal information with third parties who perform services on our behalf.We share information with these service providers to provide you with the products and services you request and for everyday business purposes. For example, we use service providers for billing, communicating with our customers, detecting and preventing fraud, analysis, product improvements and development and to offer products that may be of interest to you.
 
-[Service Providers:]{.ul} We share your personal information with third
-parties who perform services on our behalf.We share information with
-these service providers to provide you with the products and services
-you request and for everyday business purposes. For example, we use
-service providers for billing, communicating with our customers,
-detecting and preventing fraud, analysis, product improvements and
-development and to offer products that may be of interest to you.
-
-[With Your Consent:]{.ul} We share your personal information with third
-parties who you specifically authorize, consent or direct us to share
-your information with. For example, we share information when you
-request products or services offered by lenders, insurance companies and
-other companies that we partner with.We also share information when you
-ask us to access information from your financial and/or other accounts
-through one or more of our third parties.
-
-[Legal Purposes]{.ul}: We share personal information with government
-entities and others for legal and necessary purposes including: to
-respond to requests from government entities or our regulators; to
-comply with subpoenas, law enforcement requests and other legal
-processes; to enforce our Terms and Conditions; and as necessary to
-protect the rights, privacy, safety or property of our customers,
-ourselves or others.
-
-In the event of a merger, acquisition, sale, bankruptcy or other
-disposition of some or all of our assets, we may share and/or transfer
-your personal information to an affiliate or relevant third party.
+[With Your Consent:] {.ul} We share your personal information with third parties who you specifically authorize, consent or direct us to share your information with. For example, we share information when you request products or services offered by lenders, insurance companies and other companies that we partner with.We also share information when you ask us to access information from your financial and/or other accounts through one or more of our third parties.
+‣
+[Legal Purposes]{.ul}: We share personal information with government entities and others for legal and necessary purposes including: to respond to requests from government entities or our regulators; to comply with subpoenas, law enforcement requests and other legal processes; to enforce our Terms and Conditions; and as necessary to protect the rights, privacy, safety or property of our customers, ourselves or others. In the event of a merger, acquisition, sale, bankruptcy or other disposition of some or all of our assets, we may share and/or transfer your personal information to an affiliate or relevant third party.
 
 **Cookies, Tracking Technologies and Targeted Advertising**
 
-When you use our Site, we, our affiliates, our business partners and
-third-party service providers collect information about your devices and
-interactions with our Site. The types of information collected and how
-that information is used and/or shared depends on how you interact with
-our Site and, in some cases, the choices you make.A variety of tools and
-technologies are used to collect this information.
+When you use our Site, we, our affiliates, our business partners and third-party service providers collect information about your devices and interactions with our Site. The types of information collected and how that information is used and/or shared depends on how you interact with our Site and, in some cases, the choices you make.A variety of tools and technologies are used to collect this information. Information collected and the tools and technologies used for collection include:
 
-Information collected and the tools and technologies used for collection
-include:
+-   [Device Information]{.ul}: The Site collects information about your    devices and browsers including types of operating systems, versions,    preferences, settings, Internet Protocol ("IP") addresses and    geolocation.If you access our Site using mobile devices, we collect    information about your mobile devices including device IDs, mobile    network information and geolocation.This information is used for    identity verification, to analyze trends and gather demographic    information about the Site's users as a whole.
 
--   [Device Information]{.ul}: The Site collects information about your
-    devices and browsers including types of operating systems, versions,
-    preferences, settings, Internet Protocol ("IP") addresses and
-    geolocation.If you access our Site using mobile devices, we collect
-    information about your mobile devices including device IDs, mobile
-    network information and geolocation.This information is used for
-    identity verification, to analyze trends and gather demographic
-    information about the Site's users as a whole.
--   [Server Logs]{.ul}: Logs are used to automatically record device
-    information as well as your interactions with our Site such as what
-    time of day you visited. In the event of a problem with our Site,
-    information in the logs allow us to diagnose and the resolve
-    problem.
--   [Cookies]{.ul}: Cookies are small text files sent to your browser by
-    a website you visit.The Site collects and uses session and
-    persistent cookies.Cookies allow companies to recognize your device
-    and store information about your account and preferences. For
-    example, we may use cookies to store information about pages visited
-    on our sites, settings and preferences, or other information that we
-    have associated with visitors to our Site. Cookies also allow us to
-    track internal metrics and enhance the experience users of our Site.
--   [Pixel tags]{.ul}: Pixel tags (i.e. web beacons, clear GIFs, pixels
-    or tags) are images or small strings of code that are placed on
-    websites, advertisements or within e-mails. These technologies
-    collect information about your online activities over time and
-    across different websites or online services.For example, the Site
-    collects user activities on our Site, links that users click on and
-    pages viewed, the URLs user came from and e-mails opened or
-    forwarded.This information is used for Site tracking and
-    administration (i.e. user movements, usage, performance and
-    improvements); enabling you to enroll and log-in to the Site;
-    delivering and tailoring custom content; development of new products
-    and services and fraud detection and prevention.
--   [SDKs and Advertising IDs:]{.ul} We use Software Development Kits
-    (\"SDKs\") to collect mobile device information and general
-    location. The SDKs track user movements, mobile application events
-    and user interactions. This information is used for identity
-    verification and also helps us improve our mobile applications for
-    our customers. We also collect and use Advertising Identifiers
-    (\"Advertising IDs\") that allow us to identify your mobile device
+-   [Server Logs]{.ul}: Logs are used to automatically record device    information as well as your interactions with our Site such as what    time of day you visited. In the event of a problem with our Site,    information in the logs allow us to diagnose and the resolve    problem.
+
+-   [Cookies]{.ul}: Cookies are small text files sent to your browser by    a website you visit.The Site collects and uses session and    persistent cookies.Cookies allow companies to recognize your device    and store information about your account and preferences. For    example, we may use cookies to store information about pages visited    on our sites, settings and preferences, or other information that we    have associated with visitors to our Site. Cookies also allow us to    track internal metrics and enhance the experience users of our Site.
+
+-   [Pixel tags]{.ul}: Pixel tags (i.e. web beacons, clear GIFs, pixels    or tags) are images or small strings of code that are placed on    websites, advertisements or within e-mails. These technologies    collect information about your online activities over time and    across different websites or online services.For example, the Site    collects user activities on our Site, links that users click on and    pages viewed, the URLs user came from and e-mails opened or    forwarded.This information is used for Site tracking and    administration (i.e. user movements, usage, performance and    improvements); enabling you to enroll and log-in to the Site;    delivering and tailoring custom content; development of new products    and services and fraud detection and prevention.
+    
+-   [SDKs and Advertising IDs:]{.ul} We use Software Development Kits    (\"SDKs\") to collect mobile device information and general    location. The SDKs track user movements, mobile application events    and user interactions. This information is used for identity    verification and also helps us improve our mobile applications for    our customers. We also collect and use Advertising Identifiers "Advertising IDs that allow us to identify your mobile device
     over time for advertising purposes.
--   [Targeted Advertising]{.ul}: We, our affiliates, business partners
-    and third-party service providers collect, use and share information
-    to develop and deliver targeted online advertising.These are ads
-    that you may see across different sites and devices over time.This
-    information includes marketing information such as your preferences
-    and inferences based on your interactions with the Site.
+-   Targeted Advertising : We, our affiliates, business partners    and third-party service providers collect, use and share information    to develop and deliver targeted online advertising.These are ads    that you may see across different sites and devices over time.This    information includes marketing information such as your preferences    and inferences based on your interactions with the Site.
 
-We also use service providers to help us perform advertising-related
-functions such as measuring the effectiveness of our ads, managing how
-many times you may see an ad, reporting on the performance of our ads,
-ensuring services are working correctly and securely, providing
-aggregate statistics and analytics, improving when and where you may see
-ads, and/or reducing ad fraud.
+We also use service providers to help us perform advertising-related functions such as measuring the effectiveness of our ads, managing how many times you may see an ad, reporting on the performance of our ads, ensuring services are working correctly and securely, providing aggregate statistics and analytics, improving when and where you may see ads, and/or reducing ad fraud.
 
 **Choices You Have**
 
-You can use a range of tools to control information collection, use and
-sharing as well as make choices about receiving offers of products and
-services.Some browsers have incorporated \"Do Not Track\" (DNT) features
-that can send a signal to the websites you visit indicating you do not
-wish to be tracked. Because there is not a common understanding of how
-to interpret the DNT signal, our websites do not operate differently in
-response to browser DNT signals.
-
-[Opt-outs]{.ul}:
+You can use a range of tools to control information collection, use and sharing as well as make choices about receiving offers of products and services.Some browsers have incorporated \"Do Not Track\" (DNT) features that can send a signal to the websites you visit indicating you do not wish to be tracked. Because there is not a common understanding of how to interpret the DNT signal, our websites do not operate differently in response to browser DNT signals.

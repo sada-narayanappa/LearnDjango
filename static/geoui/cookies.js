@@ -40,11 +40,13 @@ function deleteZZValues() {
     localStorage.removeItem('ZZ1');
 }
 //--------------------------------------------------------------------------------
-function restoreZZValues(dontset) {
+function restoreZZValues(dontset, setonly="") {
     var ret = JSON.parse(localStorage.getItem('ZZ1',""));
     if(!ret) {
         return
     }
+    setonly = (setonly) ? setonly.split(/[ \t]+/): null
+
     for (const [k, v] of Object.entries(ret)) {
         for (const [k1, v1] of Object.entries(v)) {
             var lg = (`Setting: Type: ${k} ID:${k1} V:${v1}`)
@@ -54,6 +56,9 @@ function restoreZZValues(dontset) {
                 console.log("Not: " + lg)
                 continue
             }
+            if (setonly && setonly.indexOf(k1) < 0)
+                continue
+
             //console.log(lg)
             if (k == "checkbox" ) {
                 $('#'+k1).prop('checked', v1)
@@ -61,7 +66,7 @@ function restoreZZValues(dontset) {
             else if (k == "input" || k == "textarea")
                 $('#'+k1).val(v1)
             else // must be select
-                $('#'+k1).empty().append(v1);
+                $('#'+k1).val(v1); //$('#'+k1).empty().append(v1);
         }
     }
     ZZvals = ret;
