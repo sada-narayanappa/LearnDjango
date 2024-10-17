@@ -1,0 +1,33 @@
+{% extends "common.html" %}
+{% block content %}
+<div class="container">
+<section id="content"><H3>Thank you - Please complete your payment </H3></section>
+
+<div id="paypal-button-container"></div>
+<script>
+paypal.Buttons({
+    createOrder: function(data, actions) {
+      // This function sets up the details of the transaction, including the amount and line item details.
+      return actions.order.create({
+        purchase_units: [{
+          amount: { value: '1.00' }
+        }]
+      })
+    },
+    onApprove: function(data, actions) {
+      // This function captures the funds from the transaction.
+      return actions.order.capture().then(function(details) {
+        // This function shows a transaction success message to your buyer.
+        alert('Transaction completed by ' + details.payer.name.given_name);
+      });
+    }
+  }).render('#paypal-button-container');
+</script>
+</div>
+
+<!--
+<div style="position: absolute; bottom: 0;width: 100%; z-index:10;">
+    {% include "footer.html" %}
+</div>
+-->
+{% endblock %}

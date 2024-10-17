@@ -1,0 +1,52 @@
+{% extends "common.html" %}
+{% block content %}
+<script src="/static/geoui/recorder.js"></script>
+<script src="/static/geoui/geoaudio.js"></script>
+<style>
+.b {
+    color: red;
+}
+</style>
+
+<button class="a" id="s1" onclick="startRecording ()"><i class="fa fa-microphone"></i> </button>
+<button class="a" id="s2" onclick="a.toggleRecording()"><i class="fa fa-pause"></i> </button>
+<button class="a" id="s3" onclick="stopRecording  ()" ><i class="fa fa-stop"></i> </button>
+<button class="a" id="s4" onclick="transcribe  ()" ><i class="fa fa-stop"></i>Transcribe </button>
+<audio controls id="faudio"  >Your browser does not support the audio element.</audio><br/>
+<span id=trans>
+</span>
+
+<script>
+
+async function cb(msg, blob) {
+    console.log(msg)
+}
+var a = new GeoAudio(cb, "faudio")
+
+function startRecording(){
+    $('#s1').addClass("b")
+    a.startRecording()
+}
+function stopRecording(){
+    $('#s1').removeClass("b")
+    a.stopRecording()
+}
+CALLWS_LOG_EVENTS = 0
+function transcribeCB(responseTxt) {
+    //console.log(responseTxt)
+    $('#trans').text(responseTxt)
+}
+async function transcribe(){
+    console.log("TRANSCRIBING ... ")
+    if ( a.rec) {
+        var blob = await a.exportRecording()
+        if ( a.bblob)
+            callws('/geoaudio/transcribe/', "", transcribeCB, {file: blob} );
+        else
+            console.log("Waiting ...")
+    }
+    else
+        alert("You must record first")
+}
+</script>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "common.html" %}
+{% load custom_tags %}
+{% block content %}
+<script src="/static/geoui/splitter.js"></script>
+<link href="/static/geoui/jquery-tabs.css" rel="stylesheet" />
+<!-- ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- -->
+<style>
+.tab-details {
+    background-color: white;
+    border-radius: 4px 4px 0 0 ;
+    border: 0px solid rgba(50, 50, 93, 0.1);
+
+    height: fit-content;
+    padding: 20px;
+    text-align: left;
+}
+.tab-content {
+    text-align: initial;
+    display: contents;
+}
+</style>
+<!-- ---------------------------------------------------
+    HTML
+----------------------------------------------------- -->
+<div class="center">
+<div class="info" id="message">&nbsp;&nbsp;&nbsp;</div>
+<div id="tabs" class=tabs>
+  <ul>
+    <li><a href="#tabs-home"  > Home</a></li>
+    <li><a href="#tabs-acts"  > Activities</a></li>
+  </ul>
+    <div style="width:100%; height: 1px; background: #efefef"> </div>
+    <div class="row">
+          <div id="tabs-home" style="padding-left: 20px;" >
+          </div>
+          <div id="tabs-acts" style="padding-left: 20px;" >Actions Search Results
+
+          </div>
+    </div>
+</div>
+</div>
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    SCRIPTS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<script>
+function showUsersCB(responseTxt, statusTxt, xhr){
+    if (JS_error(responseTxt, statusTxt, xhr, true) ) {
+        return;
+    }
+    var ret1 = JSON.parse(responseTxt);
+    var ret  = ret1.values;
+
+    var tbody= ''
+    for (var i=0; i < ret.length; i++ ) {
+        var r = ret[i]
+        tbody += '<tr>'
+        var td = `<td>${i+1}</td>`
+        for (var j = 0; j < r.length; j++){
+            var v = (!r[j] || r[j].length) > 40 ? "**" : r[j]
+            td += `<td>` + v + "</td>"
+        }
+        tbody += td + '</tr>'
+    }
+    var th = "<tr><th></th>"
+    for (var j=0; j < ret1.columns.length; j++ )
+        th += '<th>' + ret1.columns[j] + "</th>"
+    th += '</tr>'
+
+    tbody = '<table width=100% border=1>' + th + tbody + "</table>"
+
+    $('#tabs-home').html(tbody);
+}
+function showUsers(){
+    const URL1  = `/users/users/?user={{ user.username }}`
+    $.get(URL1, showUsersCB )
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+$(document).ready(function() {
+    $(window).resize()
+    var urlp = new URL(window.location.href)
+    showUsers( urlp.searchParams.get('q') )
+})
+</script>
+{% endblock %}

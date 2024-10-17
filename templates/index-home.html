@@ -1,0 +1,48 @@
+<div class="center"
+     style='font-family: "Google Sans",Arial,Helvetica,sans-serif; padding: 20px; margin: 20px;'>
+
+    <br/>
+    <h1>&nbsp;Learn AI, Machine Learning &amp; Data Science</h1>
+<br/>
+<br/>
+    <span style='font-family: "Google Sans",Arial,Helvetica,sans-serif; font-size: x-large; padding: 50px'>
+        Our mission is to
+        <span style="color: red;"> organize </span>
+        the world’s
+        <span style="color: cornflowerblue;"> intelligence related to AI </span>
+        and make it
+        <span style="color: green;">  accessible </span> and
+        <span style="color: orange;"> useful </span>
+        .
+    </span>
+<br/>
+<br/>
+<br/>
+<br/>
+</div>
+
+<div class="container" >
+    <H4> Index </H4>
+<br/>
+
+<script>
+function setbg() {
+    var sun = {   "#day" : "sunday",
+            "background-image":    'url("/static/media/bgimg1.png")',
+            "background-repeat":   'no-repeat',
+            "background-position": '0 -400px'
+        }
+    var styles = [
+        {}, {}, {}, {}, {}, {}, {}
+    ];
+    s = styles[(new Date().getDay() % styles.length)]
+    for (k in s){
+        if (k.startsWith('#'))
+            continue;
+        $('body').css(k, s[k])
+
+    }
+}
+setbg();
+
+</script>

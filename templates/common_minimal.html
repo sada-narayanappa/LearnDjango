@@ -1,0 +1,527 @@
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<link rel="icon" type="image/png" href="/static/imgs/fav.png/" />
+<link href='/static/css/googlefont.css/' rel='stylesheet' type='text/css'>
+<link href='/static/css/googlefontsans.css/' rel='stylesheet' type='text/css'>
+<script src="/static/bc/jquery/dist/jquery.min.js/"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/styles.css/">
+<link rel="stylesheet" type="text/css" href="/static/bc/Font-Awesome/css/all.css/">
+<link rel="stylesheet" type="text/css" href="/static/bc/jquery-ui/themes/base/jquery-ui.min.css/">
+<script src="/static/bc/jquery-ui/jquery-ui.js/"></script>
+<script src="/static/bc/jquery-form/src/jquery.form.js/"></script>
+<link href="/static/bc/bootstrap/dist/css/bootstrap.min.css/" rel="stylesheet" />
+<script src="/static/popper.min.js" ></script>
+<script src="/static/bc/bootstrap/dist/js/bootstrap.min.js/"></script>
+    
+<link rel="stylesheet" type="text/css" href="/static/css/styles1.css/">
+
+<style>
+
+.fcontainer{
+    display: flex; flex-flow: column; height: 100%;
+}
+.fcontainer .header{
+    flex: 0 1 auto;
+    bbackground: #7e8aa0;
+}
+.fcontainer .content{
+    flex: 1 1 auto;
+    bbackground: #dbdfe7;
+    overflow: auto;
+}
+.fcontainer .footer{
+    flex: 0 1 1px;
+    background: #7e8aa0;
+}
+
+.input80{
+    text-align: left;
+    min-height: 35px;
+    padding: 10px;
+    font-size: small;
+}
+
+.input100{
+    width: 100%;
+    text-align: left;
+    min-height: 35px;
+    padding: 10px;
+    font-size: small;
+}
+.lable100{
+    margin: 0;
+    font-size: smaller;
+    position: relative;
+    top: 12;
+    background: white;
+    padding: 2px;
+    left: 10;
+}
+
+
+input{
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    height: 40px;
+}
+
+.div1{
+    display: inline-block;
+}
+
+.input1{
+    width: 100%;
+    text-align: left;
+    height: 40px;
+    padding: 3 0 3 3;
+    font-size: small;
+    background: #fefefe;
+}
+.input1:disabled{
+    background: #ececec;
+    border-bottom: 3px solid #ccc;
+}
+.input1:readonly{
+    background: rgb(222, 58, 58);
+}
+
+.input11{
+    text-align: left;
+    height: 40px;
+    padding: 3 0 3 3;
+    font-size: small;
+    background: #fefefe;
+}
+.input11:disabled{
+    background: #ececec;
+    border-bottom: 3px solid #ccc;
+}
+.input11:readonly{
+    background: rgb(222, 58, 58);
+}
+
+.label1{
+    margin: 0;
+    font-size: smaller;
+    position: relative;
+    top: 12;
+    background: #ffffff;
+    padding: 2 10 2 10;
+    left: 10;
+    border-radius: 4px;;
+}
+
+.center{
+        text-align: center;
+}
+.grid-stack {
+    background: rgb(240,240,240);
+}
+.grid-stack-item-content {
+     color: #2c3e50;
+     text-align: left;
+     background: rgb(250,250,250);
+}
+.ui-tabs .ui-tabs-panel{
+    padding: 0;
+}
+.success{ background-color: lawngreen }
+.failed { background-color: LightCoral  }
+
+.ui-widget {
+    font-family: Roboto, Arial;
+    font-size: 1em;
+    border: 0px;
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+    font-family: Roboto, Arial,Helvetica,sans-serif;
+    font-size: 0.9em;
+}
+th {
+   font-family: Roboto, 'Open Sans', Arial, sans-serif;
+   font-size: 12px;
+}
+body p {
+   font-family: Roboto, 'Open Sans', Arial, sans-serif;
+}
+
+.grid-stack .grid-stack-placeholder > .placeholder-content {
+  left: 2px;
+  right: 2px;
+}
+.grid-stack > .grid-stack-item > .grid-stack-item-content {
+  left: 2px;
+  right: 2px;
+}
+
+td {
+   font-family: Roboto, 'Open Sans', Arial, sans-serif;
+   font-size: small;
+   font-weight:300;
+   line-height:1.6em;
+   color:#656565;
+   /* background: #EFEFEF; */
+}
+
+.input-group-text {
+    line-height: 1.4;
+}
+
+
+@media screen and (max-width: 700px) {
+    .our_menu {
+        display: none !important;
+    }
+    .small_menu {
+        display: flex !important;
+    }
+}
+@media screen and (min-width: 600px) {
+    .navbar-expand-lg .navbar-collapse
+    {
+        display: -ms-flexbox!important;
+        display: flex!important;
+        -ms-flex-preferred-size: auto;
+        flex-basis: auto;
+    }
+}
+.navbar-nav .nav-link {
+    font-family: sans-serif, 'Roboto';
+    font-weight: 400;
+    flex-direction: row;
+}
+.navbar a {
+    color: #003478 !important;
+}
+.navbar-nav{
+    flex-direction: unset !important;
+}
+.navbar-nav .dropdown-menu {
+    position: absolute;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;  /* remove the gap so it doesn't close */
+ }
+
+blockquote {
+    padding: 9px 18px;
+    margin: 0 0 18px;
+    font-size: inherit;
+    border-left: 5px solid #eeeeee;
+}
+
+blockquote {
+    background: #f9f9f9;
+    border-left: 10px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 1em 10px .1em 10px;
+    quotes: "\201C""\201D""\2018""\2019";
+}
+code::after, code::before {
+    border-top: 1px solid gray;
+}
+
+</style>
+
+</head>
+<script>
+    function GET_POSTDATA(params){
+        data = {
+                csrfmiddlewaretoken: '{{csrf_token }}',
+                auth: '{{request.session.session_key}}',
+                user:'{{user.username}}'
+        }
+        for(var k in params) {
+            data[k] = params[k]
+        }
+        return data
+    }
+    function POST(url,  data, callback){
+        data1 = GET_POSTDATA(data)
+        $.post(url, data1, callback).fail(callback);
+    }
+    
+</script>
+
+<body style="overflow: hidden;hheight:100%;">
+<header>
+<!----------------------------------------BEGIN MENU end header -->
+<nav id=mainnavbar class="navbar navbar-expand-sm navbar-light bg-light"
+style="border-bottom: 1px solid #eee; height: 48px; background-color: aliceblue;display: -webkit-box1">
+
+{% if top_url %}
+    
+    {% include top_url %}    
+
+{% else %}
+    <a class="navbar-brand" href="/">
+        <img src="/static/imgs/logo5.png" height=28 alt="logo"/ >
+    <span class="our_menu" style="color: #003478 !important;font-weight: 600; font-size: small;"> STREAM </span>
+
+    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+
+    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href=# style="font-weight: bold;"> 
+
+    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/about.html" > 
+    <span class="our_menu">About</span></a></li>
+{% endif %}
+<span id="common_status" class="" style="width: 50px; text-align:right; display: hidden; white-space: nowrap;"></span>
+    
+<!--- APPLICATION MENU STARTS HRE ..... -->
+    
+<ul class="navbar-nav  mr-auto">
+<li class="nav-item dropdown">
+  <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >
+  <i class="fas fa-network-wired"></i> <span class="our_menu">Apps</span></a>
+  <div  class="changetag dropdown-menu dropdown-menu-right"
+         style="z-index:2;width:300px; border-radius: 5px; padding: 0px; ">
+      
+  <div class="row" style="padding: 1; margin: 0;">
+  <div class="col-md-2" style="background-color: #fafafa" style="padding: 0; "></div>
+  <div class="col-md-8"  style="padding: 0; ">
+
+      {% include "appmenu.html" %}    
+
+  </div>
+  </div>
+  </div>
+</li>
+</ul>
+<!--- APPLICATION MENU ENDS HRE ..... -->
+
+      
+      
+<!-- 
+    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/"><i class="fas fa-home"></i>
+       <span class="our_menu">Home</span></a></li> 
+
+    
+    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/stocks/stocks/stocks_index.html/">
+        <i class="fa fa-chart-area"></i> <span class="our_menu">Stocks</span></a></li>
+    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/capstone/capstone/capstone_index.html">
+        <i class="fas fa-graduation-cap"></i> <span class="our_menu">Capstones</span></a></li>
+    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/shop/shop.html"><i class="fas fa-tasks"></i>
+         <span class="our_menu">Shop</span></a></li>
+    -->
+    <!--
+    <ul class="navbar-nav  mr-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >
+                  <i class="fas fa-blog"></i> <span class="our_menu">Articles</span></a>
+            <div class="dropdown-menu dropdown-menu-right"
+                 style="z-index:2;width:300px; border-radius: 5px; padding: 0px; ">
+                <div class="row" style="padding: 1; margin: 0;">
+                    <div class="col-md-2" style="background-color: #fafafa" style="padding: 0; "></div>
+                    <div class="col-md-8"  style="padding: 0; ">
+                        <a class="dropdown-item" href="/blogs/blogs.html"                    >Search Articles</a>
+                        <a class="dropdown-item" href="/blogs/secured/create_article1.html"  >Create an Article</a>
+                        <div class="dropdown-divider"></div>
+                        { % include "installedapps.html" %}
+                    </div>
+                </div>
+            </div>
+            </li>
+    </ul>
+    -->
+    
+    {% if not user.is_authenticated %}
+        <li><a class="nav-link" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i><span class="our_menu"> Sign in</span></a></li>
+    {% endif %}
+    
+    {% if user.is_authenticated %}
+            <ul class="navbar-nav  mr-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >
+                  <span class="our_menu">Me</span></a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions" style="z-index:2;">
+            <a class="dropdown-item" href="#">{{ user.email }}</a>
+            <div class="dropdown-divider"></div>
+            <!--
+            <a class="dropdown-item" href="#">Edit Profile</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/shop/shop.html/">Shop</a>
+
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Security &amp; Settings</a>
+            -->
+            <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i>Sign Out</a>
+            </div>
+            </li>
+            </ul>
+    {% endif %}
+</ul>
+</nav>
+</header>
+<style>
+.pagecontent{
+    width: 100%; 
+    position: relative;
+    padding-left: 0px; 
+    overflow: auto;
+}
+</style>
+<!-- End Header ------------------------------------------END MENU end header -->
+<div class="pagecontent" >
+{% block messages %}{% endblock %}
+{% block content %}{% endblock %}
+{% block content_extra %}{% endblock %}
+{% block extra_body %}{% endblock %}
+</div>
+<!-- end header -->
+<input style="position: absolute; top: -50px;" type=text name="share_copy" id="share_copy" />
+
+<div id="1" role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-delay="3000"
+         style="position: absolute; bottom: 0px; min-width: 99%; z-index: -4; background-color: transparent;padding: 20px;">
+    <a class="" onclick="STOP_ALERTS=1" href=#>Stop Showing toasts</a>
+      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+  <div class="toast-body" id="toastid"
+       style="text-align: left; padding: 20px; opacity: 0.5;min-height: 40px; border-radius: 5px;">
+    Hello, world! This is a toast message.
+  </div>
+</div>    
+
+</body>
+</html>
+
+<script>
+var STOP_ALERTS= 0
+function salert(txt, cls, delay){
+    if( STOP_ALERTS)
+        return;
+
+    icon="fa fa-check"
+    iconhead = "";
+    if (cls == "btn-success") {
+        icon="fa fa-check"
+        iconhead="Success"
+    } else if (cls == "btn-warning") {
+        icon = "fa fa-exclamation-triangle"
+        iconhead="Warning"
+    } else if (cls == "btn-info"){
+        icon = "fa fa-info"
+        iconhead="Info"
+    } else if (cls == "btn-danger"){
+        icon = "fa fa-exclamation-triangle"
+        iconhead="Error: ~"
+    }
+
+    txt = `<h4 class="alert-heading"><i class="${icon}"></i> ${iconhead}</h4>${txt}`
+
+    $('#1').css('z-index', 4);
+
+    $('#1').data('delay', delay || 4000);
+    $('.toast').toast('show');
+    cls = cls || "btn-success"
+    $('#toastid').html(txt).attr('class', cls)
+    $('.toast').toast('show');
+}
+
+var spin = "<i class='fa fa-spinner fa-spin' style='font-size: 32px;color:red;'></i>"
+
+function JS_error_OLD(responseTxt, statusTxt, xhr, showAlert=1, errorCB=null){
+    showAlert = showAlert | true;
+    if(statusTxt && responseTxt && (statusTxt !== "success" ||
+        responseTxt.toLowerCase().startsWith("error") || responseTxt === "null" ) ){
+
+        salert("<i class='fas fa-skull-crossbones'></i>" + statusTxt + " : " + responseTxt, 'btn-danger');
+        if(errorCB){
+            errorCB(url, responseTxt, statusTxt)
+        } else{
+            var rs = responseTxt || "";
+            console.log(statusTxt, rs.substring(0,64))
+        }
+        return statusTxt
+    } else if( responseTxt.startsWith("WARN") ) {
+        salert("<i class='fas fas fa-exclamation'></i> : " + responseTxt, 'btn-warning');
+    }
+
+    if(statusTxt && responseTxt && (statusTxt !== "success" || responseTxt.startsWith("ERROR:")) ){
+
+        salert("<i class='fas fa-skull-crossbones'></i>" + statusTxt + " : " + responseTxt, 'btn-danger');
+        if(errorCB){
+            errorCB(url, responseTxt, statusTxt)
+        } else{
+            var rs = responseTxt || "";
+            console.log(statusTxt, rs.substring(0,64))
+        }
+        return statusTxt
+    } else if( responseTxt.startsWith("WARN") ) {
+        salert("<i class='fas fas fa-exclamation'></i> : " + responseTxt, 'btn-warning');
+    }
+    return 0;
+}
+
+function JS_error(responseTxt, statusTxt, xhr, showAlert=1, errorCB=null){
+
+    robject = null
+    if (typeof(responseTxt) == "object" ) {
+        robject = responseTxt
+        responseTxt = responseTxt.statusText || responseTxt.toString()
+        responseTxt = responseTxt.responseText || responseTxt.toString()
+    }
+
+    if( (statusTxt && statusTxt !== "success") ||
+        (responseTxt && responseTxt.toLowerCase().startsWith("error")) ||
+        ( responseTxt === "null" ) ){
+
+        salert("<i class='fas fa-skull-crossbones'></i>" + statusTxt + " : " + responseTxt, 'btn-danger');
+        var rs = responseTxt || "";
+        console.log(statusTxt, rs.substring(0,64))
+
+        return statusTxt
+    } else if( responseTxt.startsWith("WARN") ) {
+        salert("<i class='fas fas fa-exclamation'></i> : " + responseTxt, 'btn-warning');
+    }
+
+    return 0;
+}
+
+var spin = "<i class='fa fa-spinner fa-spin' style='font-size: 32px;color:red;'></i>"
+let BUSY_COUNT = 0
+function busy(msg)  { $('#common_status').html(spin + (msg||'')); BUSY_COUNT++}
+function nbusy(msg) { if (--BUSY_COUNT <= 0 ) {$('#common_status').html(''); BUSY_COUNT=0 } }
+
+function doClassbasedInit() {
+    var x = document.getElementsByClassName("tabs");
+    for (var i = 0; i < x.length; i++) {
+        $(x[i]).tabs()
+        //$( x[i] ).tabs( "option", "heightStyle", "fill" );
+    }
+    x = document.getElementsByClassName("draggable");
+    for (var i = 0; i < x.length; i++) {
+        $(x[i]).draggable()
+    }
+    x = document.getElementsByClassName("resizable");
+    for (var i = 0; i < x.length; i++) {
+        $(x[i]).resizable()
+    }
+    x = document.getElementsByClassName("resizableX");
+    for (var i = 0; i < x.length; i++) {
+        $(x[i]).resizable( {handles: 'e, w'} )
+    }
+    x = document.getElementsByClassName("resizableY");
+    for (var i = 0; i < x.length; i++) {
+        $(x[i]).resizable( {handles: 'n, s'} )
+    }
+
+    $('[data-toggle="popover"]').popover({ html: true });
+    $('[data-toggle="tooltip"]').tooltip()
+}
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+$(document).ready(function() {
+    doClassbasedInit()
+})
+</script>
+
+
+<link href="/static/geoui/jquery-tabs.css" rel="stylesheet" />

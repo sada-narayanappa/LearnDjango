@@ -1,0 +1,18 @@
+{
+  "name": "highcharts",
+  "version": "11.4.1",
+  "main": "highcharts.js",
+  "license": "https://www.highcharts.com/license",
+  "types": "highcharts.d.ts",
+  "homepage": "https://github.com/highcharts/highcharts-dist",
+  "_release": "11.4.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v11.4.1",
+    "commit": "4288f2446f9eaabff0a7b13ae641261d725e0198"
+  },
+  "_source": "https://github.com/highcharts/highcharts-dist.git",
+  "_target": "^11.4.1",
+  "_originalSource": "highcharts",
+  "_direct": true
+}

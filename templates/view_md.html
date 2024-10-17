@@ -1,0 +1,116 @@
+{% extends "common.html" %}
+{% block content %}
+{% load custom_tags %}
+<script type="text/javascript" src="/static/bower_components/simplemde/debug/simplemde.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"> 
+</script>
+<style>
+#second {
+    width: 100%;
+    display: contents;
+    height: max-content;
+    text-align: -webkit-center !important;
+    padding: 20px;
+}
+
+#viewcontent {
+    max-width: 1024px;
+    margin: auto;
+    margin-top: .25in;
+    text-align: left;
+    padding: 20px;
+}
+</style>
+<div id='editdiv' class="btn-group" style="float:right; display: none;">
+    <input name="viewid"  id="viewid"   hidden >
+    <span  class="btn-group" style=" min-width: 100px;" >
+        <button class="btn btn-secondary btn-sm" type="button" onclick="edit()">
+            {{  user.username }} : Edit
+        </button>
+    </span>
+</div>
+
+<div id="second" style="height: 100vh; overflow: auto;"  >
+    <div id="viewcontent"></div>
+</div>
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    SCRIPTS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<script>
+simplemde = new SimpleMDE({element: null });
+function md2html(val, ext, div){
+    var html  = simplemde.markdown(val);
+    if ( div ) {
+        $(div).html(ext + html)
+        geoui_setupMATHJAX(div.substring(1))
+    }
+    return html
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function viewCB(responseTxt, statusTxt, xhr){
+    if (JS_error(responseTxt, statusTxt, xhr, true) ) {
+        return;
+    }
+    val = responseTxt;
+    if (responseTxt.trim().startsWith("{")) {
+        ret = JSON.parse(responseTxt);
+        val = ret[0]
+    }
+    md2html(val, '', '#viewcontent' )
+    setTimeout(geoui_scrollTo, 50);
+}
+function viewCB(responseTxt, statusTxt, xhr, ctx, form){
+    if (JS_error(responseTxt, statusTxt, xhr, true) ) {
+        return;
+    }
+
+    var val = responseTxt;
+    var ret = {}
+    if (responseTxt.trim().startsWith("{")) {
+        ret = JSON.parse(responseTxt);
+        val = ret.content
+    }
+
+    md2html(val, '', '#viewcontent' )
+    saveZZValues()
+    //setTimeout(geoui_scrollTo, 50);
+
+    console.log('SUPER ==> {{ user.is_superuser }}')
+    var is_super = "{{ user.is_superuser }}" == "True" ? 1 : 0
+    var author   = (ret.meta) ? ret.meta.user : ""
+    var user     = "{{ user.username }}"
+
+    var can_edit = (is_super || (author && author == user)) ? 1 : 0
+
+    if ( can_edit)
+        $('#editdiv').show()
+
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function edit(viewid){
+    var v = $('#viewid').val()
+    var edit= `${window.location.origin.split('?')[0]}/blogs/secured/edit_article.html/?viewid=${$('#viewid').val()}`
+    window.open(edit, "EDIT")
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function view(viewid) {
+    var URL = viewid
+    
+    if (!URL.startsWith("/static")) {
+        URL = "/static/docs/"+ URL
+    }
+    $.get(URL, viewCB )
+    $('#viewid').val(viewid) 
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+$(document).ready(function() {
+    var urlp   = new URL(window.location.href)
+    console.log(urlp.searchParams.get('viewid'))
+    var viewid =  urlp.searchParams.get('viewid', '')  || urlp.searchParams.get('file', '') || ""
+
+    $('#viewid').val(viewid)
+    if (viewid)
+        view(viewid)
+})
+</script>
+{% endblock %}

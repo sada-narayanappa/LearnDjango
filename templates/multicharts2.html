@@ -1,0 +1,89 @@
+<style>
+.chart{
+    height: 200px;
+}
+</style>
+
+<script>
+let _charts_defaults = {
+    type    :   "spline",
+    title   :   "",
+    data    :  [],
+    onclick : null,
+    xAxis   : { ordinal:true, crosshair: true, type: 'datetime' },
+    legend  : { enabled: false }
+}
+function _getChart( popt=_charts_defaults){
+    opts = $.extend( {}, _charts_defaults, popt );
+
+    var lcolor = (popt.trend > 0) ? 'rgb(0, 255, 0, 0.7)' : 'rgb(255, 0, 0, 0.7)'
+    var fcolor = (popt.trend > 0) ? '#5cb85c' : "#dc3545"
+
+    var hopts={
+        title:      {  text:  opts.title, align: 'left'},
+        credits:    {  enabled: false       },
+        legend:     opts.legend, 
+        exporting:  {  enabled: true        },
+        xAxis:      opts.xAxis,
+        chart: {  
+            type:  opts.type, zoomType: 'x',  parallelCoordinates: false, parallelAxes: { lineWidth: 1 }
+        },
+        rangeSelector: {  selected: 0,
+            buttons: [
+                {type: 'day',   count: 1,  text: '1D' },
+                {type: 'day',   count: 5,  text: '5D' },
+                {type: 'month', count: 1,  text: '1m' },
+                {type: 'month', count: 3,  text: '3m' },
+                {type: 'month', count: 6,  text: '6m' },
+                {type: 'ytd',   text: 'YTD'           },
+                {type: 'year',  count: 1,  text: '1y' },
+                {type: 'all',   text: 'All'           }
+            ]
+        },
+        tooltip: {
+            positioner: function (labelWidth, labelHeight, point) {
+                return { x: point.plotX > 100? point.plotX-labelWidth:point.plotX, y: 0};
+            },
+            useHTML: true,
+            split: false,
+            shadow: false,
+            borderWidth: 0.5,
+            backgroundColor: 'rgba(255,255,255,0.5)',
+            valueDecimals: 3,
+            crosshair: true,
+            style: {
+                zIndex: 20,
+            }
+        },
+        series: opts.data,
+
+        plotOptions: { 
+            series: {
+                turboThreshold: 50000,
+                point: { events: { click: opts.onclick, mouseOut: function() { this.series.chart.tooltip.hide();} } },
+                lineWidth: 0.8,
+                borderRadius: 5,
+                dataLabels: [
+                    { enabled: true,  distance: 15,     format: '{point.name}'   },
+                    {
+                        enabled: true,  distance: '-30%', format: '{point.y:.1f}%',
+                        filter: { property: 'percentage',  operator: '>', value: 5   },
+                        style:  { fontSize: '0.9em',  textOutline: 'none'    }
+                    }
+                ],
+                marker:{ enabled: true, radius: 2, },
+                fillColor: { linearGradient: {x1: 0,y1: 0,x2: 0,y2: 0.9 },
+                    stops: [
+                        [0, fcolor],
+                        [1, Highcharts.color(fcolor).setOpacity(0).get('rgba')]
+                    ]
+                },
+                events:{
+                    mouseOut: function (event) {this.chart.tooltip.hide() }
+                },
+            }
+        },
+    };
+    return hopts;
+}
+</script>

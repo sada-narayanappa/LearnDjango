@@ -1,0 +1,67 @@
+{% extends "common.html" %}
+{% block content %}
+{% load custom_tags %}
+<script type="text/javascript" src="/static/bower_components/simplemde/debug/simplemde.js"></script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"> </script>
+<style>
+#second {
+    width: 100%;
+    display: contents;
+    height: max-content;
+    text-align: -webkit-center !important;
+    padding: 20px;
+}
+
+#viewcontent {
+    max-width: 1024px;
+    margin: auto;
+    margin-top: .75in;
+    margin-bottom: 1.5in;
+    text-align: left;
+    padding: 20px;
+}
+</style>
+<div id="second" style="height: 100vh; overflow: auto;"  >
+    <div id="viewcontent"></div>
+</div>
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    SCRIPTS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<script>
+simplemde = new SimpleMDE({element: null });
+function md2html(val, ext, div){
+    var html  = simplemde.markdown(val);
+    if ( div ) {
+        $(div).html(ext + html)
+        geoui_setupMATHJAX(div.substring(1))
+    }
+    return html
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function viewCB(responseTxt, statusTxt, xhr){
+    if (JS_error(responseTxt, statusTxt, xhr, true) ) {
+        return;
+    }
+    val = responseTxt;
+    if (responseTxt.trim().startsWith("{")) {
+        ret = JSON.parse(responseTxt);
+        val = ret[0]
+    }
+    md2html(val, '', '#viewcontent' )
+    setTimeout(geoui_scrollTo, 50);
+}
+function view(viewid){
+    const URL1  = "/static/docs/"+viewid
+    $.get(URL1, viewCB )
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+$(document).ready(function() {
+    var urlp   = new URL(window.location.href)
+    var viewid =  urlp.searchParams.get('viewid')  || ""
+
+    $('#viewid').val(viewid)
+    if (viewid)
+        view(viewid)
+})
+</script>
+{% endblock %}

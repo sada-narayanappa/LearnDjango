@@ -1,0 +1,47 @@
+{% extends "common.html" %}
+{% block content %}
+{% load custom_tags %}
+<!-- -----------------------------------------------------------------------------
+    TEST callws
+------------------------------------------------------------------------------- -->
+<div style="padding: 20px;" >
+<h1>Example </h5>
+<form id="form1">
+    <input id="test1"  value="test1_val" required>
+    <input id="date1" type=datetime-local class="form-control border-right-0" >
+    <textarea id="test2" style="width:99%;" required>test2_val</textarea>
+
+    <input type="checkbox" id="cid1" checked> cid1 1<br/>
+    <input type="checkbox" id="cid2" checked> cid2 2<br/>
+    <input type="checkbox" id="cid3" > cid3 3<br/>
+
+    <br/>
+    <input type="radio" id="huey1" name="drone" value="huey1" checked> huey1 <br/>
+    <input type="radio" id="huey2" name="drone" value="huey2" > huey2 <br/>
+    <input type="radio" id="huey3" name="drone" value="huey3" > huey3 <br/>
+    
+    <br/>
+    <select id="pets">
+        <option value="">--Please choose an option--</option>
+        <option value="dog">Dog</option>
+        <option value="cat">Cat</option>
+        <option value="hamster">Hamster</option>
+        <option value="parrot">Parrot</option>
+        <option value="spider">Spider</option>
+        <option value="goldfish">Goldfish</option>
+    </select>
+
+    <br/>
+    <input id="file_id1"  name="file1" type="file"   accept="*" multiple>
+    <input id="file_id2"  name="file2" type="file"   accept="*">
+</form>
+</div>
+
+<!-- -----------------------------------------------------------------------------
+    SCRIPTS
+------------------------------------------------------------------------------- -->
+<script>
+$(document).ready(function() {
+})    
+</script>
+{% endblock %}

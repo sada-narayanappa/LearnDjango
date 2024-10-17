@@ -1,0 +1,70 @@
+{% extends "common.html" %}
+{% load custom_tags %}
+{% block content %}
+<!-- ---------------------------------------------------
+    HTML
+----------------------------------------------------- -->
+<div id="min" style="overflow: auto; padding: 10 10 10 10;"  >
+    <div class="row">
+        <div class="col-md-2" >
+            <lable class="lable100" >DB Connection </lable>
+            <select class=input100 id=cnxselect onchange="setcnx()" style="width:100%">
+            <option value="sqlite:////opt//utils//db.sqlite3">default</option>
+            <option value="sqlite:////opt//data//tseries//db//tseries.sqlite3">tseries</option>
+        </select>
+        </div>
+        <div class="col-md-4">
+        <lable class="lable100" >DB Connection </lable>
+        <input class=input100 type="text" id=cnx value="sqlite:////opt//utils//db.sqlite3"
+            placeholder="Connection - file" > </input>    
+        </div>
+        <div class="col-md-4">
+            <lable class="lable100" >Table Name </lable>
+            <input class=input100 type="text" id=table value="test"
+                onblur="setQ()" placeholder="Table Name" </input>    
+        </div>
+        <div class="col-md-2" >
+            <div style="border: 0px solid #ccc;display: flex;height: 100%;">
+                <button class="btn btn-primary" onclick="getQ()">go</button>&nbsp;
+                <button class="btn btn-primary" onclick="updQ()">Update</button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <label class="lable100" >SQL Query </label>
+        <textarea rows=1 class=input100 id=q>SELECT * from test LIMIT 100</textarea>
+    </div>
+    <div>
+        <label class="lable100" >Updates Query </label>
+        <textarea rows=2 class=input100 id=u></textarea>
+    </div>
+    <div id="sqltable" style="overflow: auto;" ></div>
+</div>
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    SCRIPTS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<script>
+function setcnx(){
+    $('#cnx').val($('#cnxselect').val())
+}
+function setQ(){
+    table = $('#table').val();
+    $('#q').val("SELECT * from " + table + " LIMIT 1000");
+}
+function updQ(){
+    var tab = $('#table').val();
+    var ret = datatable_updatesSQL('sqltable1', tab, ids=[0])
+    $('#u').val(ret)
+}
+// ---------------------------------------------------------------------------------
+function getQCB(responseTxt){
+    showDataTable(responseTxt, {firstIstime: false, div: 'sqltable', id: 'sqltable1', fillHeight:1})
+}
+function getQ(){
+    callws( url="/mq/", null, callbacks=getQCB, {}, {getIDs: true} )
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+$(document).ready(function() {
+})
+</script>
+{% endblock %}

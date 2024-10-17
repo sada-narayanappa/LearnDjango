@@ -1,0 +1,138 @@
+{% extends "common.html" %}
+{% block content %}
+<script src="/static/geoui/splitter.js"></script>
+<link href="/static/geoui/jquery-tabs.css" rel="stylesheet" />
+<link href="/static/geoui/slidermenu.css" rel="stylesheet" />
+<script src="/static/geoui/slidermenu.js"></script>
+
+<script type='text/javascript' src='https://www.x3dom.org/download/x3dom.js'> </script> 
+<link rel='stylesheet' type='text/css' href='https://www.x3dom.org/download/x3dom.css'></link> 
+
+<!-- ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- -->
+<style>
+.leftpane {
+    width: 60px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x:scroll;
+    background: #f0f0f0;
+}    
+x3d
+    {
+        border:2px solid #ececec;        
+        background: rgba(245, 245, 245, 0.4);
+        width:  100%;
+        height: 100%;
+    }    
+
+#hh a, a:hover {
+    text-decoration: none;;
+    padding: 10px;
+    display: block;
+    color: #303030;
+    padding-bottom: 20px;
+    font-size: small;
+}  
+</style>
+<div id="workspace">
+    <div id="leftPane" class="leftpane scroller ">
+    </div>
+
+    <div id="rightPane" style="padding: 0px; margin: 0px;overflow: auto;height: -webkit-fill-available;">
+        <div style="height:45%;width:50%; display: none;">
+        <x3d> 
+            <scene> 
+             <shape> 
+                <appearance> 
+                  <material diffuseColor='1 0 0'></material> 
+                </appearance> 
+                <box></box> 
+             </shape> 
+             <transform translation='-3 0 0'> 
+               <shape> 
+                  <appearance> 
+                    <material diffuseColor='0 1 0'></material> 
+                  </appearance> 
+                  <cone></cone> 
+               </shape> 
+             </transform> 
+             <transform translation='3 0 0'> 
+               <shape> 
+                  <appearance> 
+                    <material diffuseColor='0 0 1'></material> 
+                  </appearance> 
+                  <sphere></sphere> 
+               </shape> 
+             </transform> 
+            </scene> 
+         </x3d> 
+         </div>
+    
+        <div style="height:45%;width:50%;">
+            <h4>Scene</h4>
+            <x3d id='catx3d'>
+                <scene id="mainScene"  >
+                    <Inline id="inlineBox" nameSpaceName="dcm" 
+                    onload="zo()" url="/static/3d/orion_nofbc.x3d" />
+                </scene>
+            </x3d>
+        </div>
+        <div style="padding-left:0px; height:100%;width: 70px; 
+            background-color: #f0f0f0;; top: 0; right:0; position: absolute;
+            text-align: center;">
+            <br/>
+            <h4><i class="fas fa-skull-crossbones"></i></h4>
+            <hr/>
+            <div id=hh style="padding-left: 10px;">
+            <a href=# onclick='show("/static/3d/dcm1.x3d")'> 
+                <i class="fas fa-blog"></i> <br/>dcm1 </a> 
+            
+            <a href=# onclick='show("/static/3d/dcm2.x3d")'> 
+                <i class="fas fa-network-wired"></i> <br/>dcm2 </a> 
+            
+            <a href=# onclick='show("/static/3d/dcm3.x3d")'> 
+                <i class="fas fa-graduation-cap"></i> <br/>dcm3 </a> 
+            <a href=# onclick='show("/static/3d/orion_nofbc.x3d")'> 
+                <i class="far fa-comment-alt"></i> <br/>ORION </a> 
+            <a href=# onclick='show("/static/3d/Deer.x3d")'> 
+                <i class="fas fa-sign-out-alt"></i> <br/>Deer </a> 
+                                        
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+$(function () {
+    $("#workspace").splitter({
+        orientation: "horizontal",
+        limit: 50,
+        barwidth: 2,
+    });
+});
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+function show(file){
+    if(file != $('#inlineBox').attr('url'))
+        $('#inlineBox').attr('url', file);
+    document.getElementById('catx3d').runtime.fitAll();
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+function getcapstoneSidebarCB(responseTxt, statusTxt, xhr){
+    if (JS_error(responseTxt, statusTxt, xhr, true) ) {
+        return;
+    }
+    getmenu(responseTxt, '#newmenu', "Capstones")
+}
+function getcapstoneSidebar(){
+    const URL1  = `${window.location.origin}/api1/capmenu/`
+    $.get(URL1, getcapstoneSidebarCB)
+}
+getcapstoneSidebar();
+
+function zo() {
+    document.getElementById('catx3d').runtime.fitAll();
+}
+</script>
+{% endblock %}

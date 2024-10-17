@@ -1,0 +1,54 @@
+{% extends "common.html" %}
+{% load custom_tags %}
+{% block content %}
+<script src="/static/geoui/splitter.js"></script>
+<link href="/static/geoui/jquery-tabs.css" rel="stylesheet" />
+<!-- ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- -->
+<style>
+.tab-details {
+    background-color: white;
+    border-radius: 4px 4px 0 0 ;
+    border: 0px solid rgba(50, 50, 93, 0.1);
+
+    height: fit-content;
+    padding: 20px;
+    text-align: left;
+}
+.tab-content {
+    text-align: initial;
+    display: contents;
+}
+</style>
+<!-- ---------------------------------------------------
+    HTML
+----------------------------------------------------- -->
+<div class="center">
+<div class="info" id="message">&nbsp;&nbsp;&nbsp;</div>
+<div id="tabs" class=tabs>
+  <ul>
+    <li><a href="#tabs-home"  > Home</a></li>
+    <li><a href="#tabs-acts"  > Activities</a></li>
+  </ul>
+    <div style="width:100%; height: 1px; background: #efefef"> </div>
+    <div class="row">
+          <div id="tabs-home" style="padding-left: 20px;" >
+            A sample application to show list of users
+          </div>
+          <div id="tabs-acts" style="padding-left: 20px;" >Actions Search Results
+
+          </div>
+    </div>
+</div>
+</div>
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    SCRIPTS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<script>
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+$(document).ready(function() {
+    $(window).resize()
+})
+</script>
+{% endblock %}

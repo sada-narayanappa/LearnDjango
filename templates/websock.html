@@ -1,0 +1,71 @@
+<script>
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+let GEO_SOCKET;
+function showInChatWindow(url=window.location + "/chat/"){
+    window.open(url,'window','toolbar=no, menubar=no,resizable=yes');
+}
+
+function connectWebSocket(room="general") {
+    _WEBSOCK_REGISTRANTS[room] = []
+
+    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+
+    var url = `${ws_scheme}://${window.location.host}/ws/chat/${room}/`
+
+    //console.log("Websock Connecting to: ", url)
+    try {
+        GEO_SOCKET = new WebSocket(url);        
+    } catch(e) {
+        console.log(e)
+    }
+
+    GEO_SOCKET.onmessage = function(e) {   // Handle incoming message
+        BroadcastMessage(room, e.data)
+    };
+}
+function sendToWebSocket(message="Connect me: channel") {
+    if ( !GEO_SOCKET) {
+        console.log("Websock Not connected ")
+        return
+    }
+    try{
+        GEO_SOCKET.send(message);
+    } catch {
+        GEO_SOCKET = null;
+    }
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+const _WEBSOCK_REGISTRANTS = {}
+
+function BroadcastMessage(room_name, msg) {
+    items = _WEBSOCK_REGISTRANTS[room_name];
+    if ( !items ) {
+        console.log("No regitration for ", room_name, msg)
+        return;
+    }
+    for (var t in items) {
+        var it = items[t]
+        it.cb(it.args, msg)
+    }
+}
+
+function RegisterInterest(room_name, callback, args={}) {
+    if (!_WEBSOCK_REGISTRANTS[room_name] ) {
+        alert("You must call connectWebSocket(room_name) first")
+    }
+    var newentry = {cb: callback, args: args}
+    _WEBSOCK_REGISTRANTS[room_name].push( newentry )
+    return _WEBSOCK_REGISTRANTS[room_name]
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function popAlert(args, msg) {
+    salert(msg)
+}
+$(document).ready(function() {
+    //connectWebSocket("general")
+    //RegisterInterest("general", popAlert)
+    //console.log("CONNECTING to general channel")
+})
+</script>
