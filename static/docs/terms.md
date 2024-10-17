@@ -1,7 +1,7 @@
-# Terms and Conditions
+# Terms and Conditions‣
 
 
-## Summary‣
+## Summary
 
 Geospaces.org, Inc. (“we,” “us” and “our”) respects individual privacy and values the confidence of our subscribers.We want you to be familiar with what information we collect about you, how the information is being used and what choices you have regarding the collection and use of the information.The privacy principles that we follow with respect to the collection, use, disclosure and protection of information in the course of providing our products and services are consistent with relevant U.S. federal and state laws.
 

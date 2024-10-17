@@ -6,9 +6,8 @@
     margin: 0 auto;
     overflow: visible !important;
 }
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-
 </style>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <script>
 /**
@@ -17,8 +16,12 @@
  */
 function sync(e){
     var chart, point, i, event;
+    //var mcharts1 = Highcharts.charts;
+    //mcharts1 = mcharts
     for (i in mcharts) {
         chart = mcharts[i];
+        if ( !chart || !chart.pointer)
+            continue
         event = chart.pointer.normalize(e); // Find coordinates within the chart
         point = chart.series[0].searchPoint(event, true); // Get the hovered point
 
@@ -27,7 +30,10 @@ function sync(e){
 }
 function Addsync(id){
     ['mousemove', 'touchmove', 'touchstart'].forEach(function (eventType) {
-        document.getElementById(id).addEventListener( eventType,
+        var ele = $(id)[0]
+        if ( typeof(id) == "string")
+            ele = document.getElementById(id);
+        ele.addEventListener( eventType,
             function (e) {
                 var chart, point, i, event;
                     if ( mcharts.length <= 1)
@@ -127,7 +133,6 @@ let SEL_OPTS = {
 
 // dataset.name
 function getHighChart(tit, sdata, i=0, funcToCall=null){
-
     valueDecimals = 6
 
     seriesdata= $.extend ({
@@ -158,11 +163,12 @@ function getHighChart(tit, sdata, i=0, funcToCall=null){
         legend:  {  enabled: false },
         exporting: { enabled: false },
         xAxis: {
+            ordinal:true,
             crosshair: true,
             events: {  setExtremes: syncExtremes   },
             labels: {
               formatter: function() {
-                    return Highcharts.dateFormat('%m/%d <br/>%H:%M', this.value);
+                    return Highcharts.dateFormat('%y-%m-%d <br/>%H:%M', this.value);
               }
             },
             dateTimeLabelFormats1: { // don't display the dummy year
@@ -171,30 +177,49 @@ function getHighChart(tit, sdata, i=0, funcToCall=null){
             },
             type: 'datetime',
             plotLines: [{
-                color: '#49910D', width: 1, value: 1,
+                color: '#49910D', width: 0, value: 1,
                 dashStyle: 'Dash',
                 label: { text: '' },
                 id: 'select'
           }]
         },
-        yAxis: { title: { text: null } },
-          min: null,
-          tooltip: {
-                positioner: function (labelWidth, labelHeight, point) {
-                    //console.log(chart.plotTop)
-                    return { x: point.plotX > 100? point.plotX-labelWidth:point.plotX, y: 0};
-                },
-                useHTML: true,
-                split: false,
-                shadow: false,
-                borderWidth: 0.5,
-                backgroundColor: 'rgba(255,255,255,0.8)',
-                valueDecimals: valueDecimals,
-                crosshair: true,
-                style: {
-                    zIndex: 20,
+        yAxis: [{ 
+                    title:  {text: 'y-Axis'},
+                     top: '30px',
+                     hheight: '85%'
+                }, 
+                {
+                    height: '24'
+                } 
+            ],
+        min: null,
+        tooltip: {
+            positioner: function (labelWidth, labelHeight, point) {
+                //console.log(chart.plotTop)
+                return { x: point.plotX > 100? point.plotX-labelWidth:point.plotX, y: 0};
+            },
+            formatter: function() {
+                var x = this.x
+                var y = this.y
+                if ( ""+this.y === "undefined"){
+                    y = this.point.text
                 }
-          },
+
+                var r = Highcharts.dateFormat('%A %b %e, %Y %H:%M:%S', new Date(x));
+                r += " :(" + y +")";
+                return r;
+            },
+            useHTML: true,
+            split: false,
+            shadow: false,
+            borderWidth: 0.5,
+            backgroundColor: 'rgba(255,255,255,0.5)',
+            valueDecimals: valueDecimals,
+            crosshair: true,
+            style: {
+                zIndex: 20,
+            }
+        },
         tooltip1: {
             positioner: function () {
                 return {
@@ -222,7 +247,7 @@ function getHighChart(tit, sdata, i=0, funcToCall=null){
 
 
 
-function PlotBands(v1, v2, rgb = 'rgba(0,255,0,0.1)') {
+function PlotBands(v1, v2, rgb = 'rgba(255,255,0,0.4)') {
     v1 = v1 || '#trnstart'
     v2 = v2 || '#trnend'
 

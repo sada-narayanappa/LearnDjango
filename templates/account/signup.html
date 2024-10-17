@@ -2,7 +2,7 @@
     
 {% load i18n %}
 
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block head_title %}{% trans "Signup title" %}{% endblock %}
 {% block head_links %} 
 
 <title>Signup</title>
@@ -34,7 +34,7 @@ label{
 
 <div class="container-fluid text-center fc"    >
     <br/><br/>
-    <h2 id="head_banner">{% trans "Sign Up" %}</h2>
+    <h2 id="head_banner">{% trans "Sign Up " %}</h2>
     <p class="exist_account_info">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
     <br/><br/>
     
@@ -57,9 +57,9 @@ label{
   
   {% endif %}
     <br/>
-
-  <button class="btn btn-primary btn-lg" style="width: 300px;; height:48px;"  type="submit">{% trans "Sign Up" %}</button><br/>
-    </div>
+    <div id="captcha" class="g-recaptcha btn-primary" style="width: 100%; " data-sitekey="6Lc56D4hAAAAAC4EGOJPwbdVjRCSQGSoHGq8rMEC"></div>
+    <button class="btn btn-primary btn-lg" type=button style="width: 100%;" href=# onclick="validateSubmit()">{% trans "Sign Up" %}</button><br/>
+</div>
 </form>
         <p>
             <br/>
@@ -69,4 +69,25 @@ label{
 </div>
 </div>
 </div>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<script>
+function validateSubmit() {
+    console.log("Checking ...")
+    var valid = $('#signup_form')[0].checkValidity();
+    if (!valid){
+        $('#signup_form')[0].reportValidity()
+        return;
+    }
+    if (!grecaptcha.getResponse()) {
+        salert("we want to know you are human :)", 'btn-danger')
+        $('#captcha').focus()
+        return
+    }
+
+    $('#signup_form')[0].submit()
+    return false
+}
+
+</script>
 {% endblock %}

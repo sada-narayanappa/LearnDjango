@@ -3,6 +3,7 @@
 <title>Sign In</title>
 {% block head_title %}{% trans "Sign In" %} {% endblock %}
 {% block content %}
+{% load custom_tags %}
 
 <style>
 .fw1{
@@ -61,16 +62,18 @@ label{
       <a class=""  style="" href="{% url 'account_signup' %}">{% trans "Create Account?" %}</a>
     <br/>
   </p>
+  {% if SSO %}
   <p>
       or 
-      <!-- a class=""  style=""  href='{  % url 'oidc_authentication_init' %}' --> SSO </a>
+      <a class=""  href='{% url 'oidc_authentication_init' %}' > SSO </a>
     <br/>
   </p>
+  {% endif %}
         
             
         <p>
             <br/>
-            By using Geospaces you agree to the 
+            By using this site Geospaces you agree to the 
             <a href=#> Terms of Service </a> and <a href=#> Privacy Policy </a>
         </p>
     </div>

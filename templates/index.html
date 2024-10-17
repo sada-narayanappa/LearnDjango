@@ -1,24 +1,32 @@
 {% extends "common.html" %}
 {% block content %}
 
-<div class="center"
-     style='font-family: "Google Sans",Arial,Helvetica,sans-serif; padding: 20px; margin: 20px;'>
-
-    <br/>
-    <h1>&nbsp; Learn to build sample Django application</h1>
-<a href="/blogs/blogs.html/"><H4>Use this as template for your project</H4></a>
+<div class="center">
+    <h1>Index</h1>
 <br/>
 <br/>
-<br/>
-</div>
-<div class="container" style ="width:900px" >
 
 
-    Customize to as you need it.
-</div>
-
-
-
-<br/>
 {% include "footer.html" %}
+<script>
+function setbg() {
+    var sun = {   "#day" : "sunday",
+            "background-image":    'url("/static/media/bgimg1.png")',
+            "background-repeat":   'no-repeat',
+            "background-position": '0 -400px'
+        }
+    var styles = [
+        {}, {}, {}, {}, {}, {}, {}
+    ];
+    s = styles[(new Date().getDay() % styles.length)]
+    for (k in s){
+        if (k.startsWith('#'))
+            continue;
+        $('body').css(k, s[k])
+
+    }
+}
+setbg();
+
+</script>
 {% endblock %}

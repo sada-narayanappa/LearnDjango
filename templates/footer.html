@@ -3,7 +3,7 @@
     color: #bdbdbd;
 }
 </style>
-<footer id="footer" style="background: #acacac !important; position: relative; bottom:0; width:100%;z-index:6; ">
+<footer id="footer" class="our_menu1" style="background: #3c4043 !important;position: relative; bottom:0; width:100%;z-index:6; ">
     <br/>
     <div class="container" >
         <div class="row">
@@ -11,31 +11,49 @@
             <div class="col-md-3">
                 <div class="widget1">
                     <h5 class="widgetheading">Our Contact</h5>
+                    <address>Phone (XXX) 809-7566 </address>
+                        <i class="icon-phone"></i> <br>
+                        <i class="icon-envelope-alt"></i> info@GEOSPACES.ORG
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="widget">
                     <h5 class="widgetheading">Quick Links</h5>
                     <ul class="link-list">
+                        <li><a href="/geoapp/contact.html">Contact us</a></li>
                     </ul>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="widget">
                     <h5 class="widgetheading">Latest posts</h5>
+                    <ul class="link-list">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="#">Career</a></li>
+                    </ul>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="widget">
-                    <h5 class="widgetheading">Recent News</h5>
+                    <h5 class="widgetheading">Catalog of services</h5>
                     <ul class="link-list">
+                        <li><a target="" href="/geoapp/view_md.html/?viewid=events.md">News</a></li>
+                        <li><a target="new" href="/geoapp/secured/sql.html/">admin</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-    <div id="sub-footer" style="background: #bcbcbc !important">
-        <span style="color: black; padding: 0 5 1  50px;">&copy; No right reserved.</span>
+    <div id="sub-footer" style="background: #5c5c5c !important">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="copyright">
+                            <span>&copy; All right reserved.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </footer>
 
@@ -47,9 +65,9 @@ function footerPosition(){
     //var ft = $('#footer').position().top + $('#footer').height()
     //if ( $('#pagecontent').height() + 150 > $(window).height() ){
     if ( (document.body.clientHeight ) < $(window).height() ){
-        $('#footer').css('position', 'relative')
-    }else{
         $('#footer').css('position', 'fixed')
+    }else{
+        $('#footer').css('position', 'relative')
     }
 
 }

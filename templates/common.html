@@ -3,19 +3,21 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
-<link rel="icon" type="image/png" href="/static/imgs/fav.png" />
-<link href='/static/css/googlefont.css' rel='stylesheet' type='text/css'>
-<link href='/static/css/googlefontsans.css' rel='stylesheet' type='text/css'>
-<script src="/static/bc/jquery/dist/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/static/css/styles.css">
-<link rel="stylesheet" type="text/css" href="/static/css/styles1.css">
-<link rel="stylesheet" type="text/css" href="/static/bc/Font-Awesome/css/all.css">
-<link rel="stylesheet" type="text/css" href="/static/bc/jquery-ui/themes/base/jquery-ui.min.css">
-<script src="/static/bc/jquery-ui/jquery-ui.js"></script>
-<script src="/static/bc/jquery-form/src/jquery.form.js"></script>
+<link rel="icon" type="image/png" href="/static/imgs/fav.png/" />
+<link href='/static/css/googlefont.css/' rel='stylesheet' type='text/css'>
+<link href='/static/css/googlefontsans.css/' rel='stylesheet' type='text/css'>
+<script src="/static/bc/jquery/dist/jquery.min.js/"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/styles.css/">
+<link rel="stylesheet" type="text/css" href="/static/bc/Font-Awesome/css/all.css/">
+<!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+-->
+<link rel="stylesheet" type="text/css" href="/static/bc/jquery-ui/themes/base/jquery-ui.css/">
+<script src="/static/bc/jquery-ui/jquery-ui.js/"></script>
+<script src="/static/bc/jquery-form/src/jquery.form.js/"></script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-34483841-1"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-34483841-1/"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -23,21 +25,21 @@
   gtag('config', 'UA-34483841-1');
 </script>
 
-<link href="/static/bc/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="/static/bc/bootstrap/dist/css/bootstrap.min.css/" rel="stylesheet" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
-integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-</script>
 
-<script src="/static/bc/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/static/popper.min.js" ></script>
+
+<script src="/static/bc/bootstrap/dist/js/bootstrap.min.js/"></script>
     
-<script src="/static/geoui/utils.js"></script>
-<script src="/static/geoui/cookies.js"></script>
-<link   href="/static/geoui/dragdrop.css" rel="stylesheet" />
-<script src ="/static/geoui/dragdrop.js"></script>
-<script src ="/static/geoui/callws.js"></script>
+<script src="/static/geoui/utils.js/"></script>
+<script src="/static/geoui/cookies.js/"></script>
+<link   href="/static/geoui/dragdrop.css/" rel="stylesheet" />
+<script src ="/static/geoui/dragdrop.js/"></script>
+<script src ="/static/geoui/callws.js/"></script>
 <link rel="stylesheet" href="/static/css/jquery.rateyo.min.css"/>
-<script src="/static/js/jquery.rateyo.min.js"></script>
+<script src="/static/js/jquery.rateyo.min.js/"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/styles1.css/">
 
 <style>
 
@@ -54,12 +56,11 @@ integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0
     overflow: auto;
 }
 .fcontainer .footer{
-    flex: 0 1 70px;
+    flex: 0 1 1px;
     background: #7e8aa0;
 }
 
 .input80{
-    width: 80%;
     text-align: left;
     min-height: 35px;
     padding: 10px;
@@ -86,7 +87,8 @@ integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0
 
 input{
     border: 1px solid #ced4da;
-    border-radius: 0.25rem;
+    border-radius: 4px;
+    height: 40px;
 }
 
 .div1{
@@ -106,6 +108,21 @@ input{
     border-bottom: 3px solid #ccc;
 }
 .input1:readonly{
+    background: rgb(222, 58, 58);
+}
+
+.input11{
+    text-align: left;
+    height: 40px;
+    padding: 3 0 3 3;
+    font-size: small;
+    background: #fefefe;
+}
+.input11:disabled{
+    background: #ececec;
+    border-bottom: 3px solid #ccc;
+}
+.input11:readonly{
     background: rgb(222, 58, 58);
 }
 
@@ -236,6 +253,8 @@ code::after, code::before {
 </style>
 
 </head>
+<body>
+<header >
 <script>
     function GET_POSTDATA(params){
         data = {
@@ -280,57 +299,106 @@ style="border-bottom: 1px solid #eee; height: 48px; background-color: aliceblue;
 <span id="common_status" class="" style="width: 50px; text-align:right; display: hidden; white-space: nowrap;"></span>
     
 <!--- APPLICATION MENU STARTS HRE ..... -->
-    
-<ul class="navbar-nav  mr-auto">
-<li class="nav-item dropdown">
-  <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >
-  <i class="fas fa-network-wired"></i> <span class="our_menu">Apps</span></a>
-  <div  class="changetag dropdown-menu dropdown-menu-right"
-         style="z-index:2;width:300px; border-radius: 5px; padding: 0px; ">
-      
-  <div class="row" style="padding: 1; margin: 0;">
-  <div class="col-md-2" style="background-color: #fafafa" style="padding: 0; "></div>
-  <div class="col-md-8"  style="padding: 0; ">
+{% if NO_APP_MENU %}
+{% else %}
+    <ul class="navbar-nav  mr-auto">
+    <li class="nav-item dropdown">
+    <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >
+    <i class="fas fa-network-wired"></i> <span class="our_menu">Apps</span></a>
+    <div  class="changetag dropdown-menu dropdown-menu-right"
+            style="z-index:2;width:300px; border-radius: 5px; padding: 0px; ">
+        
+    <div class="row" style="padding: 1; margin: 0;">
+    <div class="col-md-2" style="background-color: #fafafa" style="padding: 0; "></div>
+    <div class="col-md-8"  style="padding: 0; ">
 
-      {% include "appmenu.html" %}    
+        {% include "appmenu.html" %}    
 
-  </div>
-  </div>
-  </div>
-</li>
-</ul>
-<!--- APPLICATION MENU ENDS HRE ..... -->
-
-    {% if not user.is_authenticated %}
-        <li><a class="nav-link" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i><span class="our_menu"> Sign in</span></a></li>
-    {% endif %}
-    
-    {% if user.is_authenticated %}
-            <ul class="navbar-nav  mr-auto">
-            <li class="nav-item dropdown">
-              <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >
-                  <span class="our_menu">Me</span></a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions" style="z-index:2;">
-            <a class="dropdown-item" href="#">{{ user.email }}</a>
-            <div class="dropdown-divider"></div>
-            <!--
-            <a class="dropdown-item" href="#">Edit Profile</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/shop/shop.html/">Shop</a>
-
-{% if request.user|has_group:"tseries" %}
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/users/secured/users_index.html/" >List Users</a>
+    </div>
+    </div>
+    </div>
+    </li>
+    </ul>
 {% endif %}
 
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Security &amp; Settings</a>
-            -->
-            <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i>Sign Out</a>
+<!--- APPLICATION MENU ENDS HRE ..... -->
+
+      
+      
+<!-- 
+    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/"><i class="fas fa-home"></i>
+       <span class="our_menu">Home</span></a></li> 
+
+    
+    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/stocks/stocks/stocks_index.html/">
+        <i class="fa fa-chart-area"></i> <span class="our_menu">Stocks</span></a></li>
+    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/capstone/capstone/capstone_index.html">
+        <i class="fas fa-graduation-cap"></i> <span class="our_menu">Capstones</span></a></li>
+    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/shop/shop.html"><i class="fas fa-tasks"></i>
+         <span class="our_menu">Shop</span></a></li>
+    -->
+    <!--
+    <ul class="navbar-nav  mr-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >
+                  <i class="fas fa-blog"></i> <span class="our_menu">Articles</span></a>
+            <div class="dropdown-menu dropdown-menu-right"
+                 style="z-index:2;width:300px; border-radius: 5px; padding: 0px; ">
+                <div class="row" style="padding: 1; margin: 0;">
+                    <div class="col-md-2" style="background-color: #fafafa" style="padding: 0; "></div>
+                    <div class="col-md-8"  style="padding: 0; ">
+                        <a class="dropdown-item" href="/blogs/blogs.html"                    >Search Articles</a>
+                        <a class="dropdown-item" href="/blogs/secured/create_article1.html"  >Create an Article</a>
+                        <div class="dropdown-divider"></div>
+{% if request.user|has_group:"tseries" %}
+                        <a class="dropdown-item" href="/capstone/capstone/capstone_index.html">Create a Capstone Project</a>
+                        <a class="dropdown-item" href="/blogs/view_book.html"                 >Read Book</a>
+                        <a class="dropdown-item" href="/blogs/secured/create_article.html"    >Create an Article</a>
+                        <a class="dropdown-item" href="/blogs/secured/create_book.html"       >Create a Book</a>
+{% endif %}
+                        { % include "installedapps.html" %}
+                    </div>
+                </div>
             </div>
             </li>
-            </ul>
+    </ul>
+    -->
+
+    {% if NO_LOGIN_MENU %}
+    {% else %}
+        {% if not user.is_authenticated %}
+            <li><a class="nav-link" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i><span class="our_menu"> Sign in</span></a></li>
+        
+        {% else  %}
+                <ul class="navbar-nav  mr-auto">
+                <li class="nav-item dropdown">
+                <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >
+                    <span class="our_menu">Me</span></a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions" style="z-index:2;">
+                <a class="dropdown-item" href="#">{{ user.email }}</a>
+                <div class="dropdown-divider"></div>
+                <!--
+                <a class="dropdown-item" href="#">Edit Profile</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/shop/shop.html/">Shop</a>
+
+                {% if request.user|has_group:"tseries" %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/users/secured/users_index.html/" >List Users</a>
+                {% endif %}
+
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Security &amp; Settings</a>
+                -->
+                <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i>Sign Out</a>
+                </div>
+                </li>
+                </ul>
+        {% endif %}
     {% endif %}
+
+
+
 </ul>
 </nav>
 </header>
@@ -340,7 +408,7 @@ style="border-bottom: 1px solid #eee; height: 48px; background-color: aliceblue;
     position: relative;
     padding-left: 0px; 
     overflow: auto;
-    height: 100%;
+    height: 95%;
 }
 </style>
 <!-- End Header ------------------------------------------END MENU end header -->
@@ -445,8 +513,9 @@ function JS_error(responseTxt, statusTxt, xhr, showAlert=1, errorCB=null){
         responseTxt = responseTxt.responseText || responseTxt.toString()
     }
 
-    if(statusTxt && responseTxt && (statusTxt !== "success" ||
-        responseTxt.toLowerCase().startsWith("error") || responseTxt === "null" ) ){
+    if( (statusTxt && statusTxt !== "success") ||
+        (responseTxt && responseTxt.toLowerCase().startsWith("error")) ||
+        ( responseTxt === "null" ) ){
 
         salert("<i class='fas fa-skull-crossbones'></i>" + statusTxt + " : " + responseTxt, 'btn-danger');
         var rs = responseTxt || "";
@@ -492,9 +561,18 @@ function doClassbasedInit() {
     $('[data-toggle="tooltip"]').tooltip()
 }
 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 $(document).ready(function() {
     doClassbasedInit()
 })
 </script>
+
+<!-- 
+For web sockets include the following file
+-->   
+{% include "websock.html" %} 
+
 <link href="/static/geoui/jquery-tabs.css" rel="stylesheet" />
 {% include "datatable.html" %}
