@@ -14,7 +14,7 @@ def appcontext(request):
         "appname": "example",
         "weburl" : "http://localhost:8003/",
         "top_url": "example_app/topbar.html",
-		"SSO": 1,
+		"SSO": 0,
         "NO_LOGIN_MENU": 0,
         "NO_APP_MENU" : 1,
         "ALLOW_REGISTRATION": 0,
