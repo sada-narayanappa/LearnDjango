@@ -30,13 +30,22 @@ label{
 <div class="container-fluid text-center fc"    >
     <br/><br/>
 <h2 id="head_banner">{% trans "Sign In" %}</h2>
-    <br/><br/>
+
+{% if SSO %}
+    <p>
+        <a class=""  href='{% url 'oidc_authentication_init' %}' > Organizational Login (SSO) </a>
+        <br/>
+    </p>
+{% endif %}
+
+<br/><br/>
     
 <form class="container-fluid text-center fc" id="login_form" method="POST" 
       action="{% url 'account_login' %}">
     
 {% csrf_token %}
   
+
     <div class="" style="max-width: 400px;display: inline-table;">
     {% for field in form %}
         <div class="fieldWrapper fw1" style="text-align: left; width: 100%;">
@@ -54,26 +63,25 @@ label{
   <button class="btn btn-primary" style="width: 300px;; height:48px;" type="submit">{% trans "Sign In" %}</button>
     <br/>
     <br/>
-  <a class="" style="" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+
+{% if ALLOW_REGISTRATION %}
+  <a class=""  href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
   <br/>  
   <br/>  
   <p>
       or 
-      <a class=""  style="" href="{% url 'account_signup' %}">{% trans "Create Account?" %}</a>
+      <a class=""  href="{% url 'account_signup' %}">{% trans "Create Account?" %}</a>
     <br/>
   </p>
-  {% if SSO %}
-  <p>
-      or 
-      <a class=""  href='{% url 'oidc_authentication_init' %}' > SSO </a>
-    <br/>
-  </p>
-  {% endif %}
+{% endif %}
+
+
+
         
             
         <p>
             <br/>
-            By using this site Geospaces you agree to the 
+            By using this site you agree to
             <a href=#> Terms of Service </a> and <a href=#> Privacy Policy </a>
         </p>
     </div>

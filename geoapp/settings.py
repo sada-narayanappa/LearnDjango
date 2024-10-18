@@ -176,7 +176,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'example_app',
     'geoapp',
-    'users',
+    #'users',
  ]  
 
 DETECT_INSTALLED_APPS = True
@@ -242,6 +242,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'oauth2_provider.middleware.OAuth2TokenMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
 ]
 
 ROOT_URLCONF = 'geoapp.urls'

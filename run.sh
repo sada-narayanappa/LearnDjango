@@ -1,1 +1,10 @@
-asg.sh
+export PORT=8003
+
+if [ $# -gt 0 ]; then
+	export PORT=$1
+fi
+
+# uncomment the following to run in https mode
+OPTS=' --cert /tmp/cert'
+
+uvicorn --host 0.0.0.0  --port ${PORT}  geoapp.asgi:application --reload
