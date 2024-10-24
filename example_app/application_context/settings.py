@@ -11,13 +11,13 @@ import geoapp.analytics as analytics
 #---------------------------------------------------------------------------------
 def appcontext(request):
     context = {
-        "appname": "example",
-        "weburl" : "http://localhost:8003/",
+        "appname": "ExAmPlE",
+        "weburl" : "https://www.geospaces.org/",
         "top_url": "example_app/topbar.html",
-		"SSO": 0,
+		"SSO": 1,
         "NO_LOGIN_MENU": 0,
-        "NO_APP_MENU" : 1,
-        "ALLOW_REGISTRATION": 0,
+        "APP_MENU" : 0,
+		"ALLOW_REGISTRATION": 1
     }    
     analytics.loganalytics(request);
     

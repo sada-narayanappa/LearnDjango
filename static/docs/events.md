@@ -1,5 +1,5 @@
-### Geospace Events (video)
-Geospaces Org.
+### Example Events as markdown file 
+Example Org.
 ###### Technology
  4.3 • 4.6K Ratings
 

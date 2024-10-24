@@ -20,7 +20,6 @@ urlpatterns = [
 
 ] + settings.DETECTED_URLS + [
     path('oidc/', include('mozilla_django_oidc.urls')),
-    #path('users/', include('users.urls'), name=""),
     re_path(r'^.*/$', mango.Common, name='catchall'),
 ]
 

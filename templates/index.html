@@ -1,32 +1,12 @@
 {% extends "common.html" %}
 {% block content %}
-
-<div class="center">
-    <h1>Index</h1>
-<br/>
-<br/>
-
-
+<div class="container">
+    <br/><br/>
+    <section id="content"><H1><center> Index </center> </H1></section>
+</div>
+<br/><br/>
+<section id="content">
+</div>
+    
 {% include "footer.html" %}
-<script>
-function setbg() {
-    var sun = {   "#day" : "sunday",
-            "background-image":    'url("/static/media/bgimg1.png")',
-            "background-repeat":   'no-repeat',
-            "background-position": '0 -400px'
-        }
-    var styles = [
-        {}, {}, {}, {}, {}, {}, {}
-    ];
-    s = styles[(new Date().getDay() % styles.length)]
-    for (k in s){
-        if (k.startsWith('#'))
-            continue;
-        $('body').css(k, s[k])
-
-    }
-}
-setbg();
-
-</script>
 {% endblock %}

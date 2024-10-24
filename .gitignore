@@ -1,7 +1,8 @@
 kanban
 .devcontainer
-apps/templates/appmenu.html
+templates/appmenu.html
 # Byte-compiled / optimized / DLL files
+site-packages 
 mxgraph-js
 SCHAS
 mangorest

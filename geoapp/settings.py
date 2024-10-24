@@ -45,9 +45,6 @@ ACCOUNT_USERNAME_MIN_LENGTH = 3
 ACCOUNT_EMAIL_SUBJECT_PREFIX="Geospaces: "
 ACCOUNT_DEFAULT_HTTP_PROTOCOL="https"
 
-STRIPE_PUBLIC = my_config.STRIPE_PUBLIC
-STRIPE_SECRET = my_config.STRIPE_SECRET
-
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
@@ -165,6 +162,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'oauth2_provider',
     # 'corsheaders',
     'allauth',
@@ -173,10 +171,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     #'allauth.socialaccount.providers.github',
     # MY_APPLICATIONS
-    'django_extensions',
+    #'users',
     'example_app',
     'geoapp',
-    #'users',
  ]  
 
 DETECT_INSTALLED_APPS = True
@@ -215,7 +212,7 @@ def detectInstalledApps(appslist):
     if ( len(DETECTED_APPS) > 0): 
         DETECTED_URLS = [ path(f'{a}/', include(f'{a}.urls'), name=a) for a in DETECTED_APPS ]
         
-        with open("apps/templates/appmenu.html", "w+" ) as f:
+        with open("templates/appmenu.html", "w+" ) as f:
             f.write(appmenu)
         
         logger.debug (f"-- Detected {len(DETECTED_APPS)} apps: {DETECTED_APPS}")
@@ -258,11 +255,15 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'apps.settings.appcontext'
+                #'application_context.settings.appcontext'
             ],
         },
     },
 ]
+# ADD ONLY IF INDEX TEMPLATE EXISTS - OTHERWISE IT IS NOT A WEB APP
+if ( os.path.exists("application_context/settings.py") ):
+    TEMPLATES[0]['OPTIONS']['context_processors'].append('application_context.settings.appcontext')
+
 WSGI_APPLICATION = 'geoapp.wsgi.application'
 ASGI_APPLICATION = 'geoapp.asgi.application'
 
