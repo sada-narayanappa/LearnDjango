@@ -11,7 +11,7 @@ OPTS=' --cert /tmp/cert'
 if [ $# -lt 2 ]
 then
     echo "RUNNING LOCAL server at ${PORT}"
-    python manage.py runserver 0:${PORT} ${OPT}
+    python manage.py runserver 0:${PORT} ${OPTS}
 else
     echo "RUNNING GUNICORN server at ${PORT}"
     gunicorn -c gunicorn.config.py geoapp.wsgi
