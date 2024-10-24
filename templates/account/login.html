@@ -38,8 +38,14 @@ label{
     </p>
 {% endif %}
 
+{% if SSO and DO_NOT_SHOW_LOGIN %}
+    <BODY onLoad="window.location.replace('{% url 'oidc_authentication_init' %}')">
+{% endif %}
+
 <br/><br/>
-    
+{% if DO_NOT_SHOW_LOGIN %}
+
+{% else %}    
 <form class="container-fluid text-center fc" id="login_form" method="POST" 
       action="{% url 'account_login' %}">
     
@@ -76,9 +82,6 @@ label{
 {% endif %}
 
 
-
-        
-            
         <p>
             <br/>
             By using this site you agree to
@@ -86,6 +89,7 @@ label{
         </p>
     </div>
 </form>
+{% endif %}
     
  <!--
 <br/><br/>

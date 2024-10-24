@@ -17,7 +17,8 @@ def appcontext(request):
 		"SSO": 1,
         "NO_LOGIN_MENU": 0,
         "APP_MENU" : 0,
-		"ALLOW_REGISTRATION": 1
+		"ALLOW_REGISTRATION": 1,
+        "DO_NOT_SHOW_LOGIN" : 1
     }    
     analytics.loganalytics(request);
     
