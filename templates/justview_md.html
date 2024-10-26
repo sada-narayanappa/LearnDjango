@@ -51,7 +51,8 @@ function viewCB(responseTxt, statusTxt, xhr){
     setTimeout(geoui_scrollTo, 50);
 }
 function view(viewid){
-    const URL1  = "/static/docs/"+viewid
+    
+    const URL1  = viewid.startsWith("/static") ? viewid : "/static/docs/"+viewid
     $.get(URL1, viewCB )
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
