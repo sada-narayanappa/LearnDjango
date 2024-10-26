@@ -278,15 +278,14 @@ code::after, code::before {
 <header>
 <!----------------------------------------BEGIN MENU end header -->
 
-{% if top_url %}
-    
-    {% include top_url %}    
-
+{% if entire_top_url %}
+{% include entire_top_url %}    
 {% else %}
-    <nav id=mainnavbar class="navbar navbar-expand-sm navbar-light bg-light"
-    style="border-bottom: 1px solid #eee; height: 48px; background-color: aliceblue;display: -webkit-box1">
-
-
+<nav id=mainnavbar class="navbar navbar-expand-sm navbar-light bg-light"
+style="border-bottom: 1px solid #eee; height: 48px; background-color: aliceblue;display: -webkit-box1">
+{% if top_url %}
+    {% include top_url %}    
+{% else %}
     <a class="navbar-brand" href="/">
         <img src="/static/imgs/logo5.png" height=28 alt="logo"/ >
     <span class="our_menu" style="color: #003478 !important;font-weight: 600; font-size: small;"> EXAMPLE </span>
@@ -298,6 +297,7 @@ code::after, code::before {
     <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/about.html" > 
     <span class="our_menu">About</span></a></li>
 <span id="common_status" class="" style="width: 50px; text-align:right; display: hidden; white-space: nowrap;"></span>
+{% endif %}
     
 <!--- APPLICATION MENU STARTS HERE ..... -->
 {% if APP_MENU %}
