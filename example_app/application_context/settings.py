@@ -14,11 +14,11 @@ def appcontext(request):
         "appname": "ExAmPlE",
         "weburl" : "https://www.geospaces.org/",
         "top_url": "example_app/topbar.html",
-		"SSO": 1,
         "NO_LOGIN_MENU": 0,
-        "APP_MENU" : 0,
-		"ALLOW_REGISTRATION": 1,
-        "DO_NOT_SHOW_LOGIN" : 1
+		"SSO": 0,
+        "DO_NOT_SHOW_LOGIN" : 0,
+        "APP_MENU" : 1,
+		"ALLOW_REGISTRATION": 0,
     }    
     analytics.loganalytics(request);
     
