@@ -211,11 +211,11 @@ def detectInstalledApps(appslist):
     logger.debug(f"-======>DETECTED:  {DETECTED_APPS}")
     if ( len(DETECTED_APPS) > 0): 
         DETECTED_URLS = [ path(f'{a}/', include(f'{a}.urls'), name=a) for a in DETECTED_APPS ]
-        
-        with open("templates/appmenu.html", "w+" ) as f:
-            f.write(appmenu)
-        
         logger.debug (f"-- Detected {len(DETECTED_APPS)} apps: {DETECTED_APPS}")
+        
+    with open("templates/appmenu.html", "w+" ) as f:
+        f.write(appmenu)
+        
     return DETECTED_APPS;
 
 if ( DETECT_INSTALLED_APPS ):

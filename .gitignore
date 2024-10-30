@@ -1,5 +1,8 @@
 kanban
+db.sqlite3
+.vscode
 .devcontainer
+application_context
 templates/appmenu.html
 # Byte-compiled / optimized / DLL files
 site-packages 
