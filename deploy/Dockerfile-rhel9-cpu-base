@@ -1,0 +1,50 @@
+# Specify the parent image from which we build
+FROM registry.access.redhat.com/ubi9/ubi
+
+# Install ps and other utilities
+RUN yum install -y procps
+RUN dnf install -y sudo
+RUN yum install -y yum-utils
+RUN yum install -y iputils
+RUN yum install -y gcc
+
+# NOTE: You may need this
+# and install this manually
+RUN yum install -y wget
+#RUN yum install -y graphviz
+
+# Users 
+# ** NOTE *** This is notsecure - you must consider changing it
+ENV USER=poduser
+RUN echo USER IS: ${USER}
+RUN useradd -ms /bin/bash ${USER}   && echo xxxxx1 | passwd ${USER} --stdin
+RUN usermod -aG wheel ${USER}
+COPY --chown=${USER}:${USER} home/ /home/${USER}
+
+#PYTHON 
+RUN dnf install -y python3.11
+RUN dnf install -y python3.11-pip
+RUN dnf install -y python3.11-Cython
+
+RUN yum  install -y python3.11-devel
+RUN ln -s /usr/bin/python3.11 /usr/bin/python
+RUN ln -s /usr/bin/pip3.11 /usr/bin/pip
+RUN pip install jupyter numpy scipy matplotlib pandas colabexts
+
+# Developer utilities
+RUN dnf install -y git
+RUN dnf install -y gcc
+RUN dnf install -y g++
+
+# DATABASES
+
+#RUN rpm -Uvh https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+#RUN yum install -y postgresql
+
+# INSTALL OTHER UTILITIES - Apache
+# RUN dnf install -y httpd
+
+USER ${USER}
+#EXPOSE 8888
+#ENTRYPOINT ["jupyter", "notebook","--allow-root","--notebook-dir", "/notebooks", "--NotebookApp.token=''", "--NotebookApp.password=''", "--ip=0.0.0.0","--port=8888","--no-browser"]
+#ENTRYPOINT ["jupyter", "notebook","--allow-root","--ip=0.0.0.0","--port=8888","--no-browser"]
