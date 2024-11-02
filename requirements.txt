@@ -43,3 +43,4 @@ urllib3==2.2.3
 uvicorn==0.32.0
 mangorest
 colabexts
+git+https://github.com/openai/whisper.git 

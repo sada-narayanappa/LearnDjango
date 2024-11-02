@@ -256,6 +256,7 @@ code::after, code::before {
     background-color: #f9f9f9;
     border-radius: 16px;
     border: 0px;;
+    text-align: center;
 }
 .rbutt32:hover {
     border-radius: 16;
@@ -307,51 +308,50 @@ code::after, code::before {
 <!----------------------------------------BEGIN MENU end header -->
 
 {% if entire_top_url %}
-{% include entire_top_url %}    
+    {% include entire_top_url %}    
 {% else %}
-<nav id=mainnavbar class="navbar navbar-expand-sm navbar-light bg-light"
-style="border-bottom: 1px solid #eee; height: 48px; background-color: aliceblue;display: -webkit-box1">
-{% if top_url %}
-    {% include top_url %}    
-{% else %}
-    <a class="navbar-brand" href="/">
-        <img src="/static/imgs/logo5.png" height=28 alt="logo"/ >
-    <span class="our_menu" style="color: #003478 !important;font-weight: 600; font-size: small;"> EXAMPLE </span>
+    <nav id=mainnavbar class="navbar navbar-expand-sm navbar-light bg-light"
+    style="border-bottom: 1px solid #eee; height: 48px; background-color: aliceblue;display: -webkit-box1">
+    {% if top_url %}
+        {% include top_url %}    
+    {% else %}
+        <a class="navbar-brand" href="/">
+            <img src="/static/imgs/logo5.png" height=28 alt="logo"/ >
+        <span class="our_menu" style="color: #003478 !important;font-weight: 600; font-size: small;"> EXAMPLE </span>
 
-    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
 
-    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href=# style="font-weight: bold;"> 
+        <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href=# style="font-weight: bold;"> 
 
-    <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/about.html" > 
-    <span class="our_menu">About</span></a></li>
-<span id="common_status" class="" style="width: 50px; text-align:right; display: hidden; white-space: nowrap;"></span>
-{% endif %}
-    
-<!--- APPLICATION MENU STARTS HERE ..... -->
-{% if APP_MENU %}
-<ul class="navbar-nav  mr-auto">
-    <li class="nav-item dropdown">
-    <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >
-    <i class="fas fa-network-wired"></i> <span class="our_menu">Apps</span></a>
-    <div  class="changetag dropdown-menu dropdown-menu-right"
-            style="z-index:2;width:300px; border-radius: 5px; padding: 0px; ">
+        <li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link" href="/about.html" > 
+        <span class="our_menu">About</span></a></li>
+    <span id="common_status" class="" style="width: 50px; text-align:right; display: hidden; white-space: nowrap; overflow: visible;"></span>
+    {% endif %}
         
-    <div class="row" style="padding: 1; margin: 0;">
-    <div class="col-md-2" style="background-color: #fafafa" style="padding: 0; "></div>
-    <div class="col-md-8"  style="padding: 0; ">
+    <!--- APPLICATION MENU STARTS HERE ..... -->
+    {% if APP_MENU %}
+    <ul class="navbar-nav  mr-auto">
+        <li class="nav-item dropdown">
+        <a class="nav-item nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" >
+        <i class="fas fa-network-wired"></i> <span class="our_menu">Apps</span></a>
+        <div  class="changetag dropdown-menu dropdown-menu-right"
+                style="z-index:2;width:300px; border-radius: 5px; padding: 0px; ">
+            
+        <div class="row" style="padding: 1; margin: 0;">
+        <div class="col-md-2" style="background-color: #fafafa" style="padding: 0; "></div>
+        <div class="col-md-8"  style="padding: 0; ">
 
-        {% include "appmenu.html" %}    
+            {% include "appmenu.html" %}    
 
-    </div>
-    </div>
-    </div>
-    </li>
-</ul>
-{% else %}
-{% endif %}
+        </div>
+        </div>
+        </div>
+        </li>
+    </ul>
+    {% else %}
+    {% endif %}
 
-<!--- APPLICATION MENU ENDS HRE ..... -->
-
+    <!--- APPLICATION MENU ENDS HRE ..... -->
     {% if NO_LOGIN_MENU %}
     {% else %}
         {% if not user.is_authenticated %}
@@ -385,8 +385,8 @@ style="border-bottom: 1px solid #eee; height: 48px; background-color: aliceblue;
         {% endif %}
     {% endif %}
 
-</ul>
-</nav>
+    </ul>
+    </nav>
 {% endif %}
 
 
