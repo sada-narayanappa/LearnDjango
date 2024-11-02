@@ -1,26 +1,20 @@
 <style>
 .chat-window{
-    right: 20;
+    right: 2;
     position: fixed;
     bottom: 0;
     width: 400px;
     height: 500px;
-    border: 2px solid lightgray;
+    border: 0px solid lightgray;
     border-radius: 6px;
     display: none;
     resize:both;
     overflow: auto;
     z-index: 40;
     background: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px
 }
 
-.rbutt{
-    border-radius: 20px; 
-    height: 40px; 
-    min-width: 40px; 
-    background-color: white; 
-    border: 1px solid mediumpurple
-}
 .sbutt{
     border-radius: 4px;
     min-width: 30px; 
@@ -29,14 +23,24 @@
     border: 0.50px solid mediumpurple;
     color: cornflowerblue
 }
+
+.sbutt32{
+    border-radius: 15px;
+    min-width: 30px; 
+    padding: 3px; 
+    border: 0 solid mediumpurple;
+    color: cornflowerblue;
+    text-align: center;
+}
+.sbutt32:hover {
+    background-color: lightgray; 
+}
+
 .chatToggleDiv{
     position: fixed; 
-    width: 30px; 
     bottom: 0; 
     right: 0; 
     z-index: 39; 
-    border: 0px solid lightgrey;
-    text-align: center;
 }
 
 .schsend {
@@ -65,21 +69,24 @@
 </style>
 
 <div id="chat-window" class="chat-window" >
-<div class="fcontainer" >
-    <div class="header" style="width: 100%; background-color: lightgray; text-align: right; padding: 5px;">
-        <a href=# onclick="toggleChatWindow()">X</a>
+<div class="fcontainer" style="border-color: 007bff;">
+    <div  style="width: 100%; min-height: 48px;; background-color: 007bff; text-align: left; padding: 20px; color: white;">
+        Chat!
+        <button href=# onclick="toggleChatWindow()" class="sbutt32" style="float: right;"><i class="fa fa-close"></i></button>
     </div>
     <div id="chat_content" class='content'>
     </div>
-    <div class="footer" >
+    <div class="footer" style="background-color: transparent;">
         <div>
-        <textarea id="chat_msg" style="width: 100%; min-height: 50px;" rows=2 onkeypress="handle(event)" placeholder="Enter Message to Send"></textarea>
+        <textarea id="chat_msg" style="width: 100%; min-height: 50px; border: 0px ; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; padding: 6;" 
+            rows=2 onkeypress="handle(event)" placeholder="Enter Message to Send"></textarea>
         </div>
-        <div style="background: white; font-size: small; padding-right: 15px;;">
+        <div style="background: white; font-size: small; padding-right: 15px;margin:10 0px;">
             Press <span class="sbutt"> shift </span>+<span class="sbutt">enter</span> to insert new line </span>
 
-            <a  class=sbutt style="float: right;"  title="Send" onclick="sendChatMessage()" ><i class="fa fa-paper-plane" ></i> </a>
-            <a  class=sbutt style="float: right;"  title="Clear" onclick="clearChat()" ><i class="fa fa-eraser"></i> </a>
+            <button  class=sbutt32 style="float: right;"  title="Clear" onclick="toggleChatWindow()" ><i class="fa fa-close"></i> </button>
+            <button  class=sbutt32 style="float: right;"  title="Send" onclick="sendChatMessage()"   ><i class="fa fa-paper-plane" ></i> </button>
+            <button  class=sbutt32 style="float: right;"  title="Clear" onclick="clearChat()"        ><i class="fa fa-eraser"></i> </button>
             
 
         </div>
@@ -88,7 +95,7 @@
 </div>
 
 <div class="chatToggleDiv">
-    <button id="openChatWindow" class="sbutt"  onclick="toggleChatWindow()" ><i class="fa fa-comment-alt" ></i></button>
+    <button id="openChatWindow" class="rbutt32" style="border: 0px;" onclick="toggleChatWindow()" ><i class="fa fa-comment-alt" ></i></button>
 </div>
 
 <script>
