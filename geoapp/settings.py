@@ -180,6 +180,8 @@ DETECT_INSTALLED_APPS = True
 DETECTED_APPS = []
 DETECTED_URLS = []
 
+IGNORE_APPS = os.environ.get('IGNORE_APPS', '').split()
+
 def detectInstalledApps(appslist):
     global DETECTED_URLS
 
@@ -187,7 +189,7 @@ def detectInstalledApps(appslist):
     appmenu = ""
     for file in glob.glob("**/apps.py"):
         app = os.path.basename(os.path.dirname(file))
-        if app in appslist:
+        if (app in appslist or app in IGNORE_APPS):
             continue
 
         logger.info("FOUND ** {file} {app}")
