@@ -13,4 +13,3 @@ git push origin master
 ```
 
 
-![image](https://github.com/user-attachments/assets/7319d8ee-27e0-4855-9008-e83237f552bd)
