@@ -59,21 +59,21 @@
 
 
 <script>
-    function footerPosition() {
-        //if ( $(document).height() < $(window).height() )
-        //    $('#footer').css('position', 'absolute')
-        var ft = $('#footer').offset().top + $('#footer').outerHeight() + 1
-        //if ( $('#pagecontent').height() + 150 > $(window).height() ){
-        //console.log(document.body.clientHeight, ft, $(window).height())
-        if ( ft <= $(window).height() ) {
-            $('#footer').css('position', 'fixed')
-        } else {
-            $('#footer').css('position', 'relative')
-        }
-
+function footerPosition() {
+    //if ( $(document).height() < $(window).height() )
+    //    $('#footer').css('position', 'absolute')
+    var ft = $('#footer').offset().top + $('#footer').outerHeight() + 1
+    //if ( $('#pagecontent').height() + 150 > $(window).height() ){
+    //console.log(document.body.clientHeight, ft, $(window).height())
+    if ( ft <= $(window).height() ) {
+        $('#footer').css('position', 'fixed')
+    } else {
+        $('#footer').css('position', 'relative')
     }
-    $(document).ready(
-        footerPosition()
-    );
-    window.onresize = footerPosition;
+
+}
+$(document).ready(
+    footerPosition()
+);
+window.onresize = footerPosition;
 </script>

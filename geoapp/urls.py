@@ -12,7 +12,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path(r'uploadfile/', views.uploadfile, name='uploadfile'),
-    path(r'contactus/', views.contactus, name='uploadfile'),
+    path(r'contactus/', views.contactus, name='send email'),
 
     path(r'broadcast/', views_channels.broadcast, name='brodcast'),
 
