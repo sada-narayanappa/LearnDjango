@@ -46,8 +46,36 @@ https://youtube.com/playlist?list=PLEpvS3HCVQ58at6W2qxGoH8rWBTfNrq99
 
 ### Option using docker
 
-docker pull geospaces/test:streamdev ![image](https://github.com/user-attachments/assets/abd8ee62-115a-4c1d-b585-a8aea47ea848)
+Even faster if you are using docker
 
+```
+    [ ] export IMAGE=sada001/geo:geo-rhel9.21-django
+    [ ] docker pull ${IMAGE}
+
+    # create a network to use in docker compose
+
+    [ ] export NW=--network demonet
+    [ ] docker network ls | grep demonet ; if [ $? -ne 0 ]; then docker network create demonet ; fi 
+
+    # run the image and
+    [ ] export PORTS=-p 8000:8000
+    [ ] export APP=django
+    [ ] export TAGNAME=geo-rhel9.21-django
+
+    [ ] docker run --rm -it  --name ${APP} $(MOUNTS) $(PORTS) $(NW) $(TAGNAME) 'make run'
+```
+to customize your image 
+
+```
+    [ ] docker run --rm -it  --name ${APP} $(MOUNTS) $(PORTS) $(NW) $(TAGNAME) /bin/bash
+
+    login and do changes and use commit and save it to your repo
+    While running before closing
+
+    [ ] export MY_IMAGE=<your DOCKERHUB end-point>:${TAGNAME}
+    [ ] docker commit ${APP} ${TAGNAME}; docker tag ${TAGNAME} ${IMAGE}; docker push ${MY_IMAGE}
+    
+```
 
 
 you can view https://github.com/geospaces-org/docs/blob/main/django/docker.md for more information to deploy your own docker containers with your app
