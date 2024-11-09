@@ -55,15 +55,15 @@ Get it all working even faster if you are using docker.
 
     # create a network to use in docker compose
 
-    [ ] export NW=--network demonet
+    [ ] export NW="--network demonet"
     [ ] docker network ls | grep demonet ; if [ $? -ne 0 ]; then docker network create demonet ; fi 
 
     # run the image and
-    [ ] export PORTS=-p 8000:8000
+    [ ] export PORTS="-p 8000:8000"
     [ ] export APP=django
     [ ] export TAGNAME=geo-rhel9.21-django
 
-    [ ] docker run --rm -it  --name ${APP} $(MOUNTS) $(PORTS) $(NW) $(TAGNAME) 'make run'
+    [ ] docker run --rm -it  --name ${APP} ${MOUNTS} ${PORTS} ${NW} ${IMAGE} 'make run'
 ```
 to customize your image 
 
