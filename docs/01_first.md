@@ -48,8 +48,33 @@ see the videos and other documentations below.
     py312
 ```
 
+#### Youtube Video playlist:
+
+https://youtube.com/playlist?list=PLEpvS3HCVQ58at6W2qxGoH8rWBTfNrq99
+
+
 ### Option using docker
 
 ---
-## Some notable 
+
+## Some notable features
+
+* Developed by 100's researchers, interns, PhD students/professors and top engineers.
+* Continuosly being developed - well thought out design and simple elegant architecture.
+* Fully configurable and with all source code for your need.
+* MIT license - so no need to worry to use or reuse or modify to your needs.
+* Simple framework and powerful to deploy application for 1000's of users.
+* Support and tested on docker container,, kubernetis deployment.
+* Develop applications using python.
+* Metrics for user visits, most used pages, landing page statistics.
+* Plug and play your applications and easily integrate other 100's application modules
+* Builtin features:
+    * Login, registration, single sign on, social media sign on
+    * Stripe interface to accept payments
+    * Many open free applications (such as blogs, stocks, etc.)
+    * community contributed modules
+    * Simple solutions for emails, uploading files, etc.
+    * 
+
+---
 
