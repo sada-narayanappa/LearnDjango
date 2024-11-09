@@ -58,6 +58,11 @@ django-stop: django_vars
 django-kill: django_vars
 	docker kill ${APP}
 
+django-push: django_vars
+	docker tag $(TAGNAME) $(IMAGE)
+	docker push $(IMAGE)
+	docker tag  $(IMAGE) $(TAGNAME)
+
 # Commit the running COPY
 django-commit: django_vars
 	@echo "Configure this and push specific images to your docker repo"
@@ -65,7 +70,7 @@ django-commit: django_vars
 	@echo docker commit ${APP} ${TAGNAME}
 	@echo docker tag ${TAGNAME} ${IMAGE}
 	@echo docker push ${IMAGE} 
-	@echo 'docker commit ${NAME} ${TAGNAME}; docker tag ${TAGNAME} ${IMAGE}; docker push ${IMAGE}'
+	@echo 'ALL IN ONE LINE: docker commit ${APP} ${TAGNAME}; docker tag ${TAGNAME} ${IMAGE}; docker push ${IMAGE}'
 
 
 # ------------------------------- TESTING MAKEFILE setting variables
