@@ -4,6 +4,7 @@
 1. goto https://github.com/geospaces-org/docs/blob/main/django/docker.md to get all docs
 
 ---
+
 # Using Django framework to build application
 
 This is a application framework that use python Django-framework. 
