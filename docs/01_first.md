@@ -41,6 +41,7 @@ see the videos and other documentations below.
     py312
 ```
 
+
 #### Youtube Video playlist:
 https://youtube.com/playlist?list=PLEpvS3HCVQ58at6W2qxGoH8rWBTfNrq99
 
