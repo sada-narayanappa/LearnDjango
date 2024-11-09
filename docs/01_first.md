@@ -1,11 +1,5 @@
-# Application Template 1
-
-## Refences:
-1. goto https://github.com/geospaces-org/docs/blob/main/django/docker.md to get all docs
-
----
-
 # Using Django framework to build application
+---
 
 This is a application framework that use python Django-framework. 
 This framework is created to quickly prototype web applications and show some good practices.
@@ -49,9 +43,7 @@ see the videos and other documentations below.
 ```
 
 #### Youtube Video playlist:
-
 https://youtube.com/playlist?list=PLEpvS3HCVQ58at6W2qxGoH8rWBTfNrq99
-
 
 ### Option using docker
 
@@ -77,4 +69,7 @@ https://youtube.com/playlist?list=PLEpvS3HCVQ58at6W2qxGoH8rWBTfNrq99
     * 
 
 ---
+# Refences:
+
+1. goto https://github.com/geospaces-org/docs/blob/main/django/docker.md to get all docs
 
