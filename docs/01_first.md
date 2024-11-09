@@ -46,11 +46,13 @@ https://youtube.com/playlist?list=PLEpvS3HCVQ58at6W2qxGoH8rWBTfNrq99
 
 ### Option using docker
 
+Next step is to build and create your app: 
+
 -------------------------------------------------------------------------------------------
 
 ## Some notable features
 
-* Developed by 100's researchers, interns, PhD students/professors and top engineers.
+* Developed by 100's of researchers, interns, PhD students/professors and top engineers.
 * Continuosly being developed - well thought out design and simple elegant architecture.
 * Fully configurable and with all source code for your need.
 * MIT license - so no need to worry to use or reuse or modify to your needs.
@@ -65,7 +67,9 @@ https://youtube.com/playlist?list=PLEpvS3HCVQ58at6W2qxGoH8rWBTfNrq99
     * Many open free applications (such as blogs, stocks, etc.)
     * community contributed modules
     * Simple solutions for emails, uploading files, etc.
-    * 
+    * secuirty and ability to secure applications
+    * Quickly develop python apps, deploy them as web services
+ 
 
 -------------------------------------------------------------------------------------------
 # Refences:
