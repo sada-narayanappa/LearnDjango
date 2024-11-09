@@ -1,5 +1,4 @@
 # Using Django framework to build application
----
 
 This is a application framework that use python Django-framework. 
 This framework is created to quickly prototype web applications and show some good practices.
