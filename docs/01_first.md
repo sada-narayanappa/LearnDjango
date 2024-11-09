@@ -11,7 +11,7 @@ This is to be used only for educational purpose and not suited for commercial ap
 
 If you want to use it to deploy commercial applications, please contact the author.
 
----
+-------------------------------------------------------------------------------------------
 # Quick start: get it up in few minutes
 
 ### Option for local development
@@ -46,7 +46,7 @@ https://youtube.com/playlist?list=PLEpvS3HCVQ58at6W2qxGoH8rWBTfNrq99
 
 ### Option using docker
 
----
+-------------------------------------------------------------------------------------------
 
 ## Some notable features
 
@@ -67,7 +67,7 @@ https://youtube.com/playlist?list=PLEpvS3HCVQ58at6W2qxGoH8rWBTfNrq99
     * Simple solutions for emails, uploading files, etc.
     * 
 
----
+-------------------------------------------------------------------------------------------
 # Refences:
 
 1. goto https://github.com/geospaces-org/docs/blob/main/django/docker.md to get all docs
