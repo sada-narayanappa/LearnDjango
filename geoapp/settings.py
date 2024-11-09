@@ -11,9 +11,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'pr75j7t*r!j=oac!798tazlecdo0%k0rasre@!f_&0u%2(=nty'
+# Overide the following in your my_config file below
 
-DEFAULT_DOMAIN = "https://www.geospaces.org"
+SECRET_KEY = 'pr75j7t*r!j=oac!798tazlecdo0%k0rasre@!f_&0u%2(=nty'
+DEFAULT_DOMAIN = "https://www.example.org"
 
 import os, sys, glob
 from django.urls import path, include

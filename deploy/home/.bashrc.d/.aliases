@@ -1,0 +1,107 @@
+alias ll="ls -l"
+alias la="ls -a"
+#alias ls="ls -F --color=none"
+alias ls="ls -F"
+alias gmake=make
+alias xterm='xterm -bg black -fg khaki -sb -sl 10000 -tn xterm -n "KSH-xterm" -vb &'
+#alias xterm="xterm -bg black -fg green -sl 10000"
+alias ifc="ifconfig | grep netmask"
+alias tags="find . -name "*.[chCH]" -print | etags -"
+alias rm='rm -i';
+alias cp='cp -i';
+alias mv='mv -i';
+alias grep='grep -sHn'
+alias ssh1='ssh snarayan@linux1.cs.du.edu'
+alias sshg='ssh snarayan@www.geospaces.org'
+alias toml='tail -f ${CATALINA_HOME}/logs/catalina.out'
+alias tomc='cd ${CATALINA_HOME}/webapps'
+alias apl='tail -f /var/log/httpd/error_log'
+alias xm='xmodmap /etc/X11/xinit/.Xmodmap'
+alias rmtex='\rm -f *aux *lof *lot *toc *log *dvi'
+alias rrmtex='\rm -f *aux *lof *lot *toc *log *dvi *pdf'
+alias vpn='open /Applications/SecurID.app'
+
+alias mvi='mvn install -DskipTests=true -Dlicense.skip=true'
+alias mvis='mvn install -DskipTests=true -Dlicense.skip=true -Dpmd.skip'
+alias mvci='mvn -ff clean install -DskipTests=false -Dlicense.skip=true -Dpmd.skip -Dmaven.test.failure.ignore=false'
+alias mvex='mvn -q exec:java -Dexec.mainClass=$MAINC'
+alias mvnw='fswatch -o src | xargs  -n1  -I {} mvn install -DskipTests=true -Dlicense.skip=true -Dpmd.skip '
+
+alias hd1='ssh snarayan@www.geospaces.org'
+
+alias toms='${CATALINA_HOME}/bin/startup.sh; tail ${CATALINA_HOME}/logs/catalina.out'
+alias tome='${CATALINA_HOME}/bin/shutdown.sh; tail ${CATALINA_HOME}/logs/catalina.out'
+
+alias hls='hadoop fs -ls $HADOOP_URL1'
+alias hmkdir='hadoop fs -mkdir $HADOOP_URL1'
+alias hcpf='hadoop fs -copyFromLocal $HADOOP_URL1'
+alias hcpt='hadoop fs -copyToLocal $HADOOP_URL1'
+alias hcat='hadoop fs -cat $HADOOP_URL1'
+alias htxt='hadoop fs -text $HADOOP_URL1'
+
+alias ipy='ipython notebook --pylab=inline'
+alias ipy='jupyter-notebook --notebook-dir=/opt/Notebooks'
+
+alias hstart='/usr/local/Cellar/hadoop/2.8.0/sbin/start-dfs.sh;/usr/local/Cellar/hadoop/2.8.0/sbin/start-yarn.sh'
+alias hstop='/usr/local/Cellar/hadoop/2.8.0/sbin/start-dfs.sh;/usr/local/Cellar/hadoop/2.8.0/sbin/stop-yarn.sh'
+
+alias hhd1='ssh cloudera@10.0.0.6'
+
+alias gitca='git config credential.helper "cache --timeout=300000"'
+alias git='/usr/local/bin/git'
+alias gitp='git pull --all'
+alias gitpu='git push'
+alias gitc='git commit -a -m "Commiting "'
+alias gitcp='gitc; git push'
+alias gitco='git checkout'
+alias gitb='git branch'
+alias gits='git status'
+alias gita='git add'
+alias gitpa='for i in */.git; do ( echo $i; cd $i/..; git pull; ); done'
+alias cdg='cd /opt/LMCO/git/notebooks'
+alias cdgs='cd /opt/LMCO/git/notebooks/DS/iris'
+alias cdgi='cd /opt/LMCO/git/notebooks/DS/irisui'
+alias cdp='cd ~/anaconda/lib/python3.5/site-packages/'
+
+alias pgstart='sudo -u postgres pg_ctl -D /Library/PostgreSQL/9.4/data start'
+alias pgstart='sudo -u postgres /Library/PostgreSQL/9.6/bin/pg_ctl -D /Library/PostgreSQL/9.6/data start'
+alias pgstart='pg_ctl -D /usr/local/var/postgres start'
+
+
+# --- LM&CO
+alias sshb1='ssh 129.197.126.39'
+alias sshb2='ssh 129.197.126.38'
+
+alias lm1='ssh cloud-user@160.205.212.92'
+alias lm2='ssh cloud-user@160.205.215.192'
+
+alias gitreset='git reset --hard origin/master; git pull origin master'
+
+#virtualenv --system-site-packages tf
+#source tf/bin/activate
+alias ts='source ~/tf/bin/activate'
+alias pipi='pip install '
+#alias sudo="sudo env PATH=$PATH "
+alias upxy='unset HTTP_PROXY; unset HTTPS_PROXY; unset http_proxy; unset https_proxy'
+alias spxy='export HTTP_PROXY=$PROXY;export HTTPS_PROXY=$PROXY; export http_proxy=$PROXY; export https_proxy=$PROXY'
+alias csvutil='python /opt/LMCO/git/notebooks/DS/iris/utils/CSVUtils.py '
+alias itunnel='ssh -L -N 7000:localhost:8086 ocd04-160-205-232-106.ltn.us.lmco.com'
+
+alias drm1='docker rmi $(docker images -f "dangling=true" -q)'
+alias drm2='docker ps -a --filter status=exited --format {{.ID}} | xargs docker rm'
+alias drls='docker image ls'
+alias drct='drm2;docker container ls -a;'
+alias drps='docker ps -a'
+
+alias ifx='influx -precision rfc3339'
+alias smac='ssh 158.185.112.152'
+alias topdf='jupyter nbconvert --to=PDF --execute '  
+alias tohtm='jupyter nbconvert --to html --execute '  
+alias dua='du -a . | sort -n -r | head -n 5'
+alias sshs='ssh -i "/opt/LMCO/git/notebooks/DS/SCHASDB/ec2/schas.pem" centos@35.160.151.26'
+alias py39='source ~/venv/py39/bin/activate'
+alias py311='source ~/venv/py311/bin/activate'
+
+
+alias clean1='git diff --name-only *.ipynb| xargs jupyter nbconvert --clear-output --inplace'
+alias clean2='find . -name \*.ipynb -exec jupyter nbconvert --clear-output --inplace {} \;'

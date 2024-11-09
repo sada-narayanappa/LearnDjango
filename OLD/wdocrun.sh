@@ -1,7 +1,7 @@
 NW=--network demonet
-TAG=myapp
-IMAGE=location/test:$TAG
-NAME=myapp1
+TAG=streamdev
+IMAGE=geospaces/test:$TAG
+NAME=streamdev1
 
 docker network ls | grep demonet ; if [ $? -ne 0 ]; then docker network create demonet ; fi
 docker run --rm -it --name $NAME -p 8888:8888 -p 7003:7003  --network demonet $IMAGE

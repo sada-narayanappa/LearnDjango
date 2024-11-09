@@ -22,13 +22,13 @@ RUN usermod -aG wheel ${USER}
 COPY --chown=${USER}:${USER} home/ /home/${USER}
 
 #PYTHON 
-RUN dnf install -y python3.11
-RUN dnf install -y python3.11-pip
-RUN dnf install -y python3.11-Cython
+RUN dnf install -y python3.12
+RUN dnf install -y python3.12-pip
+RUN dnf install -y python3.12-Cython
 
-RUN yum  install -y python3.11-devel
-RUN ln -s /usr/bin/python3.11 /usr/bin/python
-RUN ln -s /usr/bin/pip3.11 /usr/bin/pip
+RUN yum  install -y python3.12-devel
+RUN ln -s /usr/bin/python3.12 /usr/bin/python
+RUN ln -s /usr/bin/pip3.12 /usr/bin/pip
 RUN pip install jupyter numpy scipy matplotlib pandas colabexts
 
 # Developer utilities

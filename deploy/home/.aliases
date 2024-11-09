@@ -1,0 +1,54 @@
+alias ll="ls -l"
+alias la="ls -a"
+alias ls="ls -F"
+alias gmake=make
+alias ifc="ifconfig | grep netmask"
+alias tags="find . -name "*.[chCH]" -print | etags -"
+alias rm='rm -i';
+alias cp='cp -i';
+alias mv='mv -i';
+alias grep='grep -sHn'
+alias apl='tail -f /var/log/httpd/error_log'
+alias rmtex='\rm -f *aux *lof *lot *toc *log *dvi'
+alias rrmtex='\rm -f *aux *lof *lot *toc *log *dvi *pdf'
+
+alias ipy='ipython notebook --pylab=inline'
+alias ipy='jupyter-notebook --notebook-dir=/opt/Notebooks'
+
+alias gitca='git config credential.helper "cache --timeout=300000"'
+alias gitp='git pull --all'
+alias gitpu='git push'
+alias gitc='git commit -a -m "Commiting "'
+alias gitcp='gitc; git push'
+alias gitco='git checkout'
+alias gitb='git branch'
+alias gits='git status'
+alias gita='git add'
+alias gitpa='for i in */.git; do ( echo $i; cd $i/..; git pull; ); done'
+alias cdg='cd $HOME/git/DS/'
+
+alias pgstart='sudo -u postgres pg_ctl -D /Library/PostgreSQL/9.4/data start'
+alias pgstart='sudo -u postgres /Library/PostgreSQL/9.6/bin/pg_ctl -D /Library/PostgreSQL/9.6/data start'
+alias pgstart='pg_ctl -D /usr/local/var/postgres start'
+
+alias gitreset='git reset --hard origin/master; git pull origin master'
+
+alias pipi='pip install '
+alias upxy='unset HTTP_PROXY; unset HTTPS_PROXY; unset http_proxy; unset https_proxy'
+alias spxy='export HTTP_PROXY=$PROXY;export HTTPS_PROXY=$PROXY; export http_proxy=$PROXY; export https_proxy=$PROXY'
+
+alias drm1='docker rmi $(docker images -f "dangling=true" -q)'
+alias drm2='docker ps -a --filter status=exited --format {{.ID}} | xargs docker rm'
+alias drls='docker image ls'
+alias drct='drm2;docker container ls -a;'
+alias drps='docker ps -a'
+
+alias topdf='jupyter nbconvert --to=PDF --execute '  
+alias tohtm='jupyter nbconvert --to html --execute '  
+alias dua='du -a . | sort -n -r | head -n 5'
+alias py39='source ~/venv/py39/bin/activate'
+alias py311='source ~/venv/py311/bin/activate'
+alias py312='source ~/venv/py312/bin/activate'
+
+alias clean1='git diff --name-only *.ipynb| xargs jupyter nbconvert --clear-output --inplace'
+alias clean2='find . -name \*.ipynb -exec jupyter nbconvert --clear-output --inplace {} \;'
