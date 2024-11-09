@@ -31,7 +31,7 @@ Run the following commands
 git clone https://github.com/sada-narayanappa/LearnDjango.git
 cd LearnDjango
 pip install -r requirements.txt
-./run.sh 
+make run
 ```
 
 If everything works as expected, navigate to http://localhost:8003
