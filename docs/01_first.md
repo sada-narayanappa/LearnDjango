@@ -46,7 +46,7 @@ https://youtube.com/playlist?list=PLEpvS3HCVQ58at6W2qxGoH8rWBTfNrq99
 
 ### Option using docker
 
-Even faster if you are using docker
+Get it all working even faster if you are using docker. 
 
 ```
     [ ] export IMAGE=sada001/geo:geo-rhel9.21-django
@@ -91,10 +91,10 @@ Next step is to build and create your app:
 
 * Developed by 100's of researchers, interns, PhD students/professors and top engineers.
 * Continuosly being developed - well thought out design and simple elegant architecture.
-* Fully configurable and with all source code for your need.
+* Fully configurable and with all source code for your needs.
 * MIT license - so no need to worry to use or reuse or modify to your needs.
 * Simple framework and powerful to deploy application for 1000's of users.
-* Support and tested on docker container,, kubernetis deployment.
+* Deployinstantly using **docker** container, **kubernetis** deployment.
 * Develop applications using python.
 * Metrics for user visits, most used pages, landing page statistics.
 * Plug and play your applications and easily integrate other 100's application modules
@@ -106,7 +106,16 @@ Next step is to build and create your app:
     * Simple solutions for emails, uploading files, etc.
     * secuirty and ability to secure applications
     * Quickly develop python apps, deploy them as web services
- 
+* If you need consulting in hosting or want help with customizing app, consulting service
+* contribute to open source by reaching out - help to build great innovations
+* Many users already using the system
+-------------------------------------------------------------------------------------------
+# Contribute:
+
+If you would like to contribute to the software, create a branch and add your code.
+Please reach out to the current maintainer and request access. Start contributing to the open source code. 
+
+Help millions of new innovations to pop in giving them a baseline.
 
 -------------------------------------------------------------------------------------------
 # Refences:

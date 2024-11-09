@@ -23,6 +23,9 @@ sys.path.append(os.path.expanduser("~/.django") )
 if (os.path.exists(os.path.expanduser("~/.django/my_config.py"))):
     import my_config
     from my_config import *
+else:
+    from my_config import *
+    
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
