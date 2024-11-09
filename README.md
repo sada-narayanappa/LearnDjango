@@ -84,6 +84,8 @@ OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS = 15
 
 OIDC_CREATE_USER = True
 OIDC_VERIFY_SSL = True
+```
+
 ---
 
 # TO create app 
