@@ -21,6 +21,8 @@ If you want to use it to deploy commercial applications, please contact the auth
 ---
 # Quick start: get it up in few minutes
 
+### Option for local development
+
 You can clone or fork the main repo and start building your app in few minutes.
 
 Run the following commands
@@ -35,7 +37,7 @@ If everything works as expected, you may navigate to http://localhost:8003
 Now you have the base app working, you can start building your app.
 see the videos and other documentations below.
 
-### virtual environment
+### Option to create virtual environment
 ```{}
     # Option to create a venv 
     
@@ -46,6 +48,7 @@ see the videos and other documentations below.
     py312
 ```
 
+### Option using docker
 
 ---
 ## Some notable 
