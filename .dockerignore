@@ -1,6 +1,7 @@
 # Byte-compiled / optimized / DLL files
 nohup.out
 venv
+.env
 no-git
 .DS_Store
 __pycache__/

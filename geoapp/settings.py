@@ -285,8 +285,19 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'NAME': SQLLITE3DB(),
+    },
+    'default_pg': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'), # For local development, use 'localhost' or '127.0.0.1'
+        'PORT': os.environ.get('DATABASE_PORT'), # Default PostgreSQL port is usually '5432' 
     }
 }
+
+
+
 DB_CNX = DATABASES['default']['NAME']
 DB_CNX = DB_CNX.replace("/", "//")
 DB_CNX = f"sqllite://${DB_CNX}"
