@@ -48,6 +48,9 @@ https://youtube.com/playlist?list=PLEpvS3HCVQ58at6W2qxGoH8rWBTfNrq99
 
 docker 
 
+
+you can view https://github.com/geospaces-org/docs/blob/main/django/docker.md for more information to deploy your own docker containers with your app
+
 #### Next step:
 
 Next step is to build and create your app: 
