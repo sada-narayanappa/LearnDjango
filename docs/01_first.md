@@ -46,7 +46,8 @@ https://youtube.com/playlist?list=PLEpvS3HCVQ58at6W2qxGoH8rWBTfNrq99
 
 ### Option using docker
 
-docker 
+docker pull geospaces/test:streamdev ![image](https://github.com/user-attachments/assets/abd8ee62-115a-4c1d-b585-a8aea47ea848)
+
 
 
 you can view https://github.com/geospaces-org/docs/blob/main/django/docker.md for more information to deploy your own docker containers with your app
