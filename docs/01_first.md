@@ -46,6 +46,10 @@ https://youtube.com/playlist?list=PLEpvS3HCVQ58at6W2qxGoH8rWBTfNrq99
 
 ### Option using docker
 
+docker 
+
+#### Next step:
+
 Next step is to build and create your app: 
     https://github.com/geospaces-org/docs/blob/main/django/02_createapp.md
 
