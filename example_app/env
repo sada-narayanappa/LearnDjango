@@ -1,0 +1,7 @@
+export DEFAULT_APP=example_app
+export PORT=7004
+# Give a app name seperated by space
+export LINK_APPS=""
+
+#echo "DEFAULT_APP environment is: ${DEFAULT_APP}"
+#echo "PORT : ${PORT}"

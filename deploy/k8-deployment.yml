@@ -1,0 +1,37 @@
+#File k8-deployment.yml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8-django
+  labels:
+    app: k8-django
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: k8-django
+  template:
+    metadata:
+      labels:
+        app: k8-django
+    spec:
+      containers:
+        - image: sada001/geo:geo-rhel9.21-django
+          imagePullPolicy: Always
+          name: geo
+          envFrom:
+          - secretRef:
+              name: django-secret
+          - configMapRef:
+              name: django-cmap
+          ports:
+            - containerPort: 8000
+              name: gunicorn
+#          volumeMounts:
+#            - name: media-volume-mount
+#              mountPath: /app/data/media
+#      volumes:
+#        - name: media-volume-mount
+#          persistentVolumeClaim:
+#            claimName: media-pvc

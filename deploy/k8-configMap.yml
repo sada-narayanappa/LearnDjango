@@ -1,0 +1,9 @@
+# File: k8-configMap.yml
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: django-cmap
+data:
+      VARIABLE1: "version 11" 
+      VARIABLE2: "version 2"

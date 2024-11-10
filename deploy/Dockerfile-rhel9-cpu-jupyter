@@ -1,0 +1,7 @@
+# Specify the parent image from which we build
+FROM geo-rhel9.21-base
+
+USER ${USER}
+EXPOSE 8888
+#ENTRYPOINT []
+CMD ["jupyter", "notebook","--allow-root","--notebook-dir", "/notebooks", "--NotebookApp.token=''", "--NotebookApp.password=''", "--ip=0.0.0.0","--port=8888","--no-browser"]

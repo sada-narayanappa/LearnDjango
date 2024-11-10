@@ -3,6 +3,7 @@
 
 ## Web socket
 
+----------------------------------------------------------------------------
 In order to put a web socket in your application, see the example in:
 https://github.com/testdrivenio/django-channels-example
 
@@ -21,6 +22,7 @@ geoapp/settings.py
     }
 ```
 
+----------------------------------------------------------------------------
 geoapp.asgi.py
 ```
     from channels.auth import AuthMiddlewareStack
@@ -37,6 +39,14 @@ geoapp.asgi.py
     })
 ```
 
+>> Make sure to check the apache config files in 'cd /etc/apache2/sites-available; vi proxy.conf '
+
+NOTE you must run asgi application wagi.sh (not wsgi.sh)
+
+    uvicorn --host 0.0.0.0  --port ${PORT}  geoapp.asgi:application --reload
+
+
+----------------------------------------------------------------------------
 On the client side in 
 
 templates/common.html:

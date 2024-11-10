@@ -11,9 +11,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'pr75j7t*r!j=oac!798tazlecdo0%k0rasre@!f_&0u%2(=nty'
+# Overide the following in your my_config file below
 
-DEFAULT_DOMAIN = "https://www.geospaces.org"
+SECRET_KEY = 'pr75j7t*r!j=oac!798tazlecdo0%k0rasre@!f_&0u%2(=nty'
+DEFAULT_DOMAIN = "https://www.example.org"
 
 import os, sys, glob
 from django.urls import path, include
@@ -22,6 +23,9 @@ sys.path.append(os.path.expanduser("~/.django") )
 if (os.path.exists(os.path.expanduser("~/.django/my_config.py"))):
     import my_config
     from my_config import *
+else:
+    from my_config import *
+    
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -180,6 +184,8 @@ DETECT_INSTALLED_APPS = True
 DETECTED_APPS = []
 DETECTED_URLS = []
 
+IGNORE_APPS = os.environ.get('IGNORE_APPS', '').split()
+
 def detectInstalledApps(appslist):
     global DETECTED_URLS
 
@@ -187,7 +193,7 @@ def detectInstalledApps(appslist):
     appmenu = ""
     for file in glob.glob("**/apps.py"):
         app = os.path.basename(os.path.dirname(file))
-        if app in appslist:
+        if (app in appslist or app in IGNORE_APPS):
             continue
 
         logger.info("FOUND ** {file} {app}")
@@ -224,6 +230,7 @@ if ( DETECT_INSTALLED_APPS ):
 INSTALLED_APPS = INSTALLED_APPS + DETECTED_APPS 
 
 logger.info(f"-======>INSTALLED_APPS:  {INSTALLED_APPS}")
+logger.info(f"-======>DETECTED_URLS :  {DETECTED_URLS} ")
 SITE_ID = 1
 
 # Provider specific settings
@@ -282,8 +289,19 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'NAME': SQLLITE3DB(),
+    },
+    'default_pg': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'), # For local development, use 'localhost' or '127.0.0.1'
+        'PORT': os.environ.get('DATABASE_PORT'), # Default PostgreSQL port is usually '5432' 
     }
 }
+
+
+
 DB_CNX = DATABASES['default']['NAME']
 DB_CNX = DB_CNX.replace("/", "//")
 DB_CNX = f"sqllite://${DB_CNX}"

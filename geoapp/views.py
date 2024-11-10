@@ -53,10 +53,10 @@ def uploadfile(request):
     return HttpResponse(ret)
 
 # -----------------------------------------------------------------------
-def contactusemail(name="", email="", phone="", msg="", **kwargs):
+def contactusemail(name="", email="", phone="", msg="", dfrom="a@example.com", **kwargs):
     sub= "Thank you for reaching out."
     ret = f'''
-Dear {name},
+Dear {name or "sir/madam"},
 
 {sub}
 
@@ -74,8 +74,12 @@ Email: {email}
 Phone: {phone}
 Message:
 {msg}
+
+
+If you did not sign up for this, please ignore this message as your email 
+is not subscribed or stored in our system.
 '''
-    geoapp.utils.demail(subject=sub, msg=ret, to=email, dfrom="admin@megadatasys.com")
+    geoapp.utils.demail(subject=sub, msg=ret, to=email, dfrom=dfrom)
     return ret
 
 def contactus(request):

@@ -1,0 +1,30 @@
+# Specify the parent image from which we build
+FROM geo-rhel9.21-base
+EXPOSE 8000
+
+# Call USERT 0 - to run root user set up
+#USER 0
+#RUN mkdir -p /opt/apps
+#RUN chmod 777 /opt/apps; 
+
+ENV USER=poduser
+USER ${USER}
+COPY --chown=${USER}:${USER} . /home/${USER}/git/DS/apps/
+RUN ln -s  /home/${USER}/git/DS/apps /home/${USER}/apps
+
+
+WORKDIR /home/${USER}/apps/
+#USER 0
+RUN pip install -r requirements.txt
+RUN python manage.py migrate
+
+# ** CHANGE THE PASSWORD AFTER YOU create the image
+ARG password=$DJ_PASSWORD
+ENV DJANGO_SUPERUSER_PASSWORD=pod
+RUN python manage.py createsuperuser --username=pod --email='' --noinput
+
+# Make  sure CMD is before the ENTRYPOINT
+#
+CMD ["make run"]
+ENTRYPOINT ["bash", "-c"]
+#ENTRYPOINT ["bash", "-c", "make run"]

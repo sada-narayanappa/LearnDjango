@@ -10,7 +10,7 @@ import pandas as pd
 
 loga  = logging.getLogger( "app.analytics")
 
-file  = "/opt/data/tseries/data/_ANALYTICS/analytics.log"
+file  = os.path.expanduser("~/data/analytics.log")
 if  not os.path.exists(os.path.dirname(file)) :
     os.makedirs(os.path.dirname(file))
     

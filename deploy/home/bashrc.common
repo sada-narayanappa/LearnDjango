@@ -1,0 +1,23 @@
+case $TERM in
+  xterm*|vt100*)
+        #alias ls="ls -F -color=always"
+        alias ls="ls -F"
+        ;;
+  dumb)
+        alias ls="/bin/ls -FC"
+        ;;
+    esac
+
+export PS1='@dock [\w] '
+
+export PATH=/usr/local/bin:$PATH:.:/usr/local/mysql/bin:/usr/X11R6/bin
+export MANPATH=$MANPATH:/usr/X11R6/man
+export INFOPATH=$INFOPATH:/sw/share/info:/sw/info:/usr/share/info
+
+export LC_ALL=C
+
+export LD_LIBRARY_PATH=/usr/lib:/opt/lib:/usr/local/lib:/usr/X11R6/lib:$HOME/lib
+export SHELL=/bin/bash
+if [ -f ~/.aliases ]; then
+. ~/.aliases
+fi

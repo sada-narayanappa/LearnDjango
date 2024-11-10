@@ -1,0 +1,33 @@
+alias ll="ls -l"
+alias la="ls -a"
+alias ls="ls -F"
+alias gmake=make
+alias ifc="ifconfig | grep netmask"
+alias tags="find . -name "*.[chCH]" -print | etags -"
+alias rm='rm -i';
+alias cp='cp -i';
+alias mv='mv -i';
+alias grep='grep -sHn'
+
+alias ipy='ipython notebook --pylab=inline'
+alias ipy='jupyter-notebook --notebook-dir=/opt/Notebooks'
+
+alias gitca='git config credential.helper "cache --timeout=300000"'
+alias gitp='git pull --all'
+alias gitpu='git push'
+alias gitc='git commit -a -m "Commiting "'
+alias gitcp='gitc; git push'
+alias gitco='git checkout'
+alias gitb='git branch'
+alias gits='git status'
+alias gita='git add'
+alias gitpa='for i in */.git; do ( echo $i; cd $i/..; git pull; ); done'
+alias cdg='cd ~/git'
+alias gitreset='git reset --hard origin/master; git pull origin master'
+
+alias ts='source ~/tf/bin/activate'
+alias pipi='pip install '
+alias upxy='unset HTTP_PROXY; unset HTTPS_PROXY; unset http_proxy; unset https_proxy'
+alias spxy='export HTTP_PROXY=$PROXY;export HTTPS_PROXY=$PROXY; export http_proxy=$PROXY; export https_proxy=$PROXY'
+alias py312='source ~/venv/py312/bin/activate'
+
