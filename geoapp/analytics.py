@@ -43,7 +43,7 @@ def loganalytics(r):
 #------------------------------------------------------------------------------
 @webapi("/geotics/accesscount")
 def userscount( request=None, **kwargs):
-    cols =[c.strip() for c in "#user,uri,method,REMOTE_ADDR,time"[1:].split(",")]
+    cols =[c.strip() for c in "#user,uri,method,REMOTE_ADDR,time,"[1:].split(",")]
     df = pd.read_csv(file, comment='#', header=None)
     df.columns=cols
     df.time=pd.to_datetime(df.time)
