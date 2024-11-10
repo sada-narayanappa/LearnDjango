@@ -12,7 +12,7 @@ import geoapp.analytics as analytics
 def appcontext(request):
     context = {
         "appname"           : "ExAmPlE",
-        "weburl"            : "https://www.lmco.org/",
+        "weburl"            : "https://www.example.org/",
         "top_url"           : "example_app/topbar.html",
         "NO_LOGIN_MENU"     : 0,        # 1: to show login menu in topbar right corner
         "APP_MENU"          : 1,        # 1: show applications menu in top bar

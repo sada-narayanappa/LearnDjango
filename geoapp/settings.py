@@ -230,6 +230,7 @@ if ( DETECT_INSTALLED_APPS ):
 INSTALLED_APPS = INSTALLED_APPS + DETECTED_APPS 
 
 logger.info(f"-======>INSTALLED_APPS:  {INSTALLED_APPS}")
+logger.info(f"-======>DETECTED_URLS :  {DETECTED_URLS} ")
 SITE_ID = 1
 
 # Provider specific settings

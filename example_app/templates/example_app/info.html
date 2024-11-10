@@ -1,0 +1,41 @@
+{% extends "common.html" %}
+{% block content %}
+{% load custom_tags %}
+
+<div class="container">
+    <br/><br/>
+    <section id="content"><H1><center>  Information </center> </H1></section>
+</div>
+<br/>
+<section id="content">
+<div class="container">
+    <pre>
+        SOME DEBUGGING INFORMATION: HELPS TO DEBUG Kubernetis deployment
+
+        APPNAME:        {{ appname }}
+        PODNAME:        {{ podname }}
+        VERSION:        {{ version }}
+
+SOME VARIABLES set using Configmap.yml:
+
+        VARIABLE1:      {{ VARIABLE1 }}
+        VARIABLE2:      {{ VARIABLE2 }}
+
+
+SECRETE KEYS:
+
+        SECRET1:        {{ SECRET1 }}
+        SECRET2:        {{ SECRET2 }}
+
+
+        PORT:           {{ PORT }}
+        DEAFAULT_APP:   {{DEAFAULT_APP}}
+    </pre>
+
+</div>
+
+</section>
+</div>
+    
+{% include "example_app/footer.html" %}
+{% endblock %}

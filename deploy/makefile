@@ -23,7 +23,7 @@ base-pull:
 # -------------------------------------------------- CREATE NW
 NW=--network demonet
 nw:
-	docker network ls | grep demonet ; if [ $? -ne 0 ]; then docker network create demonet ; fi 
+	docker network ls | grep demonet ; if [ "$?" != "0" ]; then docker network create demonet ; fi 
 # -------------------------------------------------- DJANGO
 django_vars:
 	$(eval TAGNAME=geo-rhel9.21-django)
@@ -41,7 +41,7 @@ djangon: django_vars
 	cd ..; docker  build --no-cache=true  --tag=$(TAGNAME) -f deploy/$(DOCFILE) .
 
 django-run: django_vars
-	docker run --rm -d  --name ${APP} $(MOUNTS) $(PORTS) $(NW) $(TAGNAME)
+	docker run --rm -d  --name ${APP} $(MOUNTS) $(PORTS) $(NW) $(TAGNAME) 
 
 django-runit: django_vars
 	docker run --rm -it  --name ${APP} $(MOUNTS) $(PORTS) $(NW) $(TAGNAME) 'make run'

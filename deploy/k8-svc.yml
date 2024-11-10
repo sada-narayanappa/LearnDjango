@@ -1,0 +1,15 @@
+#File: k8-svc.yml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8-django
+  labels:
+    app: k8-django
+spec:
+  type: NodePort
+  selector:
+    app: k8-django
+  ports:
+    - port: 8000
+      targetPort: 8000

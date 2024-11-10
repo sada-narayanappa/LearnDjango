@@ -1,8 +1,14 @@
 # Create Docker container and using it.
 
 ```
-NOTE: you can directly pull the image from docker - you do not need to build local images.
+* NOTE * : you can directly pull the image from docker - you do not need to build local images.
+
 ```
+#### Pre-requisite 
+
+* You must be familiar with docker (containerization) concepts
+
+* NOTE: You must know how to create a account on docker hub. You must also be familar with pushing and pulling images from docker hub or some some docker repository. 
 
 ## Build docker image - STEP by STEP
 In order to build the docker container, see the makefile in deploy directory.
@@ -31,6 +37,7 @@ You can check docker images:
 ```
 
 ------------------------------------------------------------------------------------
+
 ## Build the image for the application
 
 In this section, we will see how to build base coker image and push it to docker hub.
@@ -76,6 +83,7 @@ Once you do this manually, you may commit the image to the hub by
 ```
 
 ------------------------------------------------------------------------------------
+
 ## Build Jupyter notebook image (optional - extra credit)
 This section shows how to extend the base image for specific use case.
 Her eyou create a jupyter notebook image and optionally push it to remote repo for distribution and sharing.
@@ -99,12 +107,15 @@ Please see the makefile for other destinations such as:
   * ... etc.
 
 ------------------------------------------------------------------------------------
-# FAQ
+
+## FAQ
 
 To run it on arm64 arch machines first install following:
 docker run --privileged --rm tonistiigi/binfmt --install all
 
 ------------------------------------------------------------------------------------
-# GOOD REFERENCES
+
+## GOOD REFERENCES
 
 1. https://spacelift.io/blog/docker-entrypoint-vs-cmd
+

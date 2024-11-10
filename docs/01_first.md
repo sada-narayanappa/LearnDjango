@@ -1,5 +1,8 @@
 # Using Django framework to build application
 
+This is a most comprehensive, simple fast django framework that will help you get started building world class applications.
+There are hundreds of applications using this framework to deploy both simple and sophisticated applications.
+
 This is a application framework that use python Django-framework. 
 This framework is created to quickly prototype web applications and show some good practices.
 
@@ -12,7 +15,8 @@ This is to be used only for educational purpose and not suited for commercial ap
 If you want to use it to deploy commercial applications, please contact the author.
 
 -------------------------------------------------------------------------------------------
-# Quick start: get it up in few minutes
+
+## Quick start: get it up in few minutes
 
 ### Option for local development
 
@@ -41,11 +45,10 @@ see the videos and other documentations below.
     py312
 ```
 
-
 #### Youtube Video playlist:
 https://youtube.com/playlist?list=PLEpvS3HCVQ58at6W2qxGoH8rWBTfNrq99
 
-### Option using docker
+### Running it using docker
 
 Get it all working even faster if you are using docker. 
 
@@ -78,6 +81,34 @@ to customize your image
     
 ```
 
+### Docker cheat sheet
+```
+    NW=--network demonet
+    TAG=myapp
+    IMAGE=location/test:$TAG
+    NAME=myapp1
+
+    docker network ls | grep demonet ; if [ $? -ne 0 ]; then docker network create demonet ; fi
+    docker run --rm -it --name $NAME -p 8888:8888 -p 7003:7003  --network demonet $IMAGE
+
+    # If you want elastic search, uncomment the following line
+    export ESI = 'docker.elastic.co/elasticsearch/elasticsearch:8.13.3'
+    #docker run --rm -it --name es01 - demonet -e ELASTIC_PASSWORD=elastic -p 9200:9200 $ESI
+
+
+    echo ** To COMMIT YOUR IMAGE ***
+        echo docker commit $NAME $TAG
+        echo docker tag $TAG $IMAGE
+        echo docker push $IMAGE 
+
+    docker commit $NAME $TAG; docker tag $TAG $IMAGE; docker push $IMAGE
+
+
+    #To run it on arm64 arch machines first install following:
+    docker run --privileged --rm tonistiigi/binfmt --install all
+```
+
+----------------------------------------------------------------------------------------
 
 you can view https://github.com/geospaces-org/docs/blob/main/django/docker.md for more information to deploy your own docker containers with your app
 
@@ -89,6 +120,14 @@ Next step is to build and create your app:
 -------------------------------------------------------------------------------------------
 
 ## Some notable features
+
+The Django framework, a high-level Python web framework, stands as a beacon of efficiency and simplicity in the world of web development. Born out of the need to create rapid, robust, and maintainable web applications, Django has become a go-to choice for developers and organizations.
+
+At its core, Django embraces the “batteries-included” philosophy, offering an extensive array of built-in tools, libraries, and conventions that facilitate the development process. It simplifies complex tasks like URL routing, database integration, and user authentication, allowing developers to focus on building their applications.
+
+Django also prioritizes security, making it less prone to common web vulnerabilities. It includes features like cross-site scripting (XSS) and cross-site request forgery (CSRF) protection out of the box. Offering a potent combination of speed, simplicity, and security, Django is an ideal choice for developers looking to create robust, feature-rich web applications with minimal effort.
+
+### Features.
 
 * Developed by 100's of researchers, interns, PhD students/professors and top engineers.
 * Continuosly being developed - well thought out design and simple elegant architecture.
@@ -109,9 +148,15 @@ Next step is to build and create your app:
     * Quickly develop python apps, deploy them as web services
 * If you need consulting in hosting or want help with customizing app, consulting service
 * contribute to open source by reaching out - help to build great innovations
-* Many users already using the system
+* Use database of your choice - postgres, simple SQLDB for quick deployment
+* serve static files and application specific static files 
+* Guidance and documentation for apache and NGINX servers.
+* Deploying secured services and obtaining certificate from Lets Encrypt
+* Cloud ready - tested on A=WS, openshift, Azure (Awaiting tests on Google cloud)
+
 -------------------------------------------------------------------------------------------
-# Contribute:
+
+## Contribute:
 
 If you would like to contribute to the software, create a branch and add your code.
 Please reach out to the current maintainer and request access. Start contributing to the open source code. 
@@ -119,7 +164,8 @@ Please reach out to the current maintainer and request access. Start contributin
 Help millions of new innovations to pop in giving them a baseline.
 
 -------------------------------------------------------------------------------------------
-# Refences:
+
+## Refences:
 
 1. goto https://github.com/geospaces-org/docs/blob/main/django/docker.md to get all docs
 
