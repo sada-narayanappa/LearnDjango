@@ -38,7 +38,7 @@ else:
     os.system(f'ln -s {AP2}')
     
     DEF_DIR=os.path.dirname(LINK_APP)
-    DEP_APPS=os.environ.get("LINK_APPS", "SADA")
+    DEP_APPS=os.environ.get("LINK_APPS", "")
     print(f"Checking dependent apps  {DEP_APPS}")
     for l in DEP_APPS.split():
         ll = f"{DEF_DIR}/{l}"
