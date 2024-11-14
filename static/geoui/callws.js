@@ -213,6 +213,7 @@ async function callws( url="/ui/test/", formName="", callbacks=null, context={},
         }
     })
     .catch(error => {
+        nbusy()
         console.log("ERROR; " , error)
         JS_error("Error: " + error, "error", null, true)
     }).finally( function() {

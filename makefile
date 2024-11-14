@@ -4,15 +4,24 @@
 # Set it by environment variable : EXPORT PORT=9000
 # - OR it defaults to 8003
 # ------------------------------------------------------------------------
-SHELL  := env PORT=$(PORT) $(SHELL)
+SHELL := env PORT=$(PORT) $(SHELL)
+#TEST  := $(activate.py $(DEFAULT_APP))
+-include $(DEFAULT_APP)/env
+
 PORT ?= 8000
 
 OPTS=' --cert /tmp/cert'
 
 # ------------------------------------------------------------------------
 info:
-	@echo "* Show information: *"
+	@echo "* Show information: DEFAULT_APP=${DEFAULT_APP} * ${SHELL} ${TEST}"
 	@echo "Runs your app on PORT: ${PORT}"
+	@echo
+
+# ------------------------------------------------------------------------
+act: 
+	@echo "* Activating: DEFAULT_APP=${DEFAULT_APP} * ${SHELL}"
+	@echo "Runs your app on PORT: ${PORT} $(PORT)"
 	@echo
 # ------------------------------------------------------------------------
 # Clean the links 
@@ -27,22 +36,22 @@ clean:
 	@find . -maxdepth 1 -type l
 	@echo
 	@echo "Removed above links"
+
 # ------------------------------------------------------------------------
 #
 #
 run:
-	python activate.py
+	activate.py
 	python manage.py runserver 0:${PORT}
 
 run_secure:
 	python manage.py runserver_plus 0:${PORT} ${OPTS}
 
 asgi:
-	activate.py
 	uvicorn --host 0.0.0.0  --port ${PORT}  geoapp.asgi:application --reload
 
 # ------------------------------------------------------------------------
-pull:
+pull: 
 	@git pull
 	@echo "Pulling sub directories ..."
 	@for d in */ ; do \

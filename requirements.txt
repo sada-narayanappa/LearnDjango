@@ -44,4 +44,5 @@ uvicorn==0.32.0
 mangorest
 colabexts
 uvicorn[standard]
+dotenv
 #git+https://github.com/openai/whisper.git 
