@@ -1,5 +1,5 @@
+export DEFAULT_APP=$1
 echo Setting up and running $DEFAULT_APP
 
-export DEFAULT_APP=$1
-activate.py
-make run
+activate.py $DEFAULT_APP
+make run DEFAULT_APP=$DEFAULT_APP
