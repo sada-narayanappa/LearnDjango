@@ -81,4 +81,4 @@ for l in LINK_APPS.split():
     else:
         print(f"Path not found: => {ll} !!")
 
-print("All done!\nYou can run your app by calling\n\t make run")
+print("All done!\nYou can run your app by calling\n\t make run DEFAULT_APP={DEFAULT_APP}")
