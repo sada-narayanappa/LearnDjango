@@ -1,4 +1,5 @@
 kanban
+static/data
 db.sqlite3
 .vscode
 .devcontainer
