@@ -41,7 +41,6 @@ clean:
 #
 #
 run:
-	activate.py
 	python manage.py runserver 0:${PORT}
 
 run_secure:

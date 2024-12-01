@@ -24,6 +24,12 @@ def searchfor(app="app", max_depth=2):
 print("==== Activate ====")
 DEFAULT_APP = sys.argv[1] if len(sys.argv) > 1 else os.environ.get('DEFAULT_APP', "")
 
+AP1="application_context"
+
+if ( not DEFAULT_APP and os.path.exists(AP1) ):
+    DEFAULT_APP= os.path.basename(os.path.dirname(os.path.realpath(AP1)))
+    if (os.path.exists(f"{DEFAULT_APP}/env")):
+        load_dotenv(f"{DEFAULT_APP}/env")
 if ( not DEFAULT_APP):
     print("DEFALT APP is null, setting example app")
     load_dotenv("example_app/env")
@@ -40,7 +46,6 @@ Current environment settings are:
            PORT: {os.environ.get( 'PORT', "8000")}
 ''')
 
-AP1="application_context"
 AP2=f"{DEFAULT_APP}/application_context"
 
 if (os.path.exists(AP1) and os.path.exists(AP2) and os.path.samefile(AP1, AP2) ):
