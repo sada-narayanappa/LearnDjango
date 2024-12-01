@@ -46,3 +46,4 @@ colabexts
 uvicorn[standard]
 dotenv
 #git+https://github.com/openai/whisper.git 
+openai-whisper

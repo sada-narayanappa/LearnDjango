@@ -1,9 +1,9 @@
 AudioContext    = window.AudioContext || window.webkitAudioContext;
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class GeoAudio {
-    gumStream       = null;      //stream from getUserMedia()
-    rec             = null;    //Recorder.js object
-    input           = null; //MediaStreamAudioSourceNode we'll be recording
+    gumStream       = null;     // stream from getUserMedia()
+    rec             = null;     // Recorder.js object
+    input           = null;     // MediaStreamAudioSourceNode we'll be recording
 
     bblob           = null
     blobLastIndex   = 0
@@ -68,13 +68,14 @@ class GeoAudio {
     stopRecording() {
         if ( !this.rec ) {
             console.log("Recording may not have started...")
-            return
+            return -1
         }
         console.log("Stopping the recording ...")
         this.exportRecording()
         this.gumStream.getAudioTracks()[0].stop();
         this.callBack("stopped", this.bblob)
         this.rec.stop();
+        return 0
     }
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

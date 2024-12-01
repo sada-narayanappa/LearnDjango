@@ -28,7 +28,7 @@ def transcribe(request=None, file="/tmp/test.wav", offset=0, duration=None, save
         for f in request.FILES.getlist('file'):
             file = f.read()
             if ( save ):
-                filename = save or '/tmp/test.wav'
+                filename = save or f'/tmp/{f}'
                 logger.info(f'GOT FILE will save to {filename} and transcribe')
                 with open (f"{filename}", "wb") as ff:
                     ff.write(file)
