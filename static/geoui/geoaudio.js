@@ -26,7 +26,7 @@ class GeoAudio {
     startRecording() {
         if ( this.IsRecording()) {
             console.log("Already recording ... stop it first!")
-            return
+            return 0
         }
 
         var constraints = { audio: true, video:false }
@@ -53,6 +53,7 @@ class GeoAudio {
             console.log(err)
             o.callBack("ERROR: Audio failed to start, " + err)
         });
+        return 0
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     toggleRecording(){
@@ -82,7 +83,7 @@ class GeoAudio {
     async exportRecording() {
         if ( !this.rec ) {
             console.log("Recording may not have started...")
-            return
+            return null
         }
         var myself = this
         async function SetLink(blob) {
@@ -109,32 +110,54 @@ class GeoAudio {
     }
     */
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    async getSegment(start=null, end=null) {
-        if ( !this.blob) {
+    // start and end are in seconds
+    async getSegment(start=0, len=60*60, blob=null) {
+        blob = (blob == null ) ? this.bblob: blob
+        if ( !blob) {
             return null;
         }
-        var abbb = await new Response(this.bblob).arrayBuffer();
-        var ab32=new Uint32Array(abbb.slice(0,44))
+        var HEADER_LEN = 44
 
-        // multiply by 32000 to get index assuming 16000 rate
-        start = start != null || parseFloat($('#start').val()) *32000
-        end   = end   != null || parseFloat($('#end').val())*32000
+        var abbb = await new Response(blob).arrayBuffer();
+        var ab32 = new Uint32Array(abbb.slice(0, HEADER_LEN))   // extract Header
+        var alen = (blob.size - HEADER_LEN)/32000                               //audio length in seconds
 
-        start = Math.floor(start)
-        end   = Math.ceil(end)
+        var end = start + len
+        end = ( end < 0 || end > alen ) ? Math.floor(alen) : end;
+        len = end - start
 
-        var len = ab32[1]
-        var alen= ab32[10]
-        console.log("blob : ", bblob.size, len, alen)
+        // If blob has less data than the start or if the data is less than 1 second
+        if (blob.size < start || len < 2 ) { 
+            console.log("?? start too large or size too small ", start, end, " <=>", blob.size)
+            return null
+        }
+        console.log("blob:", blob.size, " file size: ", ab32[1], ab32[10], " start: ", start, " end: ", end, alen)
 
-        end = ( end < 0 || end > alen ) ? alen : end;
-        end = ( end < start ) ? start : end   
 
+        var start_data = start * 32000 + HEADER_LEN
+        var end_data   = end * 32000 + HEADER_LEN
+        end_data   = Math.min( end_data, blob.size-HEADER_LEN);
+
+        var ab08 = new Uint8Array(abbb.slice(start_data, end_data))
+        ab32[10] = ab08.length
+        ab32[1]  = ab32[10] + 36
+        var h08  = new Uint8Array(ab32.buffer)  // header for new data
+
+        var arbf = new Uint8Array(h08.length + ab08.length);
+        arbf.set(h08);
+        arbf.set(ab08, h08.length);
+
+        var abbf = new Blob([arbf], {type: "audio/wav"});
+        return abbf
         // WAV format has header length of 44:  https://docs.fileformat.com/audio/wav/
-        ab32[10] = end - start
-        ab32[1 ] = ab32[10] + 36
+        ab32[10] = len
+        ab32[1 ] = ab32[10] * 32000 + 44
         var h08  = new Uint8Array(ab32.buffer)
-        var ab08 = new Uint8Array(abbb.slice(start+44, end+44))
+        start = start * 32000 + HEADER_LEN
+        end   = end * 32000 + HEADER_LEN
+        end   = Math.min( end, blob.size-HEADER_LEN);
+    
+        var ab08 = new Uint8Array(abbb.slice(start+HEADER_LEN, end+HEADER_LEN))
 
         var arbf = new Uint8Array(h08.length + ab08.length);
         arbf.set(h08);
@@ -145,7 +168,7 @@ class GeoAudio {
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     playSegment(start=null, end=null) {
-        var abbf = getSegment(start, end)
+        var abbf = this.getSegment(start, end)
         var url = URL.createObjectURL(abbf);
         faudio.src = url
     }
