@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "gridstack": "^8.2.1",
-    "split.js": "^1.6.5"
+    "split.js": "^1.6.5",
+    "wavesurfer.js": "^7.8.10"
   }
 }
