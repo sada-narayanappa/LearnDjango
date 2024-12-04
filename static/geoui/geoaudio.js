@@ -15,16 +15,18 @@ class GeoAudio {
 
     constructor(callBack=()=>{}, control="faudio") {
         this.faudio = document.getElementById(control);
-        if ( !this.faudio)
-            throw "Control not found"
+        if ( !this.faudio) {
+            console.log("Control not found")
+            return
+        }
         this.callBack = callBack
     }
 
-    IsRecording() {
+    isRecording() {
         return (this.rec && this.rec.recording)
     }
     startRecording() {
-        if ( this.IsRecording()) {
+        if ( this.isRecording()) {
             console.log("Already recording ... stop it first!")
             return 0
         }
@@ -56,6 +58,10 @@ class GeoAudio {
         return 0
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    clearRecording(){
+        a.rec.clear()
+    }
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     toggleRecording(){
         console.log("pauseButton clicked rec.recording=", this.rec.recording );
         if (this.rec.recording){
@@ -66,7 +72,7 @@ class GeoAudio {
         }
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    stopRecording() {
+    async stopRecording() {
         if ( !this.rec ) {
             console.log("Recording may not have started...")
             return -1
@@ -112,59 +118,70 @@ class GeoAudio {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // start and end are in seconds
     async getSegment(start=0, len=60*60, blob=null) {
+        var ret = await fetchAudioBlobForRange(start, len, blob)
+        return ret
+    }
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    async  fetchAudioBlobForRange(startTime, duration, blob) {
         blob = (blob == null ) ? this.bblob: blob
         if ( !blob) {
             return null;
         }
-        var HEADER_LEN = 44
-
-        var abbb = await new Response(blob).arrayBuffer();
-        var ab32 = new Uint32Array(abbb.slice(0, HEADER_LEN))   // extract Header
-        var alen = (blob.size - HEADER_LEN)/32000                               //audio length in seconds
-
-        var end = start + len
-        end = ( end < 0 || end > alen ) ? Math.floor(alen) : end;
-        len = end - start
-
-        // If blob has less data than the start or if the data is less than 1 second
-        if (blob.size < start || len < 2 ) { 
-            console.log("?? start too large or size too small ", start, end, " <=>", blob.size)
-            return null
+        
+        var endTime = startTime + duration
+        try {
+            const audioContext = new AudioContext();
+            const arrayBuffer = await blob.arrayBuffer();
+            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    
+            // Calculate start and end frame indices
+            const sampleRate = audioBuffer.sampleRate;
+            const startFrame = Math.floor(startTime * sampleRate);
+            const endFrame = Math.floor(endTime * sampleRate);
+    
+            // Extract the audio data for the range
+            const numberOfChannels = audioBuffer.numberOfChannels;
+            const durationFrames = endFrame - startFrame;
+            const newBuffer = audioContext.createBuffer(
+                numberOfChannels,
+                durationFrames,
+                sampleRate
+            );
+    
+            for (let channel = 0; channel < numberOfChannels; channel++) {
+                const sourceData = audioBuffer.getChannelData(channel);
+                const destinationData = newBuffer.getChannelData(channel);
+                destinationData.set(sourceData.subarray(startFrame, endFrame));
+            }
+    
+            // Export the new audio data as a Blob
+            const offlineContext = new OfflineAudioContext(
+                numberOfChannels,
+                newBuffer.length,
+                sampleRate
+            );
+            const source = offlineContext.createBufferSource();
+            source.buffer = newBuffer;
+            source.connect(offlineContext.destination);
+            source.start();
+            const audioBuffer1 = await offlineContext.startRendering();
+    
+            const wavBlob = await encodeWAV(audioBuffer1);
+            return (wavBlob);
+    
+        } catch (error) {
+            console.error('Error fetching or processing audio:', error);
+            return null;
         }
-        console.log("blob:", blob.size, " file size: ", ab32[1], ab32[10], " start: ", start, " end: ", end, alen)
-
-
-        var start_data = start * 32000 + HEADER_LEN
-        var end_data   = end * 32000 + HEADER_LEN
-        end_data   = Math.min( end_data, blob.size-HEADER_LEN);
-
-        var ab08 = new Uint8Array(abbb.slice(start_data, end_data))
-        ab32[10] = ab08.length
-        ab32[1]  = ab32[10] + 36
-        var h08  = new Uint8Array(ab32.buffer)  // header for new data
-
-        var arbf = new Uint8Array(h08.length + ab08.length);
-        arbf.set(h08);
-        arbf.set(ab08, h08.length);
-
-        var abbf = new Blob([arbf], {type: "audio/wav"});
-        return abbf
-        // WAV format has header length of 44:  https://docs.fileformat.com/audio/wav/
-        ab32[10] = len
-        ab32[1 ] = ab32[10] * 32000 + 44
-        var h08  = new Uint8Array(ab32.buffer)
-        start = start * 32000 + HEADER_LEN
-        end   = end * 32000 + HEADER_LEN
-        end   = Math.min( end, blob.size-HEADER_LEN);
-    
-        var ab08 = new Uint8Array(abbb.slice(start+HEADER_LEN, end+HEADER_LEN))
-
-        var arbf = new Uint8Array(h08.length + ab08.length);
-        arbf.set(h08);
-        arbf.set(ab08, h08.length);
-    
-        var abbf = new Blob([arbf], {type: "audio/wav"});
-        return abbf
+    }
+    encodeWAVWS(audioBuffer) {
+        return new Promise((resolve) => {
+            const worker = new Worker('wavEncoder.js'); // Replace with your worker for WAV encoding
+            worker.postMessage(audioBuffer);
+            worker.onmessage = (event) => {
+                resolve(event.data);
+            };
+        });
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     playSegment(start=null, end=null) {
@@ -172,16 +189,100 @@ class GeoAudio {
         var url = URL.createObjectURL(abbf);
         faudio.src = url
     }
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    INPROGRESS = 0;
-    TranscribeCB(responseTxt) {
-        INPROGRESS = 0
-        console.log(responseTxt)
+}
+
+// check if last few seconds have been silent
+async function isSilent(audioFileUrl, duration=2, silenceThreshold=0.05) {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    
+    // Fetch and decode the audio file
+    const response = await fetch(audioFileUrl);
+    const arrayBuffer = await response.arrayBuffer();
+    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    
+    const sampleRate = audioBuffer.sampleRate; // Samples per second
+    const lastTwoSecondsStart = audioBuffer.length - sampleRate * 2; // Start index of the last 2 seconds
+    
+    if (lastTwoSecondsStart < 0) {
+        //throw new Error("Audio file is less than 2 seconds long.");
+        return 0
     }
-    Transcribe(blob=null, from=0) {
-        blob = blob || bblob
-        if ( INPROGRESS )
-            return;
-        INPROGRESS = Date.now()
+
+    // Extract the last 2 seconds of data (assuming mono audio for simplicity)
+    const channelData = audioBuffer.getChannelData(0).slice(lastTwoSecondsStart);
+
+    const isSilent = channelData.every(sample => Math.abs(sample) < silenceThreshold);
+
+    return isSilent;
+}
+
+function encodeWAV(audioBuffer) {
+    const numChannels = audioBuffer.numberOfChannels;
+    const sampleRate = audioBuffer.sampleRate;
+    const bitsPerSample = 16; // 16-bit PCM
+
+    // Merge audio channels
+    const samples = mergeBuffers(audioBuffer, bitsPerSample);
+
+    // Calculate data size
+    const dataSize = samples.length * (bitsPerSample / 8);
+    const headerSize = 44;
+
+    const buffer = new ArrayBuffer(headerSize + dataSize);
+    const view = new DataView(buffer);
+
+    // Write WAV header
+    writeString(view, 0, "RIFF"); // ChunkID
+    view.setUint32(4, headerSize + dataSize - 8, true); // ChunkSize
+    writeString(view, 8, "WAVE"); // Format
+    writeString(view, 12, "fmt "); // Subchunk1ID
+    view.setUint32(16, 16, true); // Subchunk1Size (PCM)
+    view.setUint16(20, 1, true); // AudioFormat (1 = PCM)
+    view.setUint16(22, numChannels, true); // NumChannels
+    view.setUint32(24, sampleRate, true); // SampleRate
+    view.setUint32(28, sampleRate * numChannels * (bitsPerSample / 8), true); // ByteRate
+    view.setUint16(32, numChannels * (bitsPerSample / 8), true); // BlockAlign
+    view.setUint16(34, bitsPerSample, true); // BitsPerSample
+    writeString(view, 36, "data"); // Subchunk2ID
+    view.setUint32(40, dataSize, true); // Subchunk2Size
+
+    // Write audio data
+    var offset = 44;
+    for (let i = 0; i < samples.length; i++, offset += 2) {
+        view.setInt16(offset, samples[i], true);
+    }
+
+    return new Blob([buffer], { type: "audio/wav" });
+}
+
+function mergeBuffers(audioBuffer, bitsPerSample) {
+    const numChannels = audioBuffer.numberOfChannels;
+    const length = audioBuffer.length;
+    const result = new Float32Array(length);
+
+    for (let channel = 0; channel < numChannels; channel++) {
+        const channelData = audioBuffer.getChannelData(channel);
+        for (let i = 0; i < length; i++) {
+            result[i] += channelData[i] / numChannels; // Average multiple channels
+        }
+    }
+
+    return convertToPCM(result, bitsPerSample);
+}
+
+function convertToPCM(float32Array, bitsPerSample) {
+    const maxAmplitude = Math.pow(2, bitsPerSample - 1) - 1;
+    const pcm = new Int16Array(float32Array.length);
+
+    for (let i = 0; i < float32Array.length; i++) {
+        pcm[i] = Math.max(-1, Math.min(1, float32Array[i])) * maxAmplitude;
+    }
+
+    return pcm;
+}
+
+function writeString(view, offset, string) {
+    for (let i = 0; i < string.length; i++) {
+        view.setUint8(offset + i, string.charCodeAt(i));
     }
 }
