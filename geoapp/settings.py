@@ -26,7 +26,7 @@ if (os.path.exists(os.path.expanduser("~/.django/my_config.py"))):
 else:
     from my_config_local import *
     
-
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!

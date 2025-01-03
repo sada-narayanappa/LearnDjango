@@ -1,4 +1,4 @@
-export DEFAULT_APP=$1
+export DEFAULT_APP="$1"
 echo Setting up and running $DEFAULT_APP
 
 activate.py $DEFAULT_APP

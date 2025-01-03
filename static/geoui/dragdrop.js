@@ -60,7 +60,7 @@ var DD_MAX_FILE_SIZE = 50*1024*1024;
 
 */
 var DD_MAX_FILES     = 3;
-var DD_MAX_FILE_SIZE = 250*1024*1024;
+var DD_MAX_FILE_SIZE = 2*1024*1024*1024;
 
 function handleDragOver(evt) {
     evt.stopPropagation();
@@ -91,11 +91,16 @@ function handleFileDrop(evt) {
     }
     for (var i=0; i<files1.length; i++) {
         var file = files1[i];
-        if ( file.size > DD_MAX_FILE_SIZE) {
-            alert(`File size exceeded: ${file.name} ${file.size} => Max is: ${DD_MAX_FILE_SIZE}!!! `);
-            return;
-        }
         fstr = "File: " + file.name + ", type: " + file.type + ", size: " + file.size;
+
+        if ( file.size > DD_MAX_FILE_SIZE) {
+            //alert(`File size exceeded: ${file.name} ${file.size} => Max is: ${DD_MAX_FILE_SIZE}!!!`);
+            if (confirm(`File size exceeded: ${file.name} ${file.size} > ${DD_MAX_FILE_SIZE} !!! - continue?`)) {
+                console.log('File size large!! ', fstr);
+            } else {
+                return
+            }
+        }
     }
 
     if (files1.length == 0) {

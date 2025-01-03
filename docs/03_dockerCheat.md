@@ -11,7 +11,7 @@ docker run --rm -it --name $NAME -p 8888:8888 -p 7003:7003  --network demonet $I
 
 # If you want elastic search, uncomment the following line
 export ESI="elastic -p 9200:9200 docker.elastic.co/elasticsearch/elasticsearch:8.13.3"
-#docker run --rm -it --name es01 - demonet -e ELASTIC_PASSWORD=${ESI}
+#docker run --rm -it --name es01 --network demonet -e ELASTIC_PASSWORD=${ESI}
 
 
 echo ** To COMMIT YOUR IMAGE ***

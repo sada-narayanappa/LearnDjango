@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="/static/css/styles.css/">
 <link rel="stylesheet" type="text/css" href="/static/css/geoui.css/">
 <link rel="stylesheet" type="text/css" href="/static/css/font-awesome.min.css/">
-<link rel="stylesheet" type="text/css" href="/static/bc/Font-Awesome/css/all.css/">
+<link rel="stylesheet" type="text/css" href="/static/bc/Font-Awesome/css/all.min.css/">
 <!--
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 -->
@@ -300,6 +300,34 @@ code::after, code::before {
     color: white;
 }
 
+.ripples48 {
+    align-content: space-around;
+    border: 0px;
+    height: 48;
+    width:  48;
+    border-radius: 50%;
+    animation-delay: 2s;    
+}
+.ripples_active{
+    animation: growAndFadeR 3s infinite ease-out;
+}
+@keyframes growAndFadeR {
+  0% {
+    background-color: rgba(178, 34, 34, 0.1);
+    border: 0 solid rgba(178, 34, 34, 0);
+    transform: scale(1);
+  }
+  50% {
+    background-color: rgba(178, 34, 34, 0.6);
+    border: 1px solid rgba(178, 34, 34, 0.2);
+    transform: scale(0.85);
+  }
+  100% {
+    background-color: rgba(178, 34, 34, 0.1);
+    border: 0 solid rgba(178, 34, 34, 0);
+    transform: scale(1);
+  }
+}
 </style>
 
 </head>
@@ -573,7 +601,9 @@ function doClassbasedInit() {
     $('[data-toggle="tooltip"]').tooltip()
 }
 
-
+function btnBlur() { 
+    $('.btn').click(function(){ this.blur()  });
+}
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 $(document).ready(function() {

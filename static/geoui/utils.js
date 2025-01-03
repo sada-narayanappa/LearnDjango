@@ -28,6 +28,9 @@ function parseDate(d) {
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 function geoui_setupMATHJAX(div){
+    if (!$(div)[0]) {
+        console.log("Div undefined ...", div)
+    }
     if (typeof  MathJax !== 'undefined' ) {
         MathJax.Hub.Config({
             extensions: ["tex2jax.js"],
@@ -39,7 +42,9 @@ function geoui_setupMATHJAX(div){
             TeX: { equationNumbers: { autoNumber: "AMS" } },
             "HTML-CSS": { availableFonts: ["TeX"] }
           });
-        MathJax.Hub.Queue(["Typeset",MathJax.Hub, document.getElementById(div)]);
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub, $(div)[0]]);
+    } else{
+        console.log("Mathjax undefined ...")
     }
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -138,6 +143,23 @@ function copyText(id, val) {
 
     document.execCommand("copy");
     //salert("Copied to clipboard: " + copyText.value);
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function geoutils_copyToClipboard(w=null, textToCopy=null) {
+    if (!textToCopy) {
+        $(w).blur()
+        textToCopy = $(w).val() || $(w).text()    
+    }
+    //console.log("==>", textToCopy)
+
+    // Create a temporary textarea element
+    var tempTextArea = $("<textarea>");
+    tempTextArea.val(textToCopy).appendTo("body");
+    tempTextArea.select();
+    document.execCommand("copy");
+    tempTextArea.remove();
+
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 function getallInputs() {
@@ -276,6 +298,78 @@ function dirname(str) {
         
     var base = new String(str).substring(0, str.lastIndexOf('/') );
     return base;
+}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+countries = ["australia", "austria", "antartica", "argentina", "algeria"];
+function geoutils_AutoGetListExample(term, params, url="blah, blah") {
+    var term = request.term.trim()  // term is the content
+    if ( term.length > 15 || term.length <= 0 )
+        return
+    u = `${url}${term}`
+    $.get(u, function(d){
+            try{
+                var ret = JSON.parse(d)
+                //term = term.endsWith('*') ? term.slice(0, -1) : term;
+                //ret.splice(0,0,term)
+                ret[ret.length] = term;
+                ret = ret.concat(list)
+                var ret = countries.filter(function (str) { return str.toLowerCase().indexOf(t) !== -1; });
+                response(ret)
+            } catch(e){
+                console.log(d , e)
+            }
+        })
+}
+
+function geoutils_getACListExample(term, params) {
+    let s = new Set(countries);
+    countries = [...s]
+
+    // Lets just keep the top 30 elements only
+    countries = countries.slice(0, 30);
+    var t= term.toLowerCase()
+    var ret = countries.filter(function (str) { return str.toLowerCase().indexOf(t) !== -1; });
+
+    return ret
+}
+
+_AC_DEF_OPTS={position: "", params: {}, minLength: 0}
+function geoutils_Autocomplete(w='#text', list=[], options={}) {
+
+    const opts = {  ..._AC_DEF_OPTS, ...options };
+    //console.log("==> AUTOCOMPLETE FOPR: ", $(w))
+
+    $(w).autocomplete({
+        autoFocus: true,
+        minLength: opts.minLength,
+        open: function(event, ui){ 
+            var w = $(event.target)
+            
+            var $results = $(w).autocomplete("widget")
+            $results.css("border", "2px solid gray");
+
+            if (opts.position == "top") {
+                var top = $results.position().top
+                var height = $results.height()
+                var inputHeight = $(w).height()
+                var newTop = top - height - 25 - inputHeight;
+                $results.css("top", newTop + "px");
+            }
+        },
+        source: function(request, response) {  //REST call
+            var term = request.term.trim()
+            if (typeof list === 'function') {
+                response(list(term, opts.params))
+            } else {
+                response(list)
+            }
+        },
+        select: function (event, item) {
+            //console.log("==> Searched for: ",item.item.value)
+            $(w).val(item.item.value);
+        }
+    });
 }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

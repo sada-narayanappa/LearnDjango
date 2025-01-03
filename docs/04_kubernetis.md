@@ -59,6 +59,28 @@ Keep the following picture while you read the remainder of the sections.
 <br/>
 
 * [Visit the interactive Dashboard](http://127.0.0.1:53603/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=default)
+Note your port may be different
+
+---
+
+### Using podman - proxy and etc.
+
+* Install podman desktop 
+* podman machine init --cpus 2 --memory 8192 --now
+
+* Goto podman => settings => proxy
+    * set proxy
+    * Bypass: *.local,169.254/16, .example.com, 192.168.49.2
+
+* ``` minikube --driver=podman start ```
+
+#### Trouble shooting
+
+```
+[ ] kubectl get pods -n kube-system    # gives a list of containers 
+[ ] minikube service list              # Give a list of services 
+
+```
 
 ### Deploy docker image onto kubernetis
 

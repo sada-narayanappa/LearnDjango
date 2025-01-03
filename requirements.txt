@@ -26,8 +26,8 @@ oauth2_provider==0.0
 oauthlib==3.2.2
 openpyxl==3.1.5
 packaging==24.1
-pandas==2.2.3
-pillow==11.0.0
+pandas
+pillow
 pycparser==2.22
 pyOpenSSL==24.2.1
 pyparsing==3.2.0
@@ -44,6 +44,10 @@ uvicorn==0.32.0
 mangorest
 colabexts
 uvicorn[standard]
-dotenv
+Ipython
+ollama
+librosa
+langchain_ollama
+#python-dotenv
 #git+https://github.com/openai/whisper.git 
-openai-whisper
+#openai-whisper

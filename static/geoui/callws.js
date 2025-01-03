@@ -118,9 +118,9 @@ function callws_setformVal(formObj=null, name="", id="", val="") {
     if ( !k)
         k = $(formObj)[0].elements[name]
 
-    console.log(name, id )
+    //console.log(name, id )
     if ( !k){
-        console.log( " => !NOT found")
+        //console.log( " => !NOT found")
         return
     }
     var tag = k.tagName.toLowerCase()
@@ -128,7 +128,12 @@ function callws_setformVal(formObj=null, name="", id="", val="") {
 
     if (typ === "checkbox" ) {
         val = (val.trim()) 
-        val = isNaN (val) ? 0: parseInt(val)
+        if ( isNaN(val) ) {
+            val= val.toLowerCase()
+            val = (val === "on" || val.startsWith("t") || val.startsWith("y")) ? 1: 0
+        }else {
+            val = parseInt(val)
+        }
         $(k).prop('checked', val )
     }
     else if (tag === "select" || tag === "input" || tag === "textarea")
@@ -153,7 +158,8 @@ This will call WS service
 --------------------------------------------------------------------------------*/
 var callws_default_opts= {
     getIDS: false,
-    await:  0
+    await:  0,
+    log: 0
 }
 
 if (typeof busy !== 'function') { // if no one defined busy or nbusy - we make it empty
@@ -183,7 +189,8 @@ async function callws( url="/ui/test/", formName="", callbacks=null, context={},
         return;
 
     busy() // defined in common.html - should move it here
-    dumpformdata(formData)
+    if (opts.log )
+        dumpformdata(formData)
     var data = "?"
     var RESPONSE=null
 
@@ -227,13 +234,14 @@ async function callws( url="/ui/test/", formName="", callbacks=null, context={},
                     callbacks(data, null, null, context, formData)
             }
 
-            var now = new Date()
-            var elp = now.valueOf() - start.valueOf()
-            var t1  = start.toTimeString().slice(0,8)
-            var t2  = now.toTimeString().slice(0,8)
-            var log =  url+ " =>:" + t1 + " - " + t2 + " : " + elp/1000 + " ms; =>" + data.slice(0,48) + "..."
-            if ( CALLWS_LOG_EVENTS)
+            if ( CALLWS_LOG_EVENTS){
+                var now = new Date()
+                var elp = now.valueOf() - start.valueOf()
+                var t1  = start.toTimeString().slice(0,8)
+                var t2  = now.toTimeString().slice(0,8)
+                var log =  url+ " =>:" + t1 + " - " + t2 + " : " + elp/1000 + " ms; =>" + data.slice(0,48) + "..."
                 console.log( log )
+            }
         }
 
     });
