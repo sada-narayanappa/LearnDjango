@@ -196,7 +196,7 @@ def detectInstalledApps(appslist):
         if (app in appslist or app in IGNORE_APPS):
             continue
 
-        logger.info("FOUND ** {file} {app}")
+        logger.info(f"FOUND ** {file} {app}")
         DETECTED_APPS.append(app) 
         
         index_template = f'{app}/templates/{app}/index.html'
